@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Creators from "../pages/Creators";
 
 export default function Navbar() {
+  
   return (
     <>
         <nav className="flex justify-around">
