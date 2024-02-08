@@ -7,5 +7,6 @@ export default function ProfileCard() {
                 <p className="text-sm">Creator Description</p>
                 <p className="text-xs">412 posts · 603 members</p>
             </div>
-        </div>)
+        </div>
+    )
 }
