@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
-import Creators from "./pages/Creators";
+import Artists from "./pages/Artists";
 
 export const Routes  = createBrowserRouter([
   {
@@ -8,7 +8,7 @@ export const Routes  = createBrowserRouter([
     element: <Home />
   },
   {
-    path: "/creators",
-    element: <Creators />
+    path: "/artists",
+    element: <Artists />
   }
 ]);

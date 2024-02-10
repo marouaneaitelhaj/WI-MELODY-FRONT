@@ -1,11 +1,19 @@
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Navbar from './compenents/Navbar'
-import Creators from './pages/Creators'
+import Artists from './pages/Artists'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
+import Login from './pages/Login'
 
 function App() {
+
+  if (localStorage.getItem('token') === null) {
+    return (
+      <Login />
+    )
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -14,8 +22,9 @@ function App() {
           <Navbar />
           <Routes>
             <Route index element={<Home />} />
-            <Route path="/creators" element={<Creators />} />
-            <Route path="/creators/:creatorId" element={<Profile />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/artists/:creatorId" element={<Profile />} />
           </Routes>
         </div>
       </BrowserRouter >
