@@ -5,6 +5,7 @@ import Artists from './pages/Artists'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/artists/:creatorId" element={<Profile />} />
           </Routes>
         </div>

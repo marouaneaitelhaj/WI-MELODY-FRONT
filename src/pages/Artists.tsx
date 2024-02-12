@@ -1,7 +1,6 @@
-import { get } from "react-hook-form";
 import ProfileCard from "../compenents/ProfileCard";
 import { useEffect } from "react";
-import axios from "axios";
+import AxiosInstanceForMyApi from "../AxiosInstanceForMyApi";
 type Artist = {
     id : string,
     username : string,
@@ -10,7 +9,7 @@ type Artist = {
 export default function Artists() {
 
     useEffect(() => {
-        axios.get("/artists").then(res => {
+        AxiosInstanceForMyApi.get("/artists").then(res => {
             console.log(res.data)
         })
     }, []);
