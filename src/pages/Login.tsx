@@ -1,5 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import AxiosInstanceForAuth from "../axios/AxiosInstanceForAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../state/store";
 
 type FormInputs = {
     username: string,
@@ -7,14 +9,17 @@ type FormInputs = {
 }
 
 export default function Login() {
+    const { error, loading } = useSelector((state: RootState) => state.auth);
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
+    const dispatch = useDispatch();
 
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-        await AxiosInstanceForAuth.post('/auth/login', data).then(res => {
-            localStorage.setItem('token', res.data.token);
-        }).catch(err => {
-            console.log(err);
-        });
+        // await AxiosInstanceForAuth.post('/auth/login', data).then(res => {
+        //     localStorage.setItem('token', res.data.token);
+        // }).catch(err => {
+        //     console.log(err);
+        // });
+        dispatch({ type: "auth/registerUser", payload: data });
     }
     return (
         <div className="w-screen flex justify-center items-center">
@@ -47,9 +52,10 @@ export default function Login() {
                     {errors.password && <p className="text-red-500 text-sm">{
                         errors.password.message
                     }</p>}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
                 <button disabled={isSubmitting} className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">
-                    {isSubmitting ? "Loading..." : "Login"}
+                    {(isSubmitting || loading) ? "Loading..." : "Login"}
                 </button>
             </form>
         </div>

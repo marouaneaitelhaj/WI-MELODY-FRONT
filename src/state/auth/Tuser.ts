@@ -1,4 +1,4 @@
-export default interface user{
+export type Tuser = {
     username: string,
     password: string
 }
