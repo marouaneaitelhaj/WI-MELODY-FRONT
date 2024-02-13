@@ -1,14 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUser, loginUser } from './authActions'
+import { getUser, loginUser } from './authAction'
+import { Tuser } from './Tuser'
 
-type user = {
-    username: string,
-    token: string
-}
 type AuthState = {
     loading: boolean,
     token: string | null,
-    user: user | null,
+    user: Tuser | null,
     isAuthenticated: boolean,
     error: string | null,
     success: boolean

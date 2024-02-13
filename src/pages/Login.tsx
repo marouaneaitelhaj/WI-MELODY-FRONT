@@ -1,13 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../state/store";
-import { loginUser } from "../state/auth/authActions";
+import { loginUser } from "../state/auth/authAction";
 import { Tuser } from "../state/auth/Tuser";
+import { Link } from "react-router-dom";
 
-// type FormInputs = {
-//     username: string,
-//     password: string
-// }
+
 
 export default function Login() {
     const { error, loading } = useSelector((state: RootState) => state.auth);
@@ -15,13 +13,6 @@ export default function Login() {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
-        // await AxiosInstanceForAuth.post('/auth/login', data).then(res => {
-        //     localStorage.setItem('token', res.data.token);
-        // }).catch(err => {
-        //     console.log(err);
-        // });
-        // loginUser(data);
-        // AppDispatch(loginUser(data));
         dispatch(loginUser(data));
     }
     return (
@@ -57,6 +48,7 @@ export default function Login() {
                     }</p>}
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
+                <Link to="/signup" className="text-blue-800">Sign up</Link>
                 <button disabled={isSubmitting} className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">
                     {(isSubmitting || loading) ? "Loading..." : "Login"}
                 </button>
