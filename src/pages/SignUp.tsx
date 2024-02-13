@@ -1,7 +1,8 @@
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
-import cloudinaryInstance from "../cloudinary";
-import AxiosInstanceForMyApi from "../AxiosInstanceForMyApi";
+import cloudinaryInstance from "../axios/AxiosInstanceForCloudinary";
+import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
+import AxiosInstanceForAuth from "../axios/AxiosInstanceForAuth";
 
 type FormInputs = {
     username: string,
@@ -27,7 +28,7 @@ export default function SignUp() {
         .catch(err => {
             console.log(err);
         });
-        await AxiosInstanceForMyApi.post('/auth/SignUp', data).then(res => {
+        await AxiosInstanceForAuth.post('/auth/signup', data).then(res => {
             localStorage.setItem('token', res.data.token);
         }).catch(err => {
             console.log(err);

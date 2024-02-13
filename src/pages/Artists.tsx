@@ -1,6 +1,6 @@
 import ProfileCard from "../compenents/ProfileCard";
 import { useEffect } from "react";
-import AxiosInstanceForMyApi from "../AxiosInstanceForMyApi";
+import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
 type Artist = {
     id : string,
     username : string,

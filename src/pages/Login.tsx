@@ -1,6 +1,5 @@
-import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
-import AxiosInstanceForMyApi from "../AxiosInstanceForMyApi";
+import AxiosInstanceForAuth from "../axios/AxiosInstanceForAuth";
 
 type FormInputs = {
     username: string,
@@ -11,7 +10,7 @@ export default function Login() {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
 
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-        await AxiosInstanceForMyApi.post('/auth/login', data).then(res => {
+        await AxiosInstanceForAuth.post('/auth/login', data).then(res => {
             localStorage.setItem('token', res.data.token);
         }).catch(err => {
             console.log(err);
