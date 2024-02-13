@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../state/store";
-import { loginUser } from "../state/auth/authAction";
-import { Tuser } from "../state/auth/Tuser";
+import { loginAction } from "../state/auth/authActions";
+import { Tuser } from "../state/types";
 import { Link } from "react-router-dom";
 
 
@@ -13,7 +13,7 @@ export default function Login() {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
-        dispatch(loginUser(data));
+        dispatch(loginAction(data));
     }
     return (
         <div className="w-screen flex justify-center items-center">

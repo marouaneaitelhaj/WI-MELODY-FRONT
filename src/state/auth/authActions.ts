@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import AxiosInstanceForAuth from '../../axios/AxiosInstanceForAuth'
-import { Tuser } from './Tuser'
+import { Tuser } from '../types'
 
-export const loginUser = createAsyncThunk<string, Tuser>(
+export const loginAction = createAsyncThunk<string, Tuser>(
     'auth/login',
     async ({ username, password }, { rejectWithValue }) => {
         try {
@@ -14,7 +14,7 @@ export const loginUser = createAsyncThunk<string, Tuser>(
         }
     }
 )
-export const getUser = createAsyncThunk<Tuser, string>(
+export const getUserAction = createAsyncThunk<Tuser, string>(
     'auth/getUser',
     async (token, { rejectWithValue }) => {
         try {

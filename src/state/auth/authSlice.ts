@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUser, loginUser } from './authAction'
-import { Tuser } from './Tuser'
+import { getUserAction, loginAction } from './authActions'
+import { Tuser } from '../types'
 
 type AuthState = {
     loading: boolean,
@@ -28,30 +28,30 @@ const authSlice = createSlice({
     },
     extraReducers(builder) {
         // Login
-        builder.addCase(loginUser.pending, (state, action) => {
+        builder.addCase(loginAction.pending, (state, action) => {
             state.loading = true
             state.error = null
             state.success = false
-        }).addCase(loginUser.fulfilled, (state, action) => {
+        }).addCase(loginAction.fulfilled, (state, action) => {
             state.loading = false
             state.isAuthenticated = true
             state.error = null
             state.success = true
             state.token = action.payload
-        }).addCase(loginUser.rejected, (state, action) => {
+        }).addCase(loginAction.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload as string
             state.success = false
         })
         // getUser
-        builder.addCase(getUser.pending, (state, action) => {
+        builder.addCase(getUserAction.pending, (state, action) => {
             state.loading = true
             state.error = null
             state.success = false
-        }).addCase(getUser.fulfilled, (state, action) => {
+        }).addCase(getUserAction.fulfilled, (state, action) => {
             state.user = action.payload
             state.loading = false
-        }).addCase(getUser.rejected, (state, action) => {
+        }).addCase(getUserAction.rejected, (state, action) => {
             state.error = action.payload as string
             state.loading = false
             state.success = false
