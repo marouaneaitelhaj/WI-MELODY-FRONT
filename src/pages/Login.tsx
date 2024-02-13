@@ -1,25 +1,28 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import AxiosInstanceForAuth from "../axios/AxiosInstanceForAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../state/store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../state/store";
+import { loginUser } from "../state/auth/authActions";
+import { Tuser } from "../state/auth/Tuser";
 
-type FormInputs = {
-    username: string,
-    password: string
-}
+// type FormInputs = {
+//     username: string,
+//     password: string
+// }
 
 export default function Login() {
     const { error, loading } = useSelector((state: RootState) => state.auth);
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
-    const dispatch = useDispatch();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Tuser>();
+    const dispatch = useAppDispatch();
 
-    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
         // await AxiosInstanceForAuth.post('/auth/login', data).then(res => {
         //     localStorage.setItem('token', res.data.token);
         // }).catch(err => {
         //     console.log(err);
         // });
-        dispatch({ type: "auth/registerUser", payload: data });
+        // loginUser(data);
+        // AppDispatch(loginUser(data));
+        dispatch(loginUser(data));
     }
     return (
         <div className="w-screen flex justify-center items-center">
