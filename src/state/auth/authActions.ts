@@ -15,18 +15,27 @@ export const loginAction = createAsyncThunk<string, Tuser>(
         }
     }
 )
-export const getUserAction = createAsyncThunk<Tuser, string>(
+export const getUserAction = createAsyncThunk<Tuser>(
     'auth/getUser',
-    async (token, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const { data } = await AxiosInstanceForMyApi.post('/auth/user', {
+            const { data } = await AxiosInstanceForMyApi.post('/auth/user' , {} , {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }})
             return data
         } catch (error) {
             localStorage.removeItem('token')
+            return rejectWithValue("Something went wrong. Please try again later.")
+        }
+    }
+)
+export const logoutAction = createAsyncThunk(
+    'auth/logout',
+    async (_, { rejectWithValue }) => {
+        try {
+            localStorage.removeItem('token')
+        } catch (error) {
             return rejectWithValue("Something went wrong. Please try again later.")
         }
     }

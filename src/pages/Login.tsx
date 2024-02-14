@@ -3,24 +3,25 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../state/store";
 import { getUserAction, loginAction } from "../state/auth/authActions";
 import { Tuser } from "../state/types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
-
 export default function Login() {
-    const { error, loading , isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { error, loading, isAuthenticated } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Tuser>();
     useEffect(() => {
-        navigate("/artists");
+        if (isAuthenticated) {
+            navigate("/artists");
+        }
     }, [isAuthenticated])
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
         dispatch(loginAction(data)).then((res) => {
-            dispatch(getUserAction(localStorage.getItem("token") as string));
-        });
+            dispatch(getUserAction())
+        })
     }
     return (
         <div className="w-screen flex justify-center items-center">

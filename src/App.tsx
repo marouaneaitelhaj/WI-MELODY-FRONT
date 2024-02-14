@@ -6,14 +6,20 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
+import { RootState, useAppDispatch } from './state/store'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { getUserAction } from './state/auth/authActions'
+import AuthRoutes from './utilities/AuthRoutes'
 
 function App() {
-
-  if (localStorage.getItem('token') === null) {
-    return (
-      <Login />
-    )
-  }
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      dispatch(getUserAction())
+    }
+  }, [isAuthenticated])
 
   return (
     <>
@@ -24,9 +30,11 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
             <Route path="/artists/:creatorId" element={<Profile />} />
+            <Route element={<AuthRoutes />}>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
           </Routes>
         </div>
       </BrowserRouter >
