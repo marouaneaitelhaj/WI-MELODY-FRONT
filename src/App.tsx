@@ -3,7 +3,7 @@ import './App.css'
 import Navbar from './compenents/Navbar'
 import Artists from './pages/Artists'
 import Home from './pages/Home'
-import Profile from './pages/Profile'
+import Profile from './pages/ArtisteProfile'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import { RootState, useAppDispatch } from './state/store'
@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getUserAction } from './state/auth/authActions'
 import AuthRoutes from './utilities/AuthRoutes'
+import { MyProfile } from './pages/MyProfile'
 
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
+            <Route path="/profile" element={<MyProfile />} />
             <Route path="/artists/:creatorId" element={<Profile />} />
             <Route element={<AuthRoutes />}>
               <Route path="/signup" element={<SignUp />} />

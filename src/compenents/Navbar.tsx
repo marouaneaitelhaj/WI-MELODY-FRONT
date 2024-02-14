@@ -9,7 +9,7 @@ export default function Navbar() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const logout = () => {
-      dispatch(logoutAction())
+    dispatch(logoutAction())
   }
   return (
     <>
@@ -58,9 +58,11 @@ export default function Navbar() {
             )}
             {isAuthenticated && (
               <>
-                <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
-                  Profile
-                </li>
+                <Link to="/profile">
+                  <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+                    Profile
+                  </li>
+                </Link>
                 <li onClick={logout} className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
                   Log out
                 </li>

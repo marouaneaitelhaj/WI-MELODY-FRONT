@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUserAction, loginAction, logoutAction } from './authActions'
+import { getUserAction, loginAction, logoutAction, signUpAction } from './authActions'
 import { Tuser } from '../types'
 
 type AuthState = {
@@ -73,6 +73,22 @@ const authSlice = createSlice({
             state.isAuthenticated = false
             state.token = null
         }).addCase(logoutAction.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload as string
+            state.success = false
+        })
+        // signup
+        builder.addCase(signUpAction.pending, (state, action) => {
+            state.loading = true
+            state.error = null
+            state.success = false
+        }).addCase(signUpAction.fulfilled, (state, action) => {
+            state.loading = false
+            state.error = null
+            state.isAuthenticated = true
+            state.token = action.payload
+            state.success = true
+        }).addCase(signUpAction.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload as string
             state.success = false

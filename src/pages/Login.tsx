@@ -29,7 +29,7 @@ export default function Login() {
             <form onSubmit={handleSubmit(onSubmit)} className="w-1/2 h-svh bg-gray-50  flex items-center flex-col justify-center">
                 <p className="text-4xl font-bold px-56 text-right text-black my-4">Log in</p>
                 <div className="my-2">
-                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username</label>
+                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username :</label>
                     <input type="text" {...register("username",
                         {
                             required: "Username is required",
@@ -43,7 +43,7 @@ export default function Login() {
                     }</p>}
                 </div>
                 <div className="my-2">
-                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Password :</label>
                     <input type="text" {...register("password", {
                         required: "Password is required",
                         minLength: {
