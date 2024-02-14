@@ -1,19 +1,26 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../state/store";
-import { loginAction } from "../state/auth/authActions";
+import { getUserAction, loginAction } from "../state/auth/authActions";
 import { Tuser } from "../state/types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 
 export default function Login() {
-    const { error, loading } = useSelector((state: RootState) => state.auth);
+    const { error, loading , isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Tuser>();
+    useEffect(() => {
+        navigate("/artists");
+    }, [isAuthenticated])
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
-        dispatch(loginAction(data));
+        dispatch(loginAction(data)).then((res) => {
+            dispatch(getUserAction(localStorage.getItem("token") as string));
+        });
     }
     return (
         <div className="w-screen flex justify-center items-center">
@@ -48,7 +55,9 @@ export default function Login() {
                     }</p>}
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
-                <Link to="/signup" className="text-blue-800">Sign up</Link>
+                {/* <Link to="/signup">
+                    <p className="text-blue-800">Don't have an account? Sign up</p>
+                </Link> */}
                 <button disabled={isSubmitting} className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">
                     {(isSubmitting || loading) ? "Loading..." : "Login"}
                 </button>
