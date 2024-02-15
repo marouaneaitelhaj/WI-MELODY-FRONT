@@ -3,18 +3,13 @@ import { RootState, useAppDispatch } from "../state/store";
 import { SubmitHandler, useForm } from "react-hook-form";
 import cloudinaryInstance from "../axios/AxiosInstanceForCloudinary";
 import { signUpAction } from "../state/auth/authActions";
+import { Tuser } from "../state/types";
 
-type FormInputs = {
-    username: string,
-    password: string,
-    email: string,
-    profilePicture: string,
-}
 export const MyProfile = () => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Tuser>();
     const dispatch = useAppDispatch();
     const { user } = useSelector((state: RootState) => state.auth);
-    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const onSubmit: SubmitHandler<Tuser> = async (data) => {
         const formData = new FormData();
         formData.append('file', data.profilePicture[0]);
         formData.append('upload_preset', 'a8vbtvzm');
@@ -29,9 +24,9 @@ export const MyProfile = () => {
     }
     return (
         <>
-            <div className="w-screen h-96 flex flex-col">
+            <div className="w-screen h-72 flex flex-col">
                 <img
-                    className="h-96 w-screen object-cover"
+                    className="h-72 w-screen object-cover"
                     src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/10767360/a62e97d786d84cf78bc3f63c990e4ea8/eyJ3IjoxOTIwLCJ3ZSI6MX0%3D/1.jpg?token-time=1709510400&token-hash=S379zrDrSVHVJQTnYXD7rjZIuoKE9qy93BVivI5n6ug%3D"
                     alt=""
                 />
@@ -43,11 +38,16 @@ export const MyProfile = () => {
                     alt=""
                 />
                 <p className="text-gray-500 my-2 font-bold text-4xl">{user?.username}</p>
-                <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-wrap p-16 flex">
+
+                <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-wrap py-8 px-16 flex">
+                    <p className="text-gray-500 w-full text-center">
+                        Account Information
+                    </p>
                     <div className="my-2  w-1/2">
                         <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username :</label>
-                        <input type="text" value={user?.username} {...register("username",
+                        <input type="text" disabled value={user?.username} {...register("username",
                             {
+                                disabled: true,
                                 required: "Username is required",
                                 minLength: {
                                     value: 5,
@@ -60,8 +60,9 @@ export const MyProfile = () => {
                     </div>
                     <div className="my-2  w-1/2">
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email :</label>
-                        <input type="text" value={user?.email} {...register("email",
+                        <input type="text" disabled value={user?.email} {...register("email",
                             {
+                                disabled: true,
                                 required: "Email is required",
                                 pattern: {
                                     value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -82,6 +83,12 @@ export const MyProfile = () => {
                             errors.profilePicture.message
                         }</p>}
                     </div> */}
+                    <div className="my-2  w-1/2">
+                        <button className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">Edit</button>
+                    </div>
+                    <div className="my-2  w-1/2">
+                        <button className="bg-orange-500 text-white px-4 py-2 rounded-md mt-4">Become an Artist</button>
+                    </div>
                 </form>
             </div>
         </>

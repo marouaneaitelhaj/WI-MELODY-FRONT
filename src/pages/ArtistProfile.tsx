@@ -13,9 +13,9 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
     }, []);
     return (
         <>
-            <div className="w-screen h-96 flex flex-col">
+            <div className="w-screen h-72 flex flex-col">
                 <img
-                    className="h-96 w-screen object-cover"
+                    className="h-72 w-screen object-cover"
                     src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/10767360/a62e97d786d84cf78bc3f63c990e4ea8/eyJ3IjoxOTIwLCJ3ZSI6MX0%3D/1.jpg?token-time=1709510400&token-hash=S379zrDrSVHVJQTnYXD7rjZIuoKE9qy93BVivI5n6ug%3D"
                     alt=""
                 />
