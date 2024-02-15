@@ -1,6 +1,16 @@
+import { useSelector } from "react-redux";
 import Tier from "../compenents/Tier";
+import { Tuser } from "../state/types";
+import { RootState, useAppDispatch } from "../state/store";
+import { useEffect } from "react";
+import { getArtistById } from "../state/artist/artistActions";
 
-export default function Profile() {
+export default function ArtistProfile(props: { artistId: string | undefined }) {
+    const { selectedArtist } = useSelector((state: RootState) => state.artist);
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(getArtistById(props.artistId!))
+    }, []);
     return (
         <>
             <div className="w-screen h-96 flex flex-col">
@@ -13,7 +23,7 @@ export default function Profile() {
             <div className="w-screen h-full flex-col flex -mt-16 items-center bg-gray-100 pb-10">
                 <img
                     className="h-32 rounded-md border w-32"
-                    src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/10767360/7be70c26aec440e2b58ebe31ff2851ef/eyJoIjoxMDgwLCJ3IjoxMDgwfQ%3D%3D/1.jpeg?token-time=1708646400&token-hash=yVYwWNmMbbYA3LxLCv2EsXTpWZaLsnq6p5zsbtgS_QI%3D"
+                    src={selectedArtist?.profilePicture}
                     alt=""
                 />
                 <p className="text-gray-500">309 posts</p>

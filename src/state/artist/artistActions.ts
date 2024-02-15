@@ -13,3 +13,14 @@ export const getArtists = createAsyncThunk<Tuser[]>(
         }
     }
 )
+export const getArtistById = createAsyncThunk<Tuser, string>(
+    'artists/getArtistById',
+    async (id) => {
+        try {
+            const { data } = await AxiosInstanceForMyApi.get(`/artists/${id}`)
+            return data
+        } catch (error) {
+            return isRejectedWithValue("Something went wrong. Please try again later.")
+        }
+    }
+)

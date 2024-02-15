@@ -1,9 +1,8 @@
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import './App.css'
 import Navbar from './compenents/Navbar'
 import Artists from './pages/Artists'
 import Home from './pages/Home'
-import Profile from './pages/ArtisteProfile'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import { RootState, useAppDispatch } from './state/store'
@@ -12,6 +11,8 @@ import { useEffect } from 'react'
 import { getUserAction } from './state/auth/authActions'
 import AuthRoutes from './utilities/AuthRoutes'
 import { MyProfile } from './pages/MyProfile'
+import ArtistProfile from './pages/ArtistProfile'
+import PrivateRoutes from './utilities/PrivateRoutes'
 
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -31,8 +32,10 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
-            <Route path="/profile" element={<MyProfile />} />
-            <Route path="/artists/:creatorId" element={<Profile />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path="/profile" element={<MyProfile />} />
+            </Route>
+            <Route path="/artist/:artistId" element={<ArtistProfileWrapper />} />
             <Route element={<AuthRoutes />}>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
@@ -42,6 +45,10 @@ function App() {
       </BrowserRouter >
     </>
   )
+}
+function ArtistProfileWrapper() {
+  const { artistId } = useParams();
+  return <ArtistProfile artistId={artistId} />;
 }
 
 export default App

@@ -4,6 +4,7 @@ import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../state/store";
 import { getArtists } from "../state/artist/artistActions";
+import { Link } from "react-router-dom";
 
 export default function Artists() {
     const { artists } = useSelector((state: RootState) => state.artist);
