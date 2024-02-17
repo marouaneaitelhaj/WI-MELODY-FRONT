@@ -10,4 +10,5 @@ export type Ttier = {
     name: string,
     price: number,
     description: string,
+    artist_id : string,
 }
