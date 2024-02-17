@@ -5,3 +5,9 @@ export type Tuser = {
     email: string,
     profilePicture: string,
 }
+export type Ttier = {
+    id : string,
+    name: string,
+    price: number,
+    description: string,
+}

@@ -62,7 +62,7 @@ export default function Navbar() {
                   <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
                     Profile
                   </li>
-                </Link>
+                </Link> 
                 <li onClick={logout} className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
                   Log out
                 </li>

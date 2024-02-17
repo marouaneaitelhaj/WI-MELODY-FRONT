@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
-import Tier from "../compenents/Tier";
 import { Tuser } from "../state/types";
 import { RootState, useAppDispatch } from "../state/store";
 import { useEffect } from "react";
 import { getArtistById } from "../state/artist/artistActions";
+import { Post } from "../compenents/Post";
+import Tier from "../compenents/Tier";
 
 export default function ArtistProfile(props: { artistId: string | undefined }) {
     const { selectedArtist } = useSelector((state: RootState) => state.artist);
@@ -26,19 +27,36 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
                     src={selectedArtist?.profilePicture}
                     alt=""
                 />
+                <p className="text-black text-3xl my-5">{selectedArtist?.username}</p>
                 <p className="text-gray-500">309 posts</p>
-                <button className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">Follow</button>
+                <button className="bg-blue-800 text-white px-4 my-5 py-2 rounded-md mt-4">Follow</button>
                 <ul className="flex">
                     <li className="mx-5 border-b-2 border-black">Home</li>
                     <li className="mx-5 border-b-2 border-black">About</li>
                 </ul>
-                <div className="w-full h-96 bg-gray-100 flex flex-col items-center">
-                    <h1 className="text-3xl my-3">Choose your membership</h1>
+                <div className="my-5  w-full bg-gray-100 flex flex-col items-center h-96">
+                    <h1 className="text-3xl my-3">Choose your tier</h1>
                     <div className="flex">
                         <Tier />
                         <Tier />
                         <Tier />
                         <Tier />
+                    </div>
+                </div>
+                <div className="my-5  justify-center w-full bg-gray-100 flex flex-wrap">
+                    <h1 className="text-3xl my-3">Recent posts by Fit Food Diary</h1>
+                    <div className="flex flex-wrap justify-center">
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
+                        <Post />
                     </div>
                 </div>
             </div>

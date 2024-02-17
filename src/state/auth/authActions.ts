@@ -26,7 +26,7 @@ export const getUserAction = createAsyncThunk<Tuser>(
             })
             return data
         } catch (error) {
-            localStorage.removeItem('token')
+            // localStorage.removeItem('token')
             return rejectWithValue("Something went wrong. Please try again later.")
         }
     }
