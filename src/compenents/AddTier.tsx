@@ -5,19 +5,19 @@ import { RootState } from "../state/store";
 import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
 
 export function AddTier() {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Ttier>();
+    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Ttier>();
     const { user } = useSelector((state: RootState) => state.auth)
     const onSubmit: SubmitHandler<Ttier> = async (data: Ttier) => {
         if (user?.id)
             data.artist_id = user?.id
         AxiosInstanceForMyApi.post("/tier", data).then(res => {
-
+            // console.log(res.respo)
         }).catch(err => {
-
+            setError("price", {
+                type: "manual",
+                message: "Tier already exists"
+            })
         })
-        // dispatch(loginAction(data)).then((res) => {
-        //     dispatch(getUserAction())
-        // })
     }
     return (
         <div className="max-w-md mx-auto">

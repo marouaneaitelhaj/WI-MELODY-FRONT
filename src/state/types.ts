@@ -4,6 +4,7 @@ export type Tuser = {
     password: string,
     email: string,
     profilePicture: string,
+    tiers : Ttier[],
 }
 export type Ttier = {
     id : string,

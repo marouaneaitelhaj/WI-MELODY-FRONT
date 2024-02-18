@@ -37,10 +37,9 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
                 <div className="my-5  w-full bg-gray-100 flex flex-col items-center h-96">
                     <h1 className="text-3xl my-3">Choose your tier</h1>
                     <div className="flex">
-                        <Tier />
-                        <Tier />
-                        <Tier />
-                        <Tier />
+                        {selectedArtist?.tiers.map((tier) => (
+                            <Tier tier={tier} />
+                        ))}
                     </div>
                 </div>
                 <div className="my-5  justify-center w-full bg-gray-100 flex flex-wrap">
