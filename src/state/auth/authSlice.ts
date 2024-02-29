@@ -8,7 +8,8 @@ type AuthState = {
     user: Tuser | null,
     isAuthenticated: boolean,
     error: string | null,
-    success: boolean
+    success: boolean,
+    message: string | null
 }
 
 const initialState: AuthState = {
@@ -17,7 +18,8 @@ const initialState: AuthState = {
     user: null,
     isAuthenticated: false,
     error: null,
-    success: false
+    success: false,
+    message: null
 }
 
 
@@ -53,6 +55,8 @@ const authSlice = createSlice({
             state.isAuthenticated = true
             state.error = null
             state.loading = false
+            state.success = true
+            state.message = `${action.payload.username} logged in successfully`
         }).addCase(getUserAction.rejected, (state, action) => {
             state.error = action.payload as string
             state.loading = false
@@ -71,7 +75,9 @@ const authSlice = createSlice({
             state.error = null
             state.success = true
             state.isAuthenticated = false
-            state.token = null
+            state.token = null,
+            state.user = null
+            state.message = 'Logged out successfully'
         }).addCase(logoutAction.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload as string

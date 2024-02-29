@@ -5,6 +5,7 @@ export type Tuser = {
     email: string,
     profilePicture: string,
     tiers : Ttier[],
+    // posts : Tpost[],
 }
 export type Ttier = {
     id : string,

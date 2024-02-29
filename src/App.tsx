@@ -13,12 +13,13 @@ import AuthRoutes from './utilities/AuthRoutes'
 import { MyProfile } from './pages/MyProfile'
 import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
-
+import AlertFx from './fx/AlertFx.tsx'
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (localStorage.getItem('token')) {
+      console.log('getting user')
       dispatch(getUserAction())
     }
   }, [isAuthenticated])
@@ -41,6 +42,7 @@ function App() {
               <Route path="/login" element={<Login />} />
             </Route>
           </Routes>
+          <AlertFx />
         </div>
       </BrowserRouter >
     </>

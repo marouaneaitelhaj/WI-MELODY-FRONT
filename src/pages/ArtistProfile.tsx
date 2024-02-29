@@ -1,14 +1,55 @@
 import { useSelector } from "react-redux";
 import { Tuser } from "../state/types";
 import { RootState, useAppDispatch } from "../state/store";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { getArtistById } from "../state/artist/artistActions";
 import { Post } from "../compenents/Post";
 import Tier from "../compenents/Tier";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { AddTier } from "../compenents/AddTier";
+import { EditProfile } from "../compenents/EditProfile";
+import Tiers from "../compenents/Tiers";
+import Posts from "../compenents/Posts";
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
 
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 export default function ArtistProfile(props: { artistId: string | undefined }) {
     const { selectedArtist } = useSelector((state: RootState) => state.artist);
     const dispatch = useAppDispatch();
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
     useEffect(() => {
         dispatch(getArtistById(props.artistId!))
     }, []);
@@ -30,34 +71,20 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
                 <p className="text-black text-3xl my-5">{selectedArtist?.username}</p>
                 <p className="text-gray-500">309 posts</p>
                 <button className="bg-blue-800 text-white px-4 my-5 py-2 rounded-md mt-4">Follow</button>
-                <ul className="flex">
-                    <li className="mx-5 border-b-2 border-black">Home</li>
-                    <li className="mx-5 border-b-2 border-black">About</li>
-                </ul>
-                <div className="my-5  w-full bg-gray-100 flex flex-col items-center h-96">
-                    <h1 className="text-3xl my-3">Choose your tier</h1>
-                    <div className="flex">
-                        {selectedArtist?.tiers.map((tier) => (
-                            <Tier tier={tier} />
-                        ))}
-                    </div>
-                </div>
-                <div className="my-5  justify-center w-full bg-gray-100 flex flex-wrap">
-                    <h1 className="text-3xl my-3">Recent posts by Fit Food Diary</h1>
-                    <div className="flex flex-wrap justify-center">
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                    </div>
-                </div>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="Item One" {...a11yProps(0)} />
+                            <Tab label="Tier" {...a11yProps(1)} />
+                        </Tabs>
+                    </Box>
+                    <CustomTabPanel value={value} index={0}>
+                        <Tiers selectedArtist={selectedArtist} />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
+                        <Posts></Posts>
+                    </CustomTabPanel>
+                </Box>
             </div>
         </>
     )
