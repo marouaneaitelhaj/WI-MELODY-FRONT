@@ -1,28 +1,28 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import AxiosInstanceForMyApi from "../../../axios/AxiosInstanceForMyApi";
-import { Tpack } from "../../../state/types";
-import AxiosInstanceForAuth from "../../../axios/AxiosInstanceForAuth";
+import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import { Tpack } from "../../state/types";
+import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 
-export default function PacksManagementList(props: { setOpenedTab: React.Dispatch<React.SetStateAction<number>> }) {
+export default function PacksManagementList() {
     // const { user } = useSelector((state: RootState) => state.auth);
+    const [rows, setRows] = useState<Tpack[]>([])
     useEffect(() => {
         AxiosInstanceForAuth.get('/pack').then((res) => {
-            rows = res.data
+            setRows(res.data)
         })
     }, [])
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Name', width: 130 },
-        { field: 'description', headerName: 'Description', width: 130 },
-        { field: 'date', headerName: 'Date', width: 130 },
+        { field: 'name', headerName: 'Name', width: 260 },
+        { field: 'description', headerName: 'Description', width: 260 },
+        { field: 'date', headerName: 'Date', width: 260 },
     ]
-    let rows : Tpack[] = []
     return (
-        <div style={{ height: '100%', width: '100%' }}>
+        <div style={{ height: '100%',minHeight : 30, width: '100%' }}>
             <h1 className="text-2xl font-semibold mb-6">Packs</h1>
-            <button onClick={() => props.setOpenedTab(1)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add pack</button>
+            {/* <button onClick={() => props.setOpenedTab(1)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add pack</button> */}
             <DataGrid
                 rows={rows}
                 columns={columns}

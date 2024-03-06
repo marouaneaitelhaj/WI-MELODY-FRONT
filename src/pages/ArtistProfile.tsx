@@ -6,7 +6,7 @@ import { getArtistById } from "../state/artist/artistActions";
 import { Post } from "../compenents/Pack/Pack";
 import Tier from "../compenents/Tier/TierCard";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { AddTier } from "../compenents/Tier/TierPanel/AddTierForm";
+import { AddTier } from "../compenents/Tier/AddTierForm";
 import { EditProfile } from "../compenents/profil/EditProfile";
 import Tiers from "../compenents/Tier/Tiers";
 import Posts from "../compenents/Pack/Packs";

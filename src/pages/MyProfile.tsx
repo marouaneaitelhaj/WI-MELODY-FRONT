@@ -6,11 +6,9 @@ import Box from '@mui/material/Box';
 import { RootState, useAppDispatch } from '../state/store';
 import { useSelector } from 'react-redux';
 import { EditProfile } from '../compenents/profil/EditProfile';
-import { AddTier } from '../compenents/Tier/TierPanel/AddTierForm';
-import AddPack from '../compenents/Pack/PackPanel/AddPack';
-import TiersManagementList from '../compenents/Tier/TierPanel/TiersManagementList';
-import TierPanel from '../compenents/Tier/TierPanel/TierPanel';
-import PackPanel from '../compenents/Pack/PackPanel/PackPanel';
+import AddPack from '../compenents/Pack/AddPackForm';
+import TiersManagementList from '../compenents/Tier/TiersManagementList';
+import PacksManagementList from '../compenents/Pack/PacksManagementList';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -82,10 +80,10 @@ export function MyProfile() {
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
-                        <PackPanel />
+                        <PacksManagementList ></PacksManagementList>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        <TierPanel />
+                        <TiersManagementList></TiersManagementList>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={2}>
                         <EditProfile />
