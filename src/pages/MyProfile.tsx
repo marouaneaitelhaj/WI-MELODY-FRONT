@@ -7,9 +7,10 @@ import { RootState, useAppDispatch } from '../state/store';
 import { useSelector } from 'react-redux';
 import { EditProfile } from '../compenents/profil/EditProfile';
 import { AddTier } from '../compenents/Tier/TierPanel/AddTierForm';
-import AddPack from '../compenents/Pack/AddPack';
+import AddPack from '../compenents/Pack/PackPanel/AddPack';
 import TiersManagementList from '../compenents/Tier/TierPanel/TiersManagementList';
 import TierPanel from '../compenents/Tier/TierPanel/TierPanel';
+import PackPanel from '../compenents/Pack/PackPanel/PackPanel';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -81,7 +82,7 @@ export function MyProfile() {
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
-                        <AddPack></AddPack>
+                        <PackPanel />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
                         <TierPanel />

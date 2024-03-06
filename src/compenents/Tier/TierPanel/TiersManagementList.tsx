@@ -12,9 +12,9 @@ export default function TiersManagementList(props: { setOpenedTab: React.Dispatc
         { field: 'description', headerName: 'Description', width: 130 },
     ]
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: '100%', width: '100%' }}>
             <h1 className="text-2xl font-semibold mb-6">Tiers</h1>
-            <button onClick={() => props.setOpenedTab(1)} className="bg-black text-white px-4 py-2 rounded-md">Add tier</button>
+            <button onClick={() => props.setOpenedTab(1)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add tier</button>
             <DataGrid
                 rows={user?.tiers as Ttier[] || []}
                 columns={columns}

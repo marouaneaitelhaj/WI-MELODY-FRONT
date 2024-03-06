@@ -20,4 +20,5 @@ export type Tpack = {
     description: string,
     date: string,
     tier: Ttier,
+    tier_id: number,
 }

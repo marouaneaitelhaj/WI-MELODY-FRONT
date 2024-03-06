@@ -1,19 +1,20 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Tpack } from "../../state/types";
+import { Tpack } from "../../../state/types";
+import AxiosInstanceForMyApi from "../../../axios/AxiosInstanceForMyApi";
+import { RootState } from "../../../state/store";
+import { useSelector } from "react-redux";
 
-export default function AddPack() {
+export default function AddPack(props: { setOpenedTab: React.Dispatch<React.SetStateAction<number>> }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
+    const { user } = useSelector((state: RootState) => state.auth)
+
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
-        // if (user?.id)
-        //     data.artist_id = user?.id
-        // AxiosInstanceForMyApi.post("/tier", data).then(res => {
-        //     // console.log(res.respo)
-        // }).catch(err => {
-        //     setError("price", {
-        //         type: "manual",
-        //         message: "Tier already exists"
-        //     })
-        // })
+        if (user?.id)
+            AxiosInstanceForMyApi.post("/pack", data).then(res => {
+                // console.log(res.respo)
+            }).catch(err => {
+
+            })
     }
     return (
         <div className="max-w-md mx-auto">
@@ -25,7 +26,7 @@ export default function AddPack() {
                         <input
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50  pr-12"
                             placeholder="lil baby type beat"
-                            type="number"
+                            type="text"
                             {...register("name", {
                                 required: "Name is required",
                                 minLength: {
@@ -73,6 +74,17 @@ export default function AddPack() {
                     ></textarea>
                     {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
                 </div> */}
+                <div className="block">
+                    <label className="text-gray-700">Price</label>
+                    <div className="mt-1 relative rounded-md shadow-sm">
+                        <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50  pr-12" {...register("tier_id"
+                        )}>
+                            {user?.tiers.map((tier) => {
+                                return <option key={tier.id} value={tier.id}>{tier.name}</option>
+                            })}
+                        </select>
+                    </div>
+                </div>
                 <div className="flex justify-between">
                     <button className="inline-flex bg-black text-slate-50 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full sm:w-auto">
                         Save
