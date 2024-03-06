@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 
-export function AddTierForm(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
-    const { register, handleSubmit, formState: { errors } } = useForm<Ttier>();
+export function AddTierForm(props: { tier: Ttier, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+    const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
+        defaultValues: {}
+    });
     const { user } = useSelector((state: RootState) => state.auth);
 
     const handleClickOpen = () => {
@@ -41,6 +43,7 @@ export function AddTierForm(props: { setOpen: React.Dispatch<React.SetStateActio
                         <TextField
                             label="Monthly price"
                             type="number"
+                            value={props.tier.price}
                             placeholder="5.00"
                             {...register("price", {
                                 required: "Price is required",
@@ -57,6 +60,7 @@ export function AddTierForm(props: { setOpen: React.Dispatch<React.SetStateActio
                         <TextField
                             label="Tier name"
                             type="text"
+                            value={props.tier.name}
                             placeholder="Tier name"
                             {...register("name", {
                                 required: "Name is required",
@@ -73,6 +77,7 @@ export function AddTierForm(props: { setOpen: React.Dispatch<React.SetStateActio
                         <TextField
                             label="Tier description"
                             multiline
+                            value={props.tier.description}
                             minRows={3}
                             placeholder="Access to exclusive content and more"
                             {...register("description", {

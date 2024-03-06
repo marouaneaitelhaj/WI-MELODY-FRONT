@@ -11,7 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function AddPackForm(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export default function AddPackForm(props: { pack: Tpack, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
 
@@ -42,6 +42,7 @@ export default function AddPackForm(props: { setOpen: React.Dispatch<React.SetSt
                         placeholder="lil baby type beat"
                         type="text"
                         variant="outlined"
+                        value={props.pack.name}
                         fullWidth
                         {...register("name", {
                             required: "Name is required",
@@ -57,6 +58,7 @@ export default function AddPackForm(props: { setOpen: React.Dispatch<React.SetSt
                         label="Description"
                         placeholder="Description"
                         type="text"
+                        value={props.pack.description}
                         variant="outlined"
                         fullWidth
                         {...register("description", {
@@ -69,10 +71,11 @@ export default function AddPackForm(props: { setOpen: React.Dispatch<React.SetSt
                         error={!!errors.description}
                         helperText={errors.description?.message}
                     />
-                    <TextField
+                    {/* <TextField
                         select
                         label="Price"
                         variant="outlined"
+                        value={props.pack.price}
                         fullWidth
                         {...register("tier_id")}
                     >
@@ -81,7 +84,7 @@ export default function AddPackForm(props: { setOpen: React.Dispatch<React.SetSt
                                 {tier.name}
                             </option>
                         ))}
-                    </TextField>
+                    </TextField> */}
                 </form>
             </DialogContent>
             <DialogActions>
