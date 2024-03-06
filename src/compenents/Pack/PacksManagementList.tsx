@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import { Tpack } from "../../state/types";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
+import AddPack from "./AddPackForm";
 
 export default function PacksManagementList() {
-    // const { user } = useSelector((state: RootState) => state.auth);
     const [rows, setRows] = useState<Tpack[]>([])
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         AxiosInstanceForAuth.get('/pack').then((res) => {
             setRows(res.data)
@@ -22,7 +23,7 @@ export default function PacksManagementList() {
     return (
         <div style={{ height: '100%',minHeight : 30, width: '100%' }}>
             <h1 className="text-2xl font-semibold mb-6">Packs</h1>
-            {/* <button onClick={() => props.setOpenedTab(1)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add pack</button> */}
+            <button onClick={() => setOpen(true)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -34,6 +35,7 @@ export default function PacksManagementList() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
+            <AddPack open={open} setOpen={setOpen} />
         </div>
     )
 }
