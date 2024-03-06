@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Tuser } from "../state/types";
+import { Tuser } from "../../state/types";
 
 export default function ProfileCard(props: { artist: Tuser }) {
     return (

@@ -1,9 +1,9 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
-import Artists from "../pages/Artists";
+import Home from "../../pages/Home";
+import Artists from "../../pages/Artists";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../state/store";
-import { logoutAction } from "../state/auth/authActions";
+import { RootState, useAppDispatch } from "../../state/store";
+import { logoutAction } from "../../state/auth/authActions";
 
 export default function Navbar() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import './App.css'
-import Navbar from './compenents/Navbar'
+import Navbar from './compenents/Statics/Navbar'
 import Artists from './pages/Artists'
 import Home from './pages/Home'
 import Login from './pages/Login'

@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Tpack } from "../state/types";
+import { Tpack } from "../../state/types";
 
 export default function AddPack() {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();

@@ -1,4 +1,4 @@
-import { Ttier } from "../state/types";
+import { Ttier } from "../../state/types";
 
 export default function Tier(props : {tier : Ttier}) {
     return (

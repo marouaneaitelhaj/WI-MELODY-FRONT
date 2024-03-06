@@ -1,4 +1,4 @@
-import ProfileCard from "../compenents/ProfileCard";
+import ProfileCard from "../compenents/profil/ProfileCard";
 import { useEffect } from "react";
 import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
 import { useSelector } from "react-redux";

@@ -5,9 +5,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { RootState, useAppDispatch } from '../state/store';
 import { useSelector } from 'react-redux';
-import { EditProfile } from '../compenents/EditProfile';
-import { AddTier } from '../compenents/AddTier';
-import AddPack from '../compenents/AddPack';
+import { EditProfile } from '../compenents/profil/EditProfile';
+import { AddTier } from '../compenents/Tier/TierPanel/AddTierForm';
+import AddPack from '../compenents/Pack/AddPack';
+import TiersManagementList from '../compenents/Tier/TierPanel/TiersManagementList';
+import TierPanel from '../compenents/Tier/TierPanel/TierPanel';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -72,7 +74,7 @@ export function MyProfile() {
                 <p className="text-gray-500 my-2 font-bold text-4xl">{user?.username}</p>
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange}  aria-label="basic tabs example">
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="Pack" {...a11yProps(0)} />
                             <Tab label="Tier" {...a11yProps(1)} />
                             <Tab label="Edit Profile" {...a11yProps(2)} />
@@ -82,7 +84,7 @@ export function MyProfile() {
                         <AddPack></AddPack>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        <AddTier />
+                        <TierPanel />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={2}>
                         <EditProfile />

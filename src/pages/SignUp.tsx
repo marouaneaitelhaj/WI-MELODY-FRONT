@@ -28,8 +28,8 @@ export default function SignUp() {
             });
     }
     return (
-        <div className="w-screen flex justify-center items-center">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-1/2 h-svh bg-gray-50  flex items-center flex-col justify-center">
+        <div className="w-screen h-[700px] flex justify-center items-center">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-1/2 bg-gray-50 h-full flex items-center flex-col justify-center">
                 <p className="text-4xl font-bold px-56 text-right text-black my-4">SignUp</p>
                 <div className="my-2">
                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username :</label>
@@ -87,7 +87,7 @@ export default function SignUp() {
                     {isSubmitting ? "Loading..." : "SignUp"}
                 </button>
             </form>
-            <img className="w-1/2 h-svh" src="https://i0.wp.com/www.passionweiss.com/wp-content/uploads/2017/01/boomin.jpg?ssl=1" alt="" />
+            <img className="w-1/2 h-full object-cover" src="https://i0.wp.com/www.passionweiss.com/wp-content/uploads/2017/01/boomin.jpg?ssl=1" alt="" />
         </div>
     )
 }

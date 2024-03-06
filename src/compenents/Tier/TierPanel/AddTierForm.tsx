@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Ttier } from "../state/types";
+import { Ttier } from "../../../state/types";
 import { useSelector } from "react-redux";
-import { RootState } from "../state/store";
-import AxiosInstanceForMyApi from "../axios/AxiosInstanceForMyApi";
+import { RootState } from "../../../state/store";
+import AxiosInstanceForMyApi from "../../../axios/AxiosInstanceForMyApi";
 
-export function AddTier() {
+export function AddTier(props: { setOpenedTab: React.Dispatch<React.SetStateAction<number>> }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Ttier>();
     const { user } = useSelector((state: RootState) => state.auth)
     const onSubmit: SubmitHandler<Ttier> = async (data: Ttier) => {
@@ -22,6 +22,7 @@ export function AddTier() {
     return (
         <div className="max-w-md mx-auto">
             <h1 className="text-2xl font-semibold mb-6">Tier</h1>
+            <button onClick={() => props.setOpenedTab(0)} className="bg-black text-white px-4 py-2 my-5 rounded-md">See tiers</button>
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="block">
                     <label className="text-gray-700">Monthly price</label>

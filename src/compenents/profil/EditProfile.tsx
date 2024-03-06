@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Tuser } from "../state/types";
-import cloudinaryInstance from "../axios/AxiosInstanceForCloudinary";
-import { RootState, useAppDispatch } from "../state/store";
-import { signUpAction } from "../state/auth/authActions";
+import { Tuser } from "../../state/types";
+import cloudinaryInstance from "../../axios/AxiosInstanceForCloudinary";
+import { RootState, useAppDispatch } from "../../state/store";
+import { signUpAction } from "../../state/auth/authActions";
 import { useSelector } from "react-redux";
 
 export function EditProfile() {

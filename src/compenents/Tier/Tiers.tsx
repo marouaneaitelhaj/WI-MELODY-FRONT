@@ -1,5 +1,5 @@
-import { Tuser } from "../state/types";
-import Tier from "./Tier";
+import { Tuser } from "../../state/types";
+import Tier from "./TierCard";
 
 export default function Tiers(props: { selectedArtist: Tuser | null }) {
     return (
