@@ -7,6 +7,7 @@ import { RootState, useAppDispatch } from '../state/store';
 import { useSelector } from 'react-redux';
 import { EditProfile } from '../compenents/EditProfile';
 import { AddTier } from '../compenents/AddTier';
+import AddPack from '../compenents/AddPack';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -72,13 +73,13 @@ export function MyProfile() {
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange}  aria-label="basic tabs example">
-                            <Tab label="Item One" {...a11yProps(0)} />
+                            <Tab label="Pack" {...a11yProps(0)} />
                             <Tab label="Tier" {...a11yProps(1)} />
                             <Tab label="Edit Profile" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
-                        Item One
+                        <AddPack></AddPack>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
                         <AddTier />

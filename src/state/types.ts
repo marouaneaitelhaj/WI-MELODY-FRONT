@@ -1,16 +1,23 @@
 export type Tuser = {
-    id : string,
+    id: string,
     username: string,
     password: string,
     email: string,
     profilePicture: string,
-    tiers : Ttier[],
+    tiers: Ttier[],
     // posts : Tpost[],
 }
 export type Ttier = {
-    id : string,
+    id: string,
     name: string,
     price: number,
     description: string,
-    artist_id : string,
+    artist_id: string,
+}
+export type Tpack = {
+    id: string,
+    name: string,
+    description: string,
+    date: string,
+    tier: Ttier,
 }

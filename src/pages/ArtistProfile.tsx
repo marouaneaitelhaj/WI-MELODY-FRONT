@@ -3,13 +3,13 @@ import { Tuser } from "../state/types";
 import { RootState, useAppDispatch } from "../state/store";
 import React, { useEffect } from "react";
 import { getArtistById } from "../state/artist/artistActions";
-import { Post } from "../compenents/Post";
+import { Post } from "../compenents/Pack";
 import Tier from "../compenents/Tier";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { AddTier } from "../compenents/AddTier";
 import { EditProfile } from "../compenents/EditProfile";
 import Tiers from "../compenents/Tiers";
-import Posts from "../compenents/Posts";
+import Posts from "../compenents/Packs";
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -74,8 +74,8 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Item One" {...a11yProps(0)} />
-                            <Tab label="Tier" {...a11yProps(1)} />
+                            <Tab label="Tiers" {...a11yProps(0)} />
+                            <Tab label="Postes" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>

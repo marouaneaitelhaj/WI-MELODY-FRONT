@@ -1,4 +1,4 @@
-export function Post() {
+export function Pack() {
     return (
         <div className="max-w-sm  m-5">
             <div className="relative">
