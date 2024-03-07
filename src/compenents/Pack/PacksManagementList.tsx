@@ -1,7 +1,5 @@
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import { Tpack } from "../../state/types";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 import AddPack from "./AddPackForm";
@@ -30,7 +28,10 @@ export default function PacksManagementList() {
                         setPack(params.row as Tpack);
                         setOpen(true);
                     }}>Edit</button>
-                    <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button>
+                    {/* <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button> */}
+                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>
+                        Add Content
+                    </button>
                 </div>
             ),
         },

@@ -24,7 +24,7 @@ export default function TiersManagementList() {
                         setTier(params.row as Ttier);
                         setOpen(true);
                     }}>Edit</button>
-                    <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button>
+                    {/* <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button> */}
                 </div>
             ),
         },
