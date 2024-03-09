@@ -3,16 +3,23 @@ import { useEffect, useState } from "react";
 import { Tpack } from "../../state/types";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 import AddPack from "./AddPackForm";
+import MediaOfPack from "../media/mediaOfPack";
 
 export default function PacksManagementList() {
     const [rows, setRows] = useState<Tpack[]>([])
-    const [open, setOpen] = useState(false);
+    const [openAddPack, setOpenAddPack] = useState(false);
+    const [openMediaOfPack, setMediaOfPack] = useState(false);
     const [pack, setPack] = useState<Tpack>()
     useEffect(() => {
         AxiosInstanceForAuth.get('/pack').then((res) => {
             setRows(res.data)
         })
     }, [])
+
+    const openMediaOfPackPopUp = (pack: Tpack) => {
+        setPack(pack);
+        setMediaOfPack(true);
+    }
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 260 },
@@ -26,10 +33,9 @@ export default function PacksManagementList() {
                 <div>
                     <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
                         setPack(params.row as Tpack);
-                        setOpen(true);
+                        setOpenAddPack(true);
                     }}>Edit</button>
-                    {/* <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button> */}
-                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>
+                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUp(params.row as Tpack)}>
                         Add Content
                     </button>
                 </div>
@@ -39,7 +45,7 @@ export default function PacksManagementList() {
     return (
         <div style={{ height: '100%', minHeight: 30, width: '100%' }}>
             <h1 className="text-2xl font-semibold mb-6">Packs</h1>
-            <button onClick={() => setOpen(true)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
+            <button onClick={() => setOpenAddPack(true)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -51,7 +57,8 @@ export default function PacksManagementList() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
-            <AddPack setPack={setPack} pack={pack || {} as Tpack} open={open} setOpen={setOpen} />
+            <AddPack setPack={setPack} pack={pack || {} as Tpack} open={openAddPack} setOpen={setOpenAddPack} />
+            <MediaOfPack pack={pack || {} as Tpack} open={openMediaOfPack} setOpen={setMediaOfPack}></MediaOfPack>
         </div>
     )
 }

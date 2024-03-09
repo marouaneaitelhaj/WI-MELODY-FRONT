@@ -22,3 +22,10 @@ export type Tpack = {
     tier: Ttier,
     tier_id: number,
 }
+
+export type Tmedia = {
+    id: string,
+    src: string,
+    pack : Tpack,
+    pack_id: string,
+}

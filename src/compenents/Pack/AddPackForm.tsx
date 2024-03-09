@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, set } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
@@ -10,10 +10,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Pack } from "./Pack";
 
 export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
+    const [name, setName] = useState(props.pack.name || '');
+    const [description, setDescription] = useState(props.pack.description || '');
+
+    useEffect(() => {
+        setName(props.pack.name);
+        setDescription(props.pack.description);
+    }, [props.pack]);
 
     const handleClickOpen = () => {
         props.setOpen(true);
@@ -21,6 +29,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
 
     const handleClose = () => {
         props.setPack({} as Tpack);
+        console.log(props.pack.id + "pack");
         props.setOpen(false);
     };
 
@@ -43,7 +52,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                         placeholder="lil baby type beat"
                         type="text"
                         variant="outlined"
-                        value={props.pack.name}
+                        value={name}
                         fullWidth
                         {...register("name", {
                             required: "Name is required",
@@ -59,7 +68,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                         label="Description"
                         placeholder="Description"
                         type="text"
-                        value={props.pack.description}
+                        value={description}
                         variant="outlined"
                         fullWidth
                         {...register("description", {
