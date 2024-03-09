@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Tpack } from "../../state/types";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 import AddPack from "./AddPackForm";
-import MediaOfPack from "../media/mediaOfPack";
+import MediaOfPack from "../media/AddMediaOfPackForm";
 
 export default function PacksManagementList() {
     const [rows, setRows] = useState<Tpack[]>([])
