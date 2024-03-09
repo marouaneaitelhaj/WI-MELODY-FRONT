@@ -45,7 +45,7 @@ export default function TiersManagementList() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
-            <AddTierForm tier={tier || {} as Ttier} open={open} setOpen={setOpen} />
+            <AddTierForm setTier={setTier} tier={tier || {} as Ttier} open={open} setOpen={setOpen} />
         </div>
     )
 }

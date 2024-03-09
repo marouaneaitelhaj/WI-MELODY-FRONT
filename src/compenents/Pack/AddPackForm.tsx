@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, set } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
@@ -11,7 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function AddPackForm(props: { pack: Tpack, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
 
@@ -20,6 +20,7 @@ export default function AddPackForm(props: { pack: Tpack, setOpen: React.Dispatc
     };
 
     const handleClose = () => {
+        props.setPack({} as Tpack);
         props.setOpen(false);
     };
 

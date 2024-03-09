@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 
-export function AddTierForm(props: { tier: Ttier, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export function AddTierForm(props: { tier: Ttier , setTier : React.Dispatch<React.SetStateAction<Ttier | null>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
         defaultValues: {}
     });
@@ -17,6 +17,7 @@ export function AddTierForm(props: { tier: Ttier, setOpen: React.Dispatch<React.
     };
 
     const handleClose = () => {
+        props.setTier({} as Ttier);
         props.setOpen(false);
     };
 

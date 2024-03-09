@@ -51,7 +51,7 @@ export default function PacksManagementList() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
-            <AddPack pack={pack || {} as Tpack} open={open} setOpen={setOpen} />
+            <AddPack setPack={setPack} pack={pack || {} as Tpack} open={open} setOpen={setOpen} />
         </div>
     )
 }
