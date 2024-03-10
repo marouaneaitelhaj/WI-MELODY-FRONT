@@ -6,12 +6,8 @@ import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 export const getTiers = createAsyncThunk<Ttier[]>(
     'tiers/getTiers',
     async () => {
-        try {
             const { data } = await AxiosInstanceForMyApi.get('/tiers');
             return data;
-        } catch (error) {
-            throw new Error("Something went wrong. Please try again later.");
-        }
     }
 );
 
@@ -19,12 +15,8 @@ export const getTiers = createAsyncThunk<Ttier[]>(
 export const getTierById = createAsyncThunk<Ttier, string>(
     'tiers/getTierById',
     async (id) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get(`/tiers/${id}`);
-            return data;
-        } catch (error) {
-            throw new Error("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get(`/tiers/${id}`);
+        return data;
     }
 );
 
@@ -32,12 +24,8 @@ export const getTierById = createAsyncThunk<Ttier, string>(
 export const createTier = createAsyncThunk<Ttier, Ttier>(
     'tiers/createTier',
     async (formData) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.post('/tiers', formData);
-            return data;
-        } catch (error) {
-            throw new Error("Failed to create tier. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.post('/tiers', formData);
+        return data;
     }
 );
 
@@ -45,12 +33,8 @@ export const createTier = createAsyncThunk<Ttier, Ttier>(
 export const updateTier = createAsyncThunk<Ttier, { id: string; formData: FormData }>(
     'tiers/updateTier',
     async ({ id, formData }) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.put(`/tiers/${id}`, formData);
-            return data;
-        } catch (error) {
-            throw new Error("Failed to update tier. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.put(`/tiers/${id}`, formData);
+        return data;
     }
 );
 
@@ -58,11 +42,7 @@ export const updateTier = createAsyncThunk<Ttier, { id: string; formData: FormDa
 export const deleteTier = createAsyncThunk<string, string>(
     'tiers/deleteTier',
     async (id) => {
-        try {
-            await AxiosInstanceForMyApi.delete(`/tiers/${id}`);
-            return id
-        } catch (error) {
-            throw new Error("Failed to delete tier. Please try again later.");
-        }
+        await AxiosInstanceForMyApi.delete(`/tiers/${id}`);
+        return id
     }
 );

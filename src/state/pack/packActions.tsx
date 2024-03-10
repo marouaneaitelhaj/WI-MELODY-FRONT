@@ -6,12 +6,8 @@ import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 export const getPacks = createAsyncThunk<Tpack[]>(
     'packs/getPacks',
     async () => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get('/packs');
-            return data;
-        } catch (error) {
-            return isRejectedWithValue("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get('/pack');
+        return data;
     }
 );
 
@@ -19,12 +15,8 @@ export const getPacks = createAsyncThunk<Tpack[]>(
 export const getPackById = createAsyncThunk<Tpack, string>(
     'packs/getPackById',
     async (id) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get(`/packs/${id}`);
-            return data;
-        } catch (error) {
-            return isRejectedWithValue("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get(`/pack/${id}`);
+        return data;
     }
 );
 
@@ -32,12 +24,8 @@ export const getPackById = createAsyncThunk<Tpack, string>(
 export const createPack = createAsyncThunk<Tpack, Partial<Tpack>>(
     'packs/createPack',
     async (newPack) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.post('/packs', newPack);
-            return data;
-        } catch (error) {
-            return isRejectedWithValue("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.post('/pack', newPack);
+        return data;
     }
 );
 
@@ -45,12 +33,8 @@ export const createPack = createAsyncThunk<Tpack, Partial<Tpack>>(
 export const updatePack = createAsyncThunk<Tpack, { id: string, updatedPack: Partial<Tpack> }>(
     'packs/updatePack',
     async ({ id, updatedPack }) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.put(`/packs/${id}`, updatedPack);
-            return data;
-        } catch (error) {
-            return isRejectedWithValue("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.put(`/pack/${id}`, updatedPack);
+        return data;
     }
 );
 
@@ -58,11 +42,7 @@ export const updatePack = createAsyncThunk<Tpack, { id: string, updatedPack: Par
 export const deletePack = createAsyncThunk<string, string>(
     'packs/deletePack',
     async (id) => {
-        try {
-            await AxiosInstanceForMyApi.delete(`/packs/${id}`);
-            return id; // Return the id of the deleted pack upon successful deletion
-        } catch (error) {
-            throw new Error("Something went wrong. Please try again later."); // Throw an error to be handled in the rejected case
-        }
+        await AxiosInstanceForMyApi.delete(`/pack/${id}`);
+        return id;
     }
 );

@@ -7,11 +7,12 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tmedia, Tpack } from '../../state/types';
-import AxiosInstanceForMyApi from '../../axios/AxiosInstanceForMyApi';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Dispatch, Fragment, SetStateAction, useEffect, useState, ChangeEvent } from 'react';
+import { Dispatch, Fragment, SetStateAction, useState, ChangeEvent } from 'react';
 import { useAppDispatch } from '../../state/store';
 import { createMedia } from '../../state/media/mediaActions';
+import { uploadAudio } from '../../state/mycdn/cdnActions';
+import { clearAudio } from '../../state/mycdn/cdnSlice';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -27,37 +28,23 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
   const [uploadedFiles, setUploadedFiles] = useState<Tmedia[]>([])
   const dispatch = useAppDispatch()
 
-  
+
 
   const handleClose = () => {
     dispatch(createMedia(uploadedFiles))
+    dispatch(clearAudio())
     props.setOpen(false);
   };
 
-  const handlechange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
     if (files) {
       for (let i = 0; i < files.length; i++) {
-        uploadFile(files[i]).then(url => {
-          setUploadedFiles(prevFiles => [...prevFiles, { src: url, pack_id:props.pack.id } as Tmedia]);
-        }).catch(error => {
-          // Handle error
-        });
+        dispatch(uploadAudio(files[i]));
       }
     }
   }
 
-  const uploadFile = async (file: File): Promise<string> => {
-    const formData = new FormData()
-    formData.append('file', file)
-    try {
-      const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload-audio', formData);
-      return response.data.url as string;
-    } catch (error) {
-      // Handle error
-      throw error;
-    }
-  }
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -102,7 +89,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput multiple  onChange={handlechange} type="file" accept='audio/mp3' />
+            <VisuallyHiddenInput multiple onChange={handleInputChange} type="file" accept='audio/mp3' />
           </Button>
         </DialogContent>
         <DialogActions>

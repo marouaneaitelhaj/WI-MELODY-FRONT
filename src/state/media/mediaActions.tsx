@@ -6,12 +6,8 @@ import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 export const createMedia = createAsyncThunk<Tmedia, Tmedia[]>(
     'medias/createMedia',
     async (formData) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.post('/medias', formData);
-            return data;
-        } catch (error) {
-            throw new Error("Failed to create media. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.post('/media', formData);
+        return data;
     }
 );
 
@@ -19,12 +15,8 @@ export const createMedia = createAsyncThunk<Tmedia, Tmedia[]>(
 export const getMedias = createAsyncThunk<Tmedia[]>(
     'medias/getMedias',
     async () => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get('/medias');
-            return data;
-        } catch (error) {
-            throw new Error("Failed to fetch medias. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get('/media');
+        return data;
     }
 );
 
@@ -32,12 +24,8 @@ export const getMedias = createAsyncThunk<Tmedia[]>(
 export const getMediaById = createAsyncThunk<Tmedia, string>(
     'medias/getMediaById',
     async (id) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get(`/medias/${id}`);
-            return data;
-        } catch (error) {
-            throw new Error("Failed to fetch media by ID. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get(`/media/${id}`);
+        return data;
     }
 );
 
@@ -47,12 +35,8 @@ export const getMediaById = createAsyncThunk<Tmedia, string>(
 export const updateMedia = createAsyncThunk<Tmedia, { id: string; formData: FormData }>(
     'medias/updateMedia',
     async ({ id, formData }) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.put(`/medias/${id}`, formData);
-            return data;
-        } catch (error) {
-            throw new Error("Failed to update media. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.put(`/media/${id}`, formData);
+        return data;
     }
 );
 
@@ -60,23 +44,15 @@ export const updateMedia = createAsyncThunk<Tmedia, { id: string; formData: Form
 export const deleteMedia = createAsyncThunk<string, string>(
     'medias/deleteMedia',
     async (id) => {
-        try {
-            await AxiosInstanceForMyApi.delete(`/medias/${id}`);
-            return id;
-        } catch (error) {
-            throw new Error("Failed to delete media. Please try again later.");
-        }
+        await AxiosInstanceForMyApi.delete(`/media/${id}`);
+        return id;
     }
 );
 
 export const getMediasByPack = createAsyncThunk<Tmedia[], string>(
     'medias/getMediasByPack',
     async (id) => {
-        try {
-            const { data } = await AxiosInstanceForMyApi.get(`/medias/pack/${id}`)
-            return data;
-        } catch (error) {
-            throw new Error("Something went wrong. Please try again later.");
-        }
+        const { data } = await AxiosInstanceForMyApi.get(`/media/pack/${id}`)
+        return data;
     }
 );
