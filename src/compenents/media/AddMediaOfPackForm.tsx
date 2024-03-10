@@ -10,6 +10,8 @@ import { Tmedia, Tpack } from '../../state/types';
 import AxiosInstanceForMyApi from '../../axios/AxiosInstanceForMyApi';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Dispatch, Fragment, SetStateAction, useEffect, useState, ChangeEvent } from 'react';
+import { useAppDispatch } from '../../state/store';
+import { createMedia } from '../../state/media/mediaActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -23,13 +25,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
   const [media, setMedia] = useState<Tmedia[]>([])
   const [uploadedFiles, setUploadedFiles] = useState<Tmedia[]>([])
+  const dispatch = useAppDispatch()
 
   
 
   const handleClose = () => {
-    AxiosInstanceForMyApi.post('/media', uploadedFiles).then((res) => {
-      // Handle response if needed
-    })
+    dispatch(createMedia(uploadedFiles))
     props.setOpen(false);
   };
 

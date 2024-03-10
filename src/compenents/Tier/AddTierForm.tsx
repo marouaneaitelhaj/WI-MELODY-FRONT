@@ -3,18 +3,18 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { Ttier } from "../../state/types";
 import { useSelector } from "react-redux";
-import { RootState } from "../../state/store";
+import { RootState, useAppDispatch } from "../../state/store";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import { createTier } from "../../state/tier/tierActions";
 
-export function AddTierForm(props: { tier: Ttier , setTier : React.Dispatch<React.SetStateAction<Ttier | null>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.SetStateAction<Ttier | null>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
         defaultValues: {}
     });
+    const dispatch = useAppDispatch()
     const { user } = useSelector((state: RootState) => state.auth);
 
-    const handleClickOpen = () => {
-        props.setOpen(true);
-    };
+
 
     const handleClose = () => {
         props.setTier({} as Ttier);
@@ -25,14 +25,7 @@ export function AddTierForm(props: { tier: Ttier , setTier : React.Dispatch<Reac
         if (user?.id) {
             data.artist_id = user?.id;
         }
-        AxiosInstanceForMyApi.post("/tier", data)
-            .then((res) => {
-                // console.log(res.respo)
-                handleClose();
-            })
-            .catch((err) => {
-                // Handle error
-            });
+        dispatch(createTier(data))
     };
 
     return (

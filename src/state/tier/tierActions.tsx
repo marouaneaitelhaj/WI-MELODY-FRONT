@@ -29,7 +29,7 @@ export const getTierById = createAsyncThunk<Ttier, string>(
 );
 
 // Create Tier
-export const createTier = createAsyncThunk<Ttier, FormData>(
+export const createTier = createAsyncThunk<Ttier, Ttier>(
     'tiers/createTier',
     async (formData) => {
         try {

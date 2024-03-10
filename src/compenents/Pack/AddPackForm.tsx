@@ -3,13 +3,14 @@ import { useForm, SubmitHandler, set } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
-import { RootState } from "../../state/store";
+import { RootState, useAppDispatch } from "../../state/store";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { createPack } from "../../state/pack/packActions";
 
 export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
@@ -17,6 +18,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
     const [name, setName] = useState(props.pack.name || '');
     const [description, setDescription] = useState(props.pack.description || '');
     const [cover, setCover] = useState(props.pack.cover || '');
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         setName(props.pack.name);
@@ -31,12 +33,9 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
         if (user?.id)
-            data.cover = await uploadFile(data.cover[0] as File);
-        AxiosInstanceForMyApi.post("/pack", data).then(res => {
-            handleClose();
-        }).catch(err => {
+        data.cover = await uploadFile(data.cover[0] as File);
+        dispatch(createPack(data))
 
-        })
     }
 
     const uploadFile = async (file: File): Promise<string> => {
