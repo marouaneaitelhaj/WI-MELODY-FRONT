@@ -5,17 +5,19 @@ import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 import AddPack from "./AddPackForm";
 import AddMediaOfPackForm from "../media/AddMediaOfPackForm";
 import MediaOfPack from "../media/MediaOfPack";
+import { RootState, useAppDispatch } from "../../state/store";
+import { useSelector } from "react-redux";
+import { getPacks } from "../../state/pack/packActions";
 
 export default function PacksManagementList() {
-    const [rows, setRows] = useState<Tpack[]>([])
+    const { packs } = useSelector((state: RootState) => state.pack);
     const [openAddPack, setOpenAddPack] = useState(false);
     const [openMediaOfPackForm, setMediaOfPackForm] = useState(false);
     const [openMediaOfPack, setMediaOfPack] = useState(false);
     const [pack, setPack] = useState<Tpack>()
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        AxiosInstanceForAuth.get('/pack').then((res) => {
-            setRows(res.data)
-        })
+        dispatch(getPacks())
     }, [])
 
     const openMediaOfPackPopUpForm = (pack: Tpack) => {
@@ -62,7 +64,7 @@ export default function PacksManagementList() {
                 hideFooter={false}
                 hideFooterPagination={false}
                 hideFooterSelectedRowCount={false}
-                rows={rows}
+                rows={packs}
                 columns={columns}
                 initialState={{
                     pagination: {

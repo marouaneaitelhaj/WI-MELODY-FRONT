@@ -35,6 +35,10 @@ export default function TiersManagementList() {
             <h1 className="text-2xl font-semibold mb-6">Tiers</h1>
             <button onClick={() => setOpen(true)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
             <DataGrid
+                rowSelection={false}
+                hideFooter={false}
+                hideFooterPagination={false}
+                hideFooterSelectedRowCount={false}
                 rows={user?.tiers as Ttier[] || []}
                 columns={columns}
                 initialState={{
