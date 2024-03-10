@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { Tpack } from "../../state/types";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 import AddPack from "./AddPackForm";
-import MediaOfPack from "../media/AddMediaOfPackForm";
+import AddMediaOfPackForm from "../media/AddMediaOfPackForm";
+import MediaOfPack from "../media/MediaOfPack";
 
 export default function PacksManagementList() {
     const [rows, setRows] = useState<Tpack[]>([])
     const [openAddPack, setOpenAddPack] = useState(false);
+    const [openMediaOfPackForm, setMediaOfPackForm] = useState(false);
     const [openMediaOfPack, setMediaOfPack] = useState(false);
     const [pack, setPack] = useState<Tpack>()
     useEffect(() => {
@@ -16,10 +18,16 @@ export default function PacksManagementList() {
         })
     }, [])
 
+    const openMediaOfPackPopUpForm = (pack: Tpack) => {
+        setPack(pack);
+        setMediaOfPackForm(true);
+    }
+
     const openMediaOfPackPopUp = (pack: Tpack) => {
         setPack(pack);
         setMediaOfPack(true);
     }
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 260 },
@@ -28,15 +36,18 @@ export default function PacksManagementList() {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 300,
+            width: 800,
             renderCell: (params: GridCellParams) => (
                 <div>
                     <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
                         setPack(params.row as Tpack);
                         setOpenAddPack(true);
                     }}>Edit</button>
-                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUp(params.row as Tpack)}>
+                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUpForm(params.row as Tpack)}>
                         Add Content
+                    </button>
+                    <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUp(params.row as Tpack)}>
+                        See Content
                     </button>
                 </div>
             ),
@@ -58,6 +69,7 @@ export default function PacksManagementList() {
                 checkboxSelection
             />
             <AddPack setPack={setPack} pack={pack || {} as Tpack} open={openAddPack} setOpen={setOpenAddPack} />
+            <AddMediaOfPackForm pack={pack || {} as Tpack} open={openMediaOfPackForm} setOpen={setMediaOfPackForm}></AddMediaOfPackForm>
             <MediaOfPack pack={pack || {} as Tpack} open={openMediaOfPack} setOpen={setMediaOfPack}></MediaOfPack>
         </div>
     )

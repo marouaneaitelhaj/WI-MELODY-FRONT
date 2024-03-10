@@ -1,14 +1,13 @@
-from flask import Flask, request, jsonify,send_from_directory
+from flask import Flask, request, Response, jsonify
 import os
 import uuid
 from flask_cors import CORS
-
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'mp3', 'wav', 'ogg', 'flac'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -29,12 +28,19 @@ def upload_file():
         return jsonify({'url': f"{request.url_root}{UPLOAD_FOLDER}/{filename}"})
     return jsonify({'error': 'File type not allowed'})
 
-
-
+def generate_audio(filepath):
+    CHUNK = 1024
+    with open(filepath, 'rb') as f:
+        while True:
+            data = f.read(CHUNK)
+            if not data:
+                break
+            yield data
 
 @app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+def audio_stream(filename):
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    return Response(generate_audio(filepath), mimetype="audio/*")
 
 if __name__ == '__main__':
     app.run(debug=True)

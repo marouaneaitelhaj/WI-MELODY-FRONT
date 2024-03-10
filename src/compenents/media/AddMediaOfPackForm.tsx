@@ -92,7 +92,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers className='w-96'>
+        <DialogContent dividers className='w-96 flex justify-center'>
           <Button
             component="label"
             role={undefined}
@@ -101,7 +101,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput multiple onChange={handlechange} type="file" />
+            <VisuallyHiddenInput multiple  onChange={handlechange} type="file" accept='audio/*' />
           </Button>
         </DialogContent>
         <DialogActions>
