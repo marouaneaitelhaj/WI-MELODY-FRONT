@@ -31,11 +31,24 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
         if (user?.id)
-            AxiosInstanceForMyApi.post("/pack", data).then(res => {
-                handleClose();
-            }).catch(err => {
+            data.cover = await uploadFile(data.cover[0] as File);
+        AxiosInstanceForMyApi.post("/pack", data).then(res => {
+            handleClose();
+        }).catch(err => {
 
-            })
+        })
+    }
+
+    const uploadFile = async (file: File): Promise<string> => {
+        const formData = new FormData()
+        formData.append('file', file)
+        try {
+            const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload-image', formData);
+            return response.data.url as string;
+        } catch (error) {
+            // Handle error
+            throw error;
+        }
     }
 
     return (
@@ -79,14 +92,10 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                     />
                     <TextField
                         type="file"
-                        value={cover}
                         variant="outlined"
                         fullWidth
                         {...register("cover", {
-                            required: "Cover is required",
                         })}
-                        error={!!errors.cover}
-                        helperText={errors.cover?.message}
                     />
                 </form>
             </DialogContent>
