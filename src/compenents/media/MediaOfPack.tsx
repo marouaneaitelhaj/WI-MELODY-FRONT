@@ -87,7 +87,7 @@ export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetS
                         })}
                     </div>
 
-                    <ReactAudioPlayer
+                    <audio
                         className='absolute bottom-0 rounded-none'
                         src={selectedMedia.src}
                         autoPlay

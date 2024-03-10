@@ -50,7 +50,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload', formData);
+      const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload-audio', formData);
       return response.data.url as string;
     } catch (error) {
       // Handle error
@@ -101,7 +101,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput multiple  onChange={handlechange} type="file" accept='audio/*' />
+            <VisuallyHiddenInput multiple  onChange={handlechange} type="file" accept='audio/mp3' />
           </Button>
         </DialogContent>
         <DialogActions>

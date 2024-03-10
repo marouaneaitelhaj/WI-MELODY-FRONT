@@ -10,22 +10,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Pack } from "./Pack";
 
 export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
     const [name, setName] = useState(props.pack.name || '');
     const [description, setDescription] = useState(props.pack.description || '');
+    const [cover, setCover] = useState(props.pack.cover || '');
 
     useEffect(() => {
         setName(props.pack.name);
         setDescription(props.pack.description);
     }, [props.pack]);
-
-    const handleClickOpen = () => {
-        props.setOpen(true);
-    };
 
     const handleClose = () => {
         props.setPack({} as Tpack);
@@ -46,7 +42,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
         <Dialog open={props.open} onClose={handleClose}>
             <DialogTitle>Add Pack</DialogTitle>
             <DialogContent>
-                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         label="Name"
                         placeholder="lil baby type beat"
@@ -81,20 +77,17 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                         error={!!errors.description}
                         helperText={errors.description?.message}
                     />
-                    {/* <TextField
-                        select
-                        label="Price"
+                    <TextField
+                        type="file"
+                        value={cover}
                         variant="outlined"
-                        value={props.pack.price}
                         fullWidth
-                        {...register("tier_id")}
-                    >
-                        {user?.tiers.map((tier) => (
-                            <option key={tier.id} value={tier.id}>
-                                {tier.name}
-                            </option>
-                        ))}
-                    </TextField> */}
+                        {...register("cover", {
+                            required: "Cover is required",
+                        })}
+                        error={!!errors.cover}
+                        helperText={errors.cover?.message}
+                    />
                 </form>
             </DialogContent>
             <DialogActions>

@@ -7,26 +7,40 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'mp3', 'wav', 'ogg', 'flac'}
+ALLOWED_EXTENSIONS_AUDIO = {'mp3'}
+ALLOWED_EXTENSIONS_IMAGE = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowed_file(filename):
+def allowed_file(filename, allowed_extensions):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
+@app.route('/upload-audio', methods=['POST'])
+def upload_audio():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'})
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
-    if file and allowed_file(file.filename):
+    if file and allowed_file(file.filename, ALLOWED_EXTENSIONS_AUDIO):
         filename = str(uuid.uuid4()) + os.path.splitext(file.filename)[1]  # UUID with original extension
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return jsonify({'url': f"{request.url_root}{UPLOAD_FOLDER}/{filename}"})
-    return jsonify({'error': 'File type not allowed'})
+    return jsonify({'error': 'File type not allowed for audio'})
+
+@app.route('/upload-image', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+    if file and allowed_file(file.filename, ALLOWED_EXTENSIONS_IMAGE):
+        filename = str(uuid.uuid4()) + os.path.splitext(file.filename)[1]  # UUID with original extension
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return jsonify({'url': f"{request.url_root}{UPLOAD_FOLDER}/{filename}"})
+    return jsonify({'error': 'File type not allowed for image'})
 
 def generate_audio(filepath):
     CHUNK = 1024

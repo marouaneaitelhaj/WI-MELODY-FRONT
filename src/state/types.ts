@@ -16,6 +16,7 @@ export type Ttier = {
 }
 export type Tpack = {
     id: string,
+    cover:string | File,
     name: string,
     description: string,
     date: string,
