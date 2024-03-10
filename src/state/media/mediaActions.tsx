@@ -13,6 +13,18 @@ export const getMedias = createAsyncThunk<Tmedia[]>(
         }
     }
 )
+export const getMediasByPack = createAsyncThunk<Tmedia[], string>(
+    'medias/getMediasByPack',
+    async (id) => {
+        try {
+            const { data } = await AxiosInstanceForMyApi.get(`/medias/pack/${id}`)
+            return data
+        } catch (error) {
+            return isRejectedWithValue("Something went wrong. Please try again later.")
+        }
+    }
+)
+
 export const getMediaById = createAsyncThunk<Tmedia, string>(
     'medias/getMediaById',
     async (id) => {

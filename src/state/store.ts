@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
 import artistReducer from './artist/artistSlice';
+import mediaReducer from './media/mediaSlice';
+import packReducer from './pack/packSlice';
+import tierReducer from './tier/tierSlice';
 import { useDispatch } from 'react-redux';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        artist: artistReducer
+        artist: artistReducer,
+        media: mediaReducer,
+        pack: packReducer,
+        tier: tierReducer
     },
 });
 

@@ -9,6 +9,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import AxiosInstanceForMyApi from '../../axios/AxiosInstanceForMyApi';
 import ReactAudioPlayer from 'react-audio-player';
+import { RootState, useAppDispatch } from '../../state/store';
+import { getMediasByPack } from '../../state/media/mediaActions';
+import { useSelector } from 'react-redux';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -23,15 +26,15 @@ export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetS
     const handleClose = () => {
         props.setOpen(false);
     };
-    const [media, setMedia] = useState<Tmedia[]>([])
+
+    const dispatch = useAppDispatch();
+    const { medias } = useSelector((state: RootState) => state.media);
     const [selectedMedia, setSelectedMedia] = useState<Tmedia>({} as Tmedia)
 
     const audioElement = useRef()
 
     useEffect(() => {
-        AxiosInstanceForMyApi.get('/media/pack/' + props.pack.id).then((res) => {
-            setMedia(res.data)
-        })
+        dispatch(getMediasByPack(props.pack.id))
     }, [props.pack])
 
     const playAudio = (media: Tmedia) => {
@@ -66,7 +69,7 @@ export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetS
                     }}
                 >
                     <div className='h-[350px] overflow-scroll '>
-                        {media && media.map(m => {
+                        {medias && medias.map(m => {
                             return (
                                 <AudioFileIcon
                                     key={m.id}

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { Tmedia } from "../types"
-import { getMediaById, getMedias } from "./mediaActions"
+import { getMediaById, getMedias, getMediasByPack } from "./mediaActions"
 
 type MediaState = {
     medias: Tmedia[]
@@ -33,6 +33,15 @@ const mediaSlice = createSlice({
         // }).addCase(getMediaById.rejected, (state, action) => {
         //     state.selectedMedia = null
         // })
+
+        // getMedias
+        builder.addCase(getMediasByPack.pending, (state, action) => {
+            state.medias = []
+        }).addCase(getMediasByPack.fulfilled, (state, action) => {
+            state.medias = action.payload
+        }).addCase(getMediasByPack.rejected, (state, action) => {
+            state.medias = []
+        })
     }
 })
 
