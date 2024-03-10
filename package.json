@@ -16,6 +16,8 @@
     "@mui/material": "^5.15.10",
     "@mui/x-data-grid": "^6.19.6",
     "@reduxjs/toolkit": "^2.2.0",
+    "@stripe/react-stripe-js": "^2.5.1",
+    "@stripe/stripe-js": "^3.0.7",
     "axios": "^1.6.7",
     "i": "^0.3.7",
     "material-ui-audio-player": "^1.7.1",

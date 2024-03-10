@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { uploadAudio, uploadImage } from "./cdnActions";
+import { Tmedia } from "../types";
 
 type UploadState = {
-    audioUrl: string[];
+    audios: Tmedia[];
     imageUrl: string | null;
     loading: boolean;
     error: string | null;
 };
 
 const initialState: UploadState = {
-    audioUrl: [],
+    audios: [],
     imageUrl: null,
     loading: false,
     error: null,
@@ -23,7 +24,7 @@ const uploadSlice = createSlice({
             state.error = null;
         },
         clearAudio: (state) => {
-            state.audioUrl = [];
+            state.audios = [];
         },
     },
     extraReducers(builder) {
@@ -32,7 +33,7 @@ const uploadSlice = createSlice({
             state.error = null;
         }).addCase(uploadAudio.fulfilled, (state, action) => {
             state.loading = false;
-            state.audioUrl = [...state.audioUrl, action.payload]
+            state.audios.push(action.payload);
         }).addCase(uploadAudio.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to upload audio';

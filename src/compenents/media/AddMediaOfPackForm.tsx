@@ -9,10 +9,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Tmedia, Tpack } from '../../state/types';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Dispatch, Fragment, SetStateAction, useState, ChangeEvent } from 'react';
-import { useAppDispatch } from '../../state/store';
+import { RootState, useAppDispatch } from '../../state/store';
 import { createMedia } from '../../state/media/mediaActions';
 import { uploadAudio } from '../../state/mycdn/cdnActions';
 import { clearAudio } from '../../state/mycdn/cdnSlice';
+import { useSelector } from 'react-redux';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -25,13 +26,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
   const [media, setMedia] = useState<Tmedia[]>([])
-  const [uploadedFiles, setUploadedFiles] = useState<Tmedia[]>([])
+  const { audios } = useSelector((state: RootState) => state.uploads)
   const dispatch = useAppDispatch()
 
 
 
   const handleClose = () => {
-    dispatch(createMedia(uploadedFiles))
+    dispatch(createMedia(audios))
     dispatch(clearAudio())
     props.setOpen(false);
   };
@@ -40,7 +41,10 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
     const files = e.target.files;
     if (files) {
       for (let i = 0; i < files.length; i++) {
-        dispatch(uploadAudio(files[i]));
+        dispatch(uploadAudio({
+          file: files[i],
+          pack_id: props.pack.id
+        }));
       }
     }
   }

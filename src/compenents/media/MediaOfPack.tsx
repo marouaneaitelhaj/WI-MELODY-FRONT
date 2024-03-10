@@ -84,7 +84,7 @@ export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetS
                                     }}
                                     className={` rounded cursor-pointer ${selectedMedia && selectedMedia.id === m.id ? 'text-white bg-black' : ''
                                         }`}
-                                    titleAccess={m.pack.name + ' ' + m.src}
+                                    titleAccess={m.pack?.name + ' ' + m.src}
                                 ></AudioFileIcon>
                             )
                         })}

@@ -1,15 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Tmedia } from "../types";
 
 // Action to upload audio file
-export const uploadAudio = createAsyncThunk<string, { file: File, pack_id: string }>(
+export const uploadAudio = createAsyncThunk<Tmedia, { file: File, pack_id: string }>(
     'uploads/uploadAudio',
     async ({ file, pack_id }: { file: File, pack_id: string }) => {
         console.log(pack_id)
         const formData = new FormData();
         formData.append('file', file);
         const response = await axios.post('http://localhost:5000/upload-audio', formData);
-        return response.data.url;
+        return {
+            pack_id: pack_id,
+            src: response.data.url,
+        } as Tmedia;
     }
 );
 
