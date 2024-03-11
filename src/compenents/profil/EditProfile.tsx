@@ -6,7 +6,7 @@ import { signUpAction } from "../../state/auth/authActions";
 import { useSelector } from "react-redux";
 
 export function EditProfile() {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Tuser>();
+    const { register, handleSubmit, formState: { errors } } = useForm<Tuser>();
     const { user } = useSelector((state: RootState) => state.auth);
     const dispatch = useAppDispatch();
     const onSubmit: SubmitHandler<Tuser> = async (data) => {
@@ -18,9 +18,6 @@ export function EditProfile() {
                 data.profilePicture = res.data.secure_url;
                 dispatch(signUpAction(data))
             })
-            .catch(err => {
-                // console.log(err);
-            });
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-wrap py-8 px-16 flex">
