@@ -33,9 +33,9 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
-            <Route path="/payment/:tierId" element={<PaymentWrapper />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<MyProfile />} />
+              <Route path="/payment/:tierId" element={<PaymentWrapper />} />
             </Route>
             <Route path="/artist/:artistId" element={<ArtistProfileWrapper />} />
             <Route element={<AuthRoutes />}>
