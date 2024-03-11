@@ -20,8 +20,6 @@ export const getUserAction = createAsyncThunk<Tuser>(
             }
         })
         return data
-        localStorage.removeItem('token')
-        return rejectWithValue("Something went wrong. Please try again later.")
     }
 )
 export const logoutAction = createAsyncThunk(

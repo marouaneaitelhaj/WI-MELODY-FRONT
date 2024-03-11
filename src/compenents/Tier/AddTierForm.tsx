@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../state/store";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import { createTier } from "../../state/tier/tierActions";
+import { getUserAction } from "../../state/auth/authActions";
+import { addTiers } from "../../state/auth/authSlice";
 
 export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.SetStateAction<Ttier | null>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
@@ -25,7 +27,10 @@ export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.
         if (user?.id) {
             data.artist_id = user?.id;
         }
-        dispatch(createTier(data))
+        dispatch(createTier(data)).then(() => {
+            dispatch(getUserAction());
+            handleClose();
+        });
     };
 
     return (

@@ -1,12 +1,13 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { Ttier } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 
 // Get Tiers
 export const getTiers = createAsyncThunk<Ttier[]>(
     'tiers/getTiers',
     async () => {
-            const { data } = await AxiosInstanceForMyApi.get('/tiers');
+            const { data } = await AxiosInstanceForMyApi.get('/tier');
             return data;
     }
 );
@@ -15,8 +16,8 @@ export const getTiers = createAsyncThunk<Ttier[]>(
 export const getTierById = createAsyncThunk<Ttier, string>(
     'tiers/getTierById',
     async (id) => {
-        const { data } = await AxiosInstanceForMyApi.get(`/tiers/${id}`);
-        return data;
+        const { data } = await AxiosInstanceForMyApi.get(`/tier/${id}`);
+        return data as Ttier;
     }
 );
 
@@ -24,8 +25,8 @@ export const getTierById = createAsyncThunk<Ttier, string>(
 export const createTier = createAsyncThunk<Ttier, Ttier>(
     'tiers/createTier',
     async (formData) => {
-        const { data } = await AxiosInstanceForMyApi.post('/tiers', formData);
-        return data;
+        const { data } = await AxiosInstanceForMyApi.post('/tier', formData);
+        return data.data as Ttier;
     }
 );
 
@@ -33,7 +34,7 @@ export const createTier = createAsyncThunk<Ttier, Ttier>(
 export const updateTier = createAsyncThunk<Ttier, { id: string; formData: FormData }>(
     'tiers/updateTier',
     async ({ id, formData }) => {
-        const { data } = await AxiosInstanceForMyApi.put(`/tiers/${id}`, formData);
+        const { data } = await AxiosInstanceForMyApi.put(`/tier/${id}`, formData);
         return data;
     }
 );
@@ -42,7 +43,7 @@ export const updateTier = createAsyncThunk<Ttier, { id: string; formData: FormDa
 export const deleteTier = createAsyncThunk<string, string>(
     'tiers/deleteTier',
     async (id) => {
-        await AxiosInstanceForMyApi.delete(`/tiers/${id}`);
+        await AxiosInstanceForMyApi.delete(`/tier/${id}`);
         return id
     }
 );

@@ -5,6 +5,7 @@ export type Tuser = {
     email: string,
     profilePicture: string,
     tiers: Ttier[],
+    role: string,
     // posts : Tpost[],
 }
 export type Ttier = {
@@ -16,7 +17,7 @@ export type Ttier = {
 }
 export type Tpack = {
     id: string,
-    cover:string | File[],
+    cover: string | File[],
     name: string,
     description: string,
     date: string,
@@ -27,6 +28,15 @@ export type Tpack = {
 export type Tmedia = {
     id: string,
     src: string,
-    pack : Tpack,
+    pack: Tpack,
     pack_id: string,
+}
+
+export type Tpayment = {
+    id : string,
+    date : string,
+    tier_id : string,
+    fan_id : string,
+    tier : Ttier,
+    fan : Tuser,
 }

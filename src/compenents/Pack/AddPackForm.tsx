@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler, set } from "react-hook-form";
+import { useForm, SubmitHandler, set, get } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
@@ -11,6 +11,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { createPack } from "../../state/pack/packActions";
+import { MenuItem, Select } from "@mui/material";
+import { getUserAction } from "../../state/auth/authActions";
 
 export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
@@ -33,8 +35,11 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
         if (user?.id)
-        data.cover = await uploadFile(data.cover[0] as File);
-        dispatch(createPack(data))
+            data.cover = await uploadFile(data.cover[0] as File);
+        dispatch(createPack(data)).then(() => {
+            dispatch(getUserAction());
+            handleClose();
+        });
 
     }
 
@@ -91,11 +96,20 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                     />
                     <TextField
                         type="file"
+                        {...register("cover", {
+                        })}
                         variant="outlined"
                         fullWidth
                         {...register("cover", {
                         })}
                     />
+                    <Select fullWidth {...register("tier_id", {
+                    })}>
+
+                        {user?.tiers.map((tier) => {
+                            return <MenuItem value={tier.id}>{tier.name}</MenuItem>
+                        })}
+                    </Select>
                 </form>
             </DialogContent>
             <DialogActions>

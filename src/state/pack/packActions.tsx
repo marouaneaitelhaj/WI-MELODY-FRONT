@@ -25,7 +25,7 @@ export const createPack = createAsyncThunk<Tpack, Partial<Tpack>>(
     'packs/createPack',
     async (newPack) => {
         const { data } = await AxiosInstanceForMyApi.post('/pack', newPack);
-        return data;
+        return data.data as Tpack;
     }
 );
 

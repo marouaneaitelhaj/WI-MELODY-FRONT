@@ -5,6 +5,7 @@ import { getUserAction, loginAction } from "../state/auth/authActions";
 import { Tuser } from "../state/types";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Payment from "../compenents/payment/payment";
 
 
 export default function Login() {

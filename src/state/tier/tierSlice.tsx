@@ -53,7 +53,7 @@ const tierSlice = createSlice({
             state.error = null;
         }).addCase(createTier.fulfilled, (state, action) => {
             state.loading = false;
-            state.tiers.push(action.payload);
+            state.tiers = [...state.tiers, action.payload];
         }).addCase(createTier.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to create tier';

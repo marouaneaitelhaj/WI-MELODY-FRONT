@@ -13,6 +13,7 @@ import AuthRoutes from './utilities/AuthRoutes'
 import { MyProfile } from './pages/MyProfile'
 import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
+import Payment from './compenents/payment/payment'
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/artists" element={<Artists />} />
+            <Route path="/payment/:tierId" element={<PaymentWrapper />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<MyProfile />} />
             </Route>
@@ -49,6 +51,11 @@ function App() {
 function ArtistProfileWrapper() {
   const { artistId } = useParams();
   return <ArtistProfile artistId={artistId} />;
+}
+
+function PaymentWrapper() {
+  const { tierId } = useParams();
+  return <Payment tierId={tierId} />;
 }
 
 export default App

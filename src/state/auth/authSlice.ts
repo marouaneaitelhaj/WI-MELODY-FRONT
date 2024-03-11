@@ -27,7 +27,12 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-
+        addTiers(state, action) {
+            const tiers = state.user?.tiers ?? [];
+            if (state.user) {
+                state.user.tiers = [...tiers, action.payload];
+            }
+        }
     },
     extraReducers(builder) {
         // Login
@@ -76,7 +81,7 @@ const authSlice = createSlice({
             state.success = true
             state.isAuthenticated = false
             state.token = null,
-            state.user = null
+                state.user = null
             state.message = 'Logged out successfully'
         }).addCase(logoutAction.rejected, (state, action) => {
             state.loading = false
@@ -101,4 +106,5 @@ const authSlice = createSlice({
         })
     }
 })
+export const { addTiers } = authSlice.actions
 export default authSlice.reducer

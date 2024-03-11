@@ -53,7 +53,7 @@ const packSlice = createSlice({
             state.error = null;
         }).addCase(createPack.fulfilled, (state, action) => {
             state.loading = false;
-            state.packs.push(action.payload);
+            state.packs = [...state.packs, action.payload];
         }).addCase(createPack.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to create pack';
