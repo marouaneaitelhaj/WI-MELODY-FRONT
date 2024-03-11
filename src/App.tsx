@@ -16,9 +16,10 @@ import PrivateRoutes from './utilities/PrivateRoutes'
 import Payment from './compenents/payment/payment'
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') || token) {
       dispatch(getUserAction())
     }
   }, [isAuthenticated])

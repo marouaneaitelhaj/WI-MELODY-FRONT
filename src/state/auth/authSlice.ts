@@ -67,6 +67,7 @@ const authSlice = createSlice({
             state.loading = false
             state.success = false
             state.isAuthenticated = false
+            localStorage.removeItem('token')
             state.token = null
         })
         // Logout
