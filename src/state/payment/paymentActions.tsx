@@ -1,6 +1,7 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { Tpayment } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 
 // Fetching all payments
 export const getPayments = createAsyncThunk<Tpayment[]>(
@@ -44,5 +45,14 @@ export const deletePayment = createAsyncThunk<string, string>(
     async (id) => {
         await AxiosInstanceForMyApi.delete(`/payment/${id}`);
         return id;
+    }
+);
+
+// check if the fan has already subscribed to the tier
+export const checkSubscription = createAsyncThunk<boolean, {tier_id: string }>(
+    'payments/checkSubscription',
+    async ({  tier_id }) => {
+        const { data } = await AxiosInstanceForMyApi.get(`/payment/check-subscription/${tier_id}`);
+        return data.data as boolean;
     }
 );

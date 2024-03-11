@@ -19,7 +19,6 @@ function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      console.log('getting user')
       dispatch(getUserAction())
     }
   }, [isAuthenticated])

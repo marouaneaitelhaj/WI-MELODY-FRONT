@@ -12,67 +12,161 @@ import { getTierById } from '../../state/tier/tierActions';
 import { RootState, useAppDispatch } from '../../state/store';
 import { Tpayment, Ttier } from '../../state/types';
 import { useSelector } from 'react-redux';
-import { createPayment } from '../../state/payment/paymentActions';
+import { checkSubscription, createPayment } from '../../state/payment/paymentActions';
+import { Dispatch, SetStateAction } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+
 
 
 
 
 export default function Payment(props: { tierId: string | undefined }) {
 
-    const [tier, setTier] = React.useState<Ttier>({} as Ttier)
+    const { selectedTier } = useSelector((state: RootState) => state.tier)
 
     const { user } = useSelector((state: RootState) => state.auth)
 
     const dispatch = useAppDispatch()
 
+    const [open, setOpen] = React.useState(false);
+
+
+
+    const [confirmation, setConfirmation] = React.useState(false)
+
     useEffect(() => {
-        dispatch(getTierById(props.tierId as string)).then((res) => {
-            setTier(res.payload as Ttier)
+        dispatch(getTierById(props.tierId as string)).then(() => {
+            dispatch(checkSubscription({ tier_id: selectedTier?.id as string })).then((res) => {
+                    console.log(res.payload + "res")
+            })
         })
+
     }, [])
 
     const submit = () => {
-        dispatch(createPayment(
-            {
-                fan_id: user?.id,
-                tier_id: tier.id
-            } as Tpayment
-        ))
+        // dispatch(createPayment(
+        //     {
+        //         fan_id: user?.id,
+        //         tier_id: tier.id
+        //     } as Tpayment
+        // ))
+        setOpen(true)
     }
+
+    useEffect(() => {
+        if (confirmation) {
+            dispatch(createPayment(
+                {
+                    fan_id: user?.id,
+                    tier_id: selectedTier?.id
+                } as Tpayment
+            ))
+        }
+    }, [confirmation])
 
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <AppBar
-                position="absolute"
-                color="default"
-                elevation={0}
-                sx={{
-                    position: 'relative',
-                    // borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                }}
-            >
-            </AppBar>
-            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
-                        Checkout
-                    </Typography>
-                    <React.Fragment>
-                        <PaymentForm></PaymentForm>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant="contained"
-                                onClick={submit}
-                                sx={{ mt: 3, ml: 1 }}
-                            >
-                                Done
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                </Paper>
-            </Container>
-        </React.Fragment>
+        <>
+            <React.Fragment>
+                <CssBaseline />
+                <AppBar
+                    position="absolute"
+                    color="default"
+                    elevation={0}
+                    sx={{
+                        position: 'relative',
+                        // borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                    }}
+                >
+                </AppBar>
+                <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+                    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                        <Typography component="h1" variant="h4" align="center">
+                            Checkout
+                        </Typography>
+                        <React.Fragment>
+                            <PaymentForm></PaymentForm>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button
+                                    variant="contained"
+                                    onClick={submit}
+                                    sx={{ mt: 3, ml: 1 }}
+                                >
+                                    Done
+                                </Button>
+                            </Box>
+                        </React.Fragment>
+                    </Paper>
+                </Container>
+                <PaymentConfirmation setOpen={setOpen} open={open} setConfirmation={setConfirmation} confirmation={confirmation}></PaymentConfirmation>
+            </React.Fragment>
+        </>
     );
+}
+
+
+function PaymentConfirmation(props: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, setConfirmation: Dispatch<SetStateAction<boolean>>, confirmation: boolean }) {
+    return (
+        <Dialog
+            open={props.open}
+            onClose={() => props.setOpen(false)}
+            aria-labelledby="parent-dialog-title"
+            aria-describedby="parent-dialog-description"
+        >
+            <DialogTitle id="parent-dialog-title">Confirm Payment</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="parent-dialog-description">
+                    Are you sure you want to proceed with the payment?
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={
+                    () => {
+                        props.setConfirmation(true)
+                        props.setOpen(false)
+                    }
+                } variant="contained" color="primary">
+                    Confirm
+                </Button>
+                <Button onClick={
+                    () => {
+                        props.setOpen(false)
+                    }
+                } variant="outlined" color="secondary">
+                    Cancel
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
+}
+
+// add component that say you already have a subscription to this tier
+function alreadySubscribed() {
+    return (
+        <Dialog
+            open={true}
+            onClose={() => { }}
+            aria-labelledby="parent-dialog-title"
+            aria-describedby="parent-dialog-description"
+        >
+            <DialogTitle id="parent-dialog-title">Already Subscribed</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="parent-dialog-description">
+                    You are already subscribed to this tier
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={
+                    () => {
+                    }
+                } variant="contained" color="primary">
+                    Ok
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
 }

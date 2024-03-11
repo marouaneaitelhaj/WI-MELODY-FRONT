@@ -19,14 +19,14 @@ export function EditProfile() {
                 dispatch(signUpAction(data))
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             });
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-wrap py-8 px-16 flex">
-            <p className="text-gray-500 text-3xl py-7 w-full text-center">
+            <div className="text-gray-500 text-3xl py-7 w-full text-center">
                 Account Information
-            </p>
+            </div>
             <div className="my-2  w-1/2">
                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username :</label>
                 <input type="text" disabled value={user?.username} {...register("username",
@@ -57,16 +57,6 @@ export function EditProfile() {
                     errors.email.message
                 }</p>}
             </div>
-            {/* <div className="my-2  w-1/2">
-                        <label htmlFor="profilePicture" className="block mb-2 text-sm font-medium text-gray-900">Profile Picture :</label>
-                        <input type="file" value={user?.profilePicture} {...register("profilePicture",
-                            {
-                                required: "Profile Picture is required",
-                            })} id="profilePicture" className="w-96 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5" />
-                        {errors.profilePicture && <p className="text-red-500 text-sm">{
-                            errors.profilePicture.message
-                        }</p>}
-                    </div> */}
             <div className="my-2  w-1/2">
                 <button className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">Edit</button>
             </div>

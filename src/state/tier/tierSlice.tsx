@@ -4,7 +4,7 @@ import { getTierById, getTiers, createTier, updateTier, deleteTier } from "./tie
 
 type TierState = {
     tiers: Ttier[];
-    selectedTier: Ttier | null; // Add selectedTier state
+    selectedTier: Ttier | null;
     loading: boolean;
     error: string | null;
 };

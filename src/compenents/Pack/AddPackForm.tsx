@@ -29,7 +29,6 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
 
     const handleClose = () => {
         props.setPack({} as Tpack);
-        console.log(props.pack.id + "pack");
         props.setOpen(false);
     };
 
