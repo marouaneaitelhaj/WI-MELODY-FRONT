@@ -6,6 +6,7 @@ import packReducer from './pack/packSlice';
 import uploadsReducer from './mycdn/cdnSlice';
 import tierReducer from './tier/tierSlice';
 import { useDispatch } from 'react-redux';
+import artistRequestsReducer from './artistRequests/artistRequestsSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -13,7 +14,8 @@ export const store = configureStore({
         media: mediaReducer,
         pack: packReducer,
         tier: tierReducer,
-        uploads: uploadsReducer
+        uploads: uploadsReducer,
+        artistRequests: artistRequestsReducer,
     },
 });
 

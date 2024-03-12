@@ -1,9 +1,11 @@
-export function Pack() {
+import { Tpack } from "../../state/types";
+
+export function Pack(props : {pack:Tpack}) {
     return (
         <div className="max-w-sm  m-5">
             <div className="relative">
                 <img
-                    src="https://image.mux.com/CQEX5NhTEp28R4rtIcXqMx1HpaifwWvEKjXjrQiasF00/thumbnail.jpg?token=eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5CY3o3Sk5RcUNmdDdWcmo5MWhra2lEY3Vyc2xtRGNmSU1oSFUzallZMDI0IiwidHlwIjoiSldUIn0.eyJzdWIiOiJDUUVYNU5oVEVwMjhSNHJ0SWNYcU14MUhwYWlmd1d2RUtqWGpyUWlhc0YwMCIsImV4cCI6MTcxMDg2NTQwMSwiYXVkIjoidCIsInRpbWUiOjIuMH0.lnXn9jrbhsjlIZSEWfcyLx_lhFrooBbNS1K0GMhNVjAkUWoYSu76PEO1EMt7a8FsnYqNVcKysHlrPS2XquC8Sqr9Q1taf7DSyTC8sr5968ibmUxrE_oTwrZF04SdcKWXNOO6pjJSpR1ljBFzgeVtl2jBEwuo04zDG_0IFsx9-UQcgV4n9QCEG5maAXgmQHTXNGGrfNM45vxbfEVIC2jnpym6LI6_WoDUhYmpLrS9dpGfc-KDZxt1w1G1oyG7_rVhprq50p_KU8S2N2jFavlfoCXqqqFH9fkq2A0uYobwT9SrfEn4MX6AMb90eKkYJpS8OrR3Z-aFtVEWJoI7HAw9iA"
+                    src={props.pack.cover.toString()}
                     alt="Prawn &amp; Feta Pitta"
                     className="w-full h-auto rounded-t-lg aspect-w-1 aspect-h-1 overflow-hidden"
                     width="300"
@@ -12,7 +14,7 @@ export function Pack() {
                 />
                 <div className="absolute top-0 left-0 p-4">
                     <div className="inline-flex items-center rounded-full whitespace-nowrap border px-2.5 py-0.5 w-fit text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                        Prawn &amp; Feta Pittas
+                        {props.pack.name}
                     </div>
                 </div>
                 <div className="absolute bottom-0 left-0 p-4">
@@ -36,22 +38,15 @@ export function Pack() {
                     </div>
                 </div>
                 <div className="absolute bottom-0 right-0 p-4 bg-[#00000080] text-white rounded">
-                    <p>306 calories</p>
-                    <p>24g protein</p>
+                    <span className="text-xs font-semibold">{props.pack.tier.name}</span>
                 </div>
             </div>
             <div className="p-4 bg-white rounded-b-lg">
                 <h3 className="text-lg font-bold">Prawn &amp; Feta Pitta</h3>
-                <p className="text-sm text-gray-500">2 days ago</p>
+                <p className="text-sm text-gray-500">{props.pack.date}</p>
                 <p className="mt-2 text-sm">
-                    A quick, easy meal to make and you could also make this for prep by just preparing the filling, adding to a
-                    pitta on the day you wish to eat...
+                    {props.pack.description}
                 </p>
-                <div className="mt-4">
-                    <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2">
-                        Join to unlock
-                    </button>
-                </div>
                 <div className="flex items-center justify-between mt-4">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

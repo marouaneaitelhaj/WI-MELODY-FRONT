@@ -40,3 +40,13 @@ export type Tpayment = {
     tier : Ttier,
     fan : Tuser,
 }
+
+
+export type TartistRequests = {
+    id : string,
+    fan_id : string,
+    ArtistName : string,
+    RequestDate : string,
+    Status : string,
+    admin_id : string,
+}
