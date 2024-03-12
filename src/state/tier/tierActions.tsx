@@ -1,7 +1,6 @@
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Ttier } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
-import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
 
 // Get Tiers
 export const getTiers = createAsyncThunk<Ttier[]>(
@@ -17,7 +16,7 @@ export const getTierById = createAsyncThunk<Ttier, string>(
     'tiers/getTierById',
     async (id) => {
         const { data } = await AxiosInstanceForMyApi.get(`/tier/${id}`);
-        return data as Ttier;
+        return data;
     }
 );
 

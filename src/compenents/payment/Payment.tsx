@@ -34,14 +34,21 @@ export default function Payment(props: { tierId: string | undefined }) {
 
     const [open, setOpen] = React.useState(false);
 
+    const [alreadySubscribed, setAlreadySubscribed] = React.useState(false)
+
 
 
     const [confirmation, setConfirmation] = React.useState(false)
 
     useEffect(() => {
-        dispatch(getTierById(props.tierId as string)).then(() => {
-            dispatch(checkSubscription({ tier_id: selectedTier?.id as string })).then((res) => {
-                    console.log(res.payload + "res")
+        dispatch(getTierById(props.tierId as string)).unwrap().then((tier) => {
+            dispatch(checkSubscription({ tier_id: tier?.id as string })).unwrap().then((res) => {
+                console.log(res)
+                if (res) {
+                    setAlreadySubscribed(res.data)
+                } else {
+                    setAlreadySubscribed(false)
+                }
             })
         })
 
@@ -145,7 +152,7 @@ function PaymentConfirmation(props: { setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 // add component that say you already have a subscription to this tier
-function alreadySubscribed() {
+function AlreadySubscribed() {
     return (
         <Dialog
             open={true}
@@ -162,6 +169,7 @@ function alreadySubscribed() {
             <DialogActions>
                 <Button onClick={
                     () => {
+
                     }
                 } variant="contained" color="primary">
                     Ok

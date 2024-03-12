@@ -4,14 +4,14 @@ import { getTierById, getTiers, createTier, updateTier, deleteTier } from "./tie
 
 type TierState = {
     tiers: Ttier[];
-    selectedTier: Ttier | null;
+    selectedTier: Ttier;
     loading: boolean;
     error: string | null;
 };
 
 const initialState: TierState = {
     tiers: [],
-    selectedTier: null,
+    selectedTier: {} as Ttier,
     loading: false,
     error: null,
 };

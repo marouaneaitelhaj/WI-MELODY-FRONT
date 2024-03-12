@@ -77,7 +77,7 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
                         <Tiers selectedArtist={selectedArtist} />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        <Posts></Posts>
+                        <Posts ></Posts>
                     </CustomTabPanel>
                 </Box>
             </div>

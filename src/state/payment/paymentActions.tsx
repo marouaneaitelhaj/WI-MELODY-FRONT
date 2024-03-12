@@ -49,10 +49,10 @@ export const deletePayment = createAsyncThunk<string, string>(
 );
 
 // check if the fan has already subscribed to the tier
-export const checkSubscription = createAsyncThunk<boolean, {tier_id: string }>(
+export const checkSubscription = createAsyncThunk<{ data: boolean, message: string }, { tier_id: string }>(
     'payments/checkSubscription',
-    async ({  tier_id }) => {
+    async ({ tier_id }) => {
         const { data } = await AxiosInstanceForMyApi.get(`/payment/check-subscription/${tier_id}`);
-        return data.data as boolean;
+        return data.data as { data: boolean, message: string };
     }
 );
