@@ -16,7 +16,7 @@ if (localStorage.getItem('token') != null)
 axios.interceptors.response.use(
     (config) => config,
     async (error: AxiosError) => {
-        const { data, status } = error.response!
+        const { status } = error.response!
         if (status === 403) {
             localStorage.removeItem('access_token')
         }

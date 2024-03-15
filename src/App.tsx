@@ -13,7 +13,9 @@ import AuthRoutes from './utilities/AuthRoutes'
 import { MyProfile } from './pages/MyProfile'
 import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
-import Payment from './compenents/payment/payment'
+import Payment from './compenents/payment/Payment'
+
+
 function App() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { token } = useSelector((state: RootState) => state.auth);
@@ -36,8 +38,8 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<MyProfile />} />
               <Route path="/payment/:tierId" element={<PaymentWrapper />} />
+              <Route path="/artist/:artistId" element={<ArtistProfileWrapper />} />
             </Route>
-            <Route path="/artist/:artistId" element={<ArtistProfileWrapper />} />
             <Route element={<AuthRoutes />}>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />

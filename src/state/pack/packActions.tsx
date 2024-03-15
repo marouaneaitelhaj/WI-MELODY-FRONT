@@ -1,4 +1,4 @@
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Tpack } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 

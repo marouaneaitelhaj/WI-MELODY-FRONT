@@ -6,6 +6,7 @@ export type Tuser = {
     profilePicture: string,
     tiers: Ttier[],
     role: string,
+    alreadyRequested: boolean,
     // posts : Tpost[],
 }
 export type Ttier = {
@@ -14,6 +15,7 @@ export type Ttier = {
     price: number,
     description: string,
     artist_id: string,
+    subscribed: boolean,
 }
 export type Tpack = {
     id: string,
@@ -33,20 +35,20 @@ export type Tmedia = {
 }
 
 export type Tpayment = {
-    id : string,
-    date : string,
-    tier_id : string,
-    fan_id : string,
-    tier : Ttier,
-    fan : Tuser,
+    id: string,
+    date: string,
+    tier_id: string,
+    fan_id: string,
+    tier: Ttier,
+    fan: Tuser,
 }
 
 
 export type TartistRequests = {
-    id : string,
-    fan_id : string,
-    ArtistName : string,
-    RequestDate : string,
-    Status : string,
-    admin_id : string,
+    id: string,
+    fan_id: string,
+    ArtistName: string,
+    RequestDate: string,
+    Status: string,
+    admin_id: string,
 }

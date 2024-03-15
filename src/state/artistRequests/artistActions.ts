@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { TartistRequests } from "../types";
-import axios from "axios";
+import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 
 // Base URL for your API
-const API_BASE_URL = "/api/v1/artistrequests";
+const API_BASE_URL = "/artistrequests";
 
 // Save Artist Request
 export const saveArtistRequest = createAsyncThunk<TartistRequests, TartistRequests>(
   'artistRequests/save',
   async (requestData) => {
-    const response = await axios.post(`${API_BASE_URL}`, requestData);
+    const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}`, requestData);
     return response.data;
   }
 );
@@ -18,7 +18,7 @@ export const saveArtistRequest = createAsyncThunk<TartistRequests, TartistReques
 export const rejectArtistRequest = createAsyncThunk<TartistRequests, number>(
   'artistRequests/reject',
   async (requestId) => {
-    const response = await axios.post(`${API_BASE_URL}/reject/${requestId}`);
+    const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}/reject/${requestId}`);
     return response.data;
   }
 );
@@ -27,7 +27,7 @@ export const rejectArtistRequest = createAsyncThunk<TartistRequests, number>(
 export const approveArtistRequest = createAsyncThunk<TartistRequests, number>(
   'artistRequests/approve',
   async (requestId) => {
-    const response = await axios.post(`${API_BASE_URL}/approve/${requestId}`);
+    const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}/approve/${requestId}`);
     return response.data;
   }
 );
@@ -36,7 +36,7 @@ export const approveArtistRequest = createAsyncThunk<TartistRequests, number>(
 export const findArtistRequestById = createAsyncThunk<TartistRequests, number>(
   'artistRequests/findById',
   async (requestId) => {
-    const response = await axios.get(`${API_BASE_URL}/${requestId}`);
+    const response = await AxiosInstanceForMyApi.get(`${API_BASE_URL}/${requestId}`);
     return response.data;
   }
 );
@@ -45,7 +45,7 @@ export const findArtistRequestById = createAsyncThunk<TartistRequests, number>(
 export const findAllArtistRequests = createAsyncThunk<TartistRequests[]>(
   'artistRequests/findAll',
   async () => {
-    const response = await axios.get(`${API_BASE_URL}`);
+    const response = await AxiosInstanceForMyApi.get(`${API_BASE_URL}`);
     return response.data;
   }
 );

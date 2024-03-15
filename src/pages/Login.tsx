@@ -5,7 +5,6 @@ import { getUserAction, loginAction } from "../state/auth/authActions";
 import { Tuser } from "../state/types";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Payment from "../compenents/payment/payment";
 
 
 export default function Login() {
@@ -20,7 +19,7 @@ export default function Login() {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tuser> = async (data: Tuser) => {
-        dispatch(loginAction(data)).then((res) => {
+        dispatch(loginAction(data)).unwrap().then(() => {
             dispatch(getUserAction())
         })
     }
@@ -42,6 +41,7 @@ export default function Login() {
                     {errors.username && <p className="text-red-500 text-sm">{
                         errors.username.message
                     }</p>}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
                 <div className="my-2">
                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Password :</label>

@@ -75,17 +75,17 @@ export function MyProfile() {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="Edit Profile" {...a11yProps(0)} />
-                            {user?.role != "FAN" && (<Tab label="Pack" {...a11yProps(1)} />)}
-                            {user?.role != "FAN" && (<Tab label="Tier" {...a11yProps(2)} />)}
+                            {user?.role != "FAN" || "ADMIN" && (<Tab label="Pack" {...a11yProps(1)} />)}
+                            {user?.role != "FAN" || "ADMIN" && (<Tab label="Tier" {...a11yProps(2)} />)}
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
                         <EditProfile />
                     </CustomTabPanel>
-                    {user?.role != "FAN" && (<CustomTabPanel value={value} index={1}>
+                    {user?.role != "FAN" || "ADMIN" && (<CustomTabPanel value={value} index={1}>
                         <PacksManagementList></PacksManagementList>
                     </CustomTabPanel>)}
-                    {user?.role != "FAN" && (<CustomTabPanel value={value} index={2}>
+                    {user?.role != "FAN" || "ADMIN" && (<CustomTabPanel value={value} index={2}>
                         <TiersManagementList></TiersManagementList>
                     </CustomTabPanel>)}
                 </Box>

@@ -12,10 +12,10 @@ export default function Packs() {
 
     useEffect(() => {
         dispatch(getPacks());
-    })
+    }, [])
     return (
         <div className="my-5  justify-center w-full bg-gray-100 flex flex-wrap">
-            <div className="text-3xl my-3">Recent posts by {selectedArtist?.username}</div>
+            <div className="text-3xl w-full text-center my-3">Recent posts by {selectedArtist?.username}</div>
             <div className="flex flex-wrap justify-center">
                 {packs.map((pack) => {
                     return <Pack key={pack.id} pack={pack} />

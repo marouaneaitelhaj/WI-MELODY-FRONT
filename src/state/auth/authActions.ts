@@ -8,7 +8,8 @@ export const loginAction = createAsyncThunk<string, Tuser>(
     async ({ username, password }) => {
         const { data } = await AxiosInstanceForAuth.post('/auth/login', { username, password })
         localStorage.setItem('token', data.token)
-        return data.token
+        AxiosInstanceForMyApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+        return data.token as string
     }
 )
 export const getUserAction = createAsyncThunk<Tuser>(

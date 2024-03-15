@@ -36,7 +36,7 @@ const authSlice = createSlice({
     },
     extraReducers(builder) {
         // Login
-        builder.addCase(loginAction.pending, (state, action) => {
+        builder.addCase(loginAction.pending, (state) => {
             state.loading = true
             state.error = null
             state.success = false
@@ -45,13 +45,13 @@ const authSlice = createSlice({
             state.error = null
             state.success = true
             state.token = action.payload
-        }).addCase(loginAction.rejected, (state, action) => {
+        }).addCase(loginAction.rejected, (state) => {
             state.loading = false
-            state.error = action.payload as string
+            state.error = "Invalid username or password"
             state.success = false
         })
         // getUser
-        builder.addCase(getUserAction.pending, (state, action) => {
+        builder.addCase(getUserAction.pending, (state) => {
             state.loading = true
             state.error = null
             state.success = false
@@ -71,12 +71,12 @@ const authSlice = createSlice({
             state.token = null
         })
         // Logout
-        builder.addCase(logoutAction.pending, (state, action) => {
+        builder.addCase(logoutAction.pending, (state) => {
             state.loading = true
             state.error = null
             state.success = false
         }
-        ).addCase(logoutAction.fulfilled, (state, action) => {
+        ).addCase(logoutAction.fulfilled, (state) => {
             state.loading = false
             state.error = null
             state.success = true
