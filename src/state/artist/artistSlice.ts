@@ -4,28 +4,39 @@ import { getArtistById, getArtists } from "./artistActions";
 
 type ArtistState = {
     artists: Tuser[],
-    selectedArtist: Tuser | null
+    selectedArtist: Tuser | null,
+    currentPage: number,
+    totalPages: number,
+    loading: boolean
 }
 
 const initialState: ArtistState = {
     artists: [] as Tuser[],
-    selectedArtist: null
+    selectedArtist: null,
+    currentPage: 0,
+    totalPages: 0,
+    loading: false
 }
 
 const artistSlice = createSlice({
     name: 'artist',
     initialState,
     reducers: {
-
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload;
+        }
     },
     extraReducers(builder) {
         // getArtists
         builder.addCase(getArtists.pending, (state, action) => {
-            state.artists = []
+            state.loading = true;
         }).addCase(getArtists.fulfilled, (state, action) => {
-            state.artists = action.payload
+            state.loading = false;
+            state.artists = action.payload.content;
+            state.totalPages = action.payload.totalPages;
         }).addCase(getArtists.rejected, (state, action) => {
-            state.artists = []
+            state.loading = false;
+            state.artists = [];
         })
         // getArtistById
         builder.addCase(getArtistById.pending, (state, action) => {
@@ -38,4 +49,6 @@ const artistSlice = createSlice({
     }
 })
 
-export default artistSlice.reducer
+export const { setCurrentPage } = artistSlice.actions;
+
+export default artistSlice.reducer;

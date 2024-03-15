@@ -23,6 +23,15 @@ export const rejectArtistRequest = createAsyncThunk<TartistRequests, number>(
   }
 );
 
+// getArtistRequests
+export const getArtistRequests = createAsyncThunk<TartistRequests[], void>(
+  'artistRequests/get',
+  async () => {
+    const response = await AxiosInstanceForMyApi.get(`${API_BASE_URL}`);
+    return response.data;
+  }
+);
+
 // Approve Artist Request
 export const approveArtistRequest = createAsyncThunk<TartistRequests, number>(
   'artistRequests/approve',
