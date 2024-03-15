@@ -24,6 +24,11 @@ const artistSlice = createSlice({
     reducers: {
         setCurrentPage(state, action) {
             state.currentPage = action.payload;
+        },
+        reset: (state) => {
+            state.artists = []
+            state.currentPage = 0
+            // state.hasMore = true
         }
     },
     extraReducers(builder) {
@@ -32,7 +37,7 @@ const artistSlice = createSlice({
             state.loading = true;
         }).addCase(getArtists.fulfilled, (state, action) => {
             state.loading = false;
-            state.artists = action.payload.content;
+            state.artists = state.artists.concat(action.payload.content);
             state.totalPages = action.payload.totalPages;
         }).addCase(getArtists.rejected, (state, action) => {
             state.loading = false;
@@ -49,6 +54,6 @@ const artistSlice = createSlice({
     }
 })
 
-export const { setCurrentPage } = artistSlice.actions;
+export const { setCurrentPage, reset } = artistSlice.actions;
 
 export default artistSlice.reducer;

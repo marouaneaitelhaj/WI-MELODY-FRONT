@@ -59,7 +59,7 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
             </div>
             <div className="w-screen h-full flex-col flex -mt-16 items-center bg-gray-100 pb-10">
                 <img
-                    className="h-32 rounded-md border w-32"
+                    className="h-32 rounded-md border w-32 object-cover"
                     src={selectedArtist?.profilePicture}
                     alt=""
                 />
