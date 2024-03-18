@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import { RootState, useAppDispatch } from "../../state/store";
 import { Pack } from "./Pack";
 import { useSelector } from "react-redux";
-import { getPacks } from "../../state/pack/packActions";
+import { getPacks, getPacksByArtistId } from "../../state/pack/packActions";
+import { Tuser } from "../../state/types";
 
-export default function Packs() {
+export default function Packs(props: { selectedArtist: Tuser | null }) {
     const dispatch = useAppDispatch();
 
     const { packs } = useSelector((state: RootState) => state.pack);
     const { selectedArtist } = useSelector((state: RootState) => state.artist);
 
     useEffect(() => {
-        dispatch(getPacks());
+        dispatch(getPacksByArtistId(selectedArtist?.id!));
     }, [])
     return (
         <div className="my-5  justify-center w-full bg-gray-100 flex flex-wrap">

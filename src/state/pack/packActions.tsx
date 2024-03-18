@@ -46,3 +46,12 @@ export const deletePack = createAsyncThunk<string, string>(
         return id;
     }
 );
+
+// get packs by artist id
+export const getPacksByArtistId = createAsyncThunk<Tpack[], string>(
+    'packs/getPacksByArtistId',
+    async (artistId) => {
+        const { data } = await AxiosInstanceForMyApi.get(`/pack/artist/${artistId}`);
+        return data;
+    }
+);
