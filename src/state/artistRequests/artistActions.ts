@@ -19,7 +19,7 @@ export const rejectArtistRequest = createAsyncThunk<TartistRequests, number>(
   'artistRequests/reject',
   async (requestId) => {
     const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}/reject/${requestId}`);
-    return response.data;
+    return response.data.data as TartistRequests;
   }
 );
 
@@ -37,7 +37,7 @@ export const approveArtistRequest = createAsyncThunk<TartistRequests, number>(
   'artistRequests/approve',
   async (requestId) => {
     const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}/approve/${requestId}`);
-    return response.data;
+    return response.data.data as TartistRequests;
   }
 );
 

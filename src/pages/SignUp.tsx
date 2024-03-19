@@ -1,31 +1,32 @@
-import { SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
-import cloudinaryInstance from "../axios/AxiosInstanceForCloudinary";
-import AxiosInstanceForAuth from "../axios/AxiosInstanceForAuth";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../state/store";
+import { uploadImage } from "../state/mycdn/cdnActions";
 import { signUpAction } from "../state/auth/authActions";
+import { Tuser } from "../state/types";
 
 type FormInputs = {
     username: string,
     password: string,
     email: string,
-    profilePicture: string,
+    profilePicture: string | File,
 }
 
 export default function SignUp() {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
     const dispatch = useAppDispatch();
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-        const formData = new FormData();
-        formData.append('file', data.profilePicture[0]);
-        formData.append('upload_preset', 'a8vbtvzm');
-        await cloudinaryInstance.post('https://api.cloudinary.com/v1_1/dvr7oyo77/upload', formData)
-            .then(res => {
-                data.profilePicture = res.data.secure_url;
-                dispatch(signUpAction(data))
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        dispatch(uploadImage(data.profilePicture as File)).unwrap().then((res) => {
+            data.profilePicture = res;
+            dispatch(signUpAction(data as Tuser))
+        });
+        // await cloudinaryInstance.post('https://api.cloudinary.com/v1_1/dvr7oyo77/upload', formData)
+        //     .then(res => {
+        //         data.profilePicture = res.data.secure_url;
+        //         dispatch(signUpAction(data))
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
     }
     return (
         <div className="w-screen h-[700px] flex justify-center items-center">
@@ -75,10 +76,11 @@ export default function SignUp() {
                 </div>
                 <div className="my-2">
                     <label htmlFor="profilePicture" className="block mb-2 text-sm font-medium text-gray-900">Profile Picture :</label>
-                    <input type="file" {...register("profilePicture",
-                        {
-                            required: "Profile Picture is required",
-                        })} id="profilePicture" className="w-96 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5" />
+                    <input type="file"
+                        {...register("profilePicture",
+                            {
+                                required: "Profile Picture is required",
+                            })} id="profilePicture" className="w-96 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5" />
                     {errors.profilePicture && <p className="text-red-500 text-sm">{
                         errors.profilePicture.message
                     }</p>}

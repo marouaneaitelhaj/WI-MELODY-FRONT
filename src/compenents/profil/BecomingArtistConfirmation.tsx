@@ -10,7 +10,7 @@ import { saveArtistRequest } from '../../state/artistRequests/artistActions';
 import { useSelector } from 'react-redux';
 import { TartistRequests } from '../../state/types';
 
-export default function BecomingArtistConfirmation(props: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, setConfirmation: Dispatch<SetStateAction<boolean>>, confirmation: boolean }) {
+export default function BecomingArtistConfirmation(props: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, func: any }) {
     const dispatch = useAppDispatch();
     const { user } = useSelector((state: RootState) => state.auth);
 
@@ -21,17 +21,18 @@ export default function BecomingArtistConfirmation(props: { setOpen: Dispatch<Se
             aria-labelledby="parent-dialog-title"
             aria-describedby="parent-dialog-description"
         >
-            <DialogTitle id="parent-dialog-title">Confirm Payment</DialogTitle>
+            <DialogTitle id="parent-dialog-title">Admin Confirmation</DialogTitle>
             <DialogContent>
                 <DialogContentText id="parent-dialog-description">
-                    Are you sure you want to become an artist?
+                    Are you sure you want to update this user ?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={
                     () => {
-                        if (user)
-                            dispatch(saveArtistRequest({ fan_id: user.id } as TartistRequests))
+                        if (user){
+                            dispatch(props.func());
+                        props.setOpen(false);}
                     }
                 } variant="contained" color="primary">
                     Confirm

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TartistRequests } from "../types";
-import { getArtistRequests, rejectArtistRequest, saveArtistRequest } from "./artistActions";
+import { approveArtistRequest, getArtistRequests, rejectArtistRequest, saveArtistRequest } from "./artistActions";
 
 interface ArtistRequestsState {
     artistRequests: TartistRequests[];
@@ -34,9 +34,14 @@ const artistRequestsSlice = createSlice({
             .addCase(rejectArtistRequest.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(rejectArtistRequest.fulfilled, (state) => {
+            .addCase(rejectArtistRequest.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                // Logic for updating artistRequests after rejection
+                state.artistRequests = state.artistRequests.map((artistRequest) => {
+                    if (artistRequest.id === action.payload.id) {
+                        return action.payload;
+                    }
+                    return artistRequest;
+                });
             })
             .addCase(getArtistRequests.pending, (state) => {
                 state.status = 'loading';
@@ -48,7 +53,24 @@ const artistRequestsSlice = createSlice({
             .addCase(getArtistRequests.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
+            })
+            .addCase(approveArtistRequest.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(approveArtistRequest.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.artistRequests = state.artistRequests.map((artistRequest) => {
+                    if (artistRequest.id === action.payload.id) {
+                        return action.payload;
+                    }
+                    return artistRequest;
+                });
+            })
+            .addCase(approveArtistRequest.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
             });
+
         // Similar handling for other actions
     },
 });
