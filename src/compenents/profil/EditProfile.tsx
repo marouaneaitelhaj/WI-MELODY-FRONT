@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Tuser } from "../../state/types";
-import { useEffect, useState } from "react";
+import { TartistRequests, Tuser } from "../../state/types";
+import { useState } from "react";
 import cloudinaryInstance from "../../axios/AxiosInstanceForCloudinary";
 import { RootState, useAppDispatch } from "../../state/store";
 import { signUpAction } from "../../state/auth/authActions";
@@ -12,8 +12,8 @@ export function EditProfile() {
     const { register, handleSubmit, formState: { errors } } = useForm<Tuser>();
     const { user } = useSelector((state: RootState) => state.auth);
     const [open, setOpen] = useState(false);
-    const [confirmation, setConfirmation] = useState(false);
     const dispatch = useAppDispatch();
+    const [func, setFunc] = useState<any>();
     const onSubmit: SubmitHandler<Tuser> = async (data) => {
         const formData = new FormData();
         formData.append('file', data.profilePicture[0]);
@@ -64,10 +64,13 @@ export function EditProfile() {
                     <button className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">Edit</button>
                 </div>
                 <div className="my-2  w-1/2">
-                    {(!user?.alreadyRequested && !(user?.role != "FAN" || "ADMIN")) && (<button onClick={() => setOpen(true)} className="bg-orange-500 text-white px-4 py-2 rounded-md mt-4">Become an Artist</button>)}
+                    {(!user?.alreadyRequested && (user?.role != "ARTIST" || "ADMIN")) && (<button onClick={() => {
+                        setOpen(true);
+                        setFunc(() => () => saveArtistRequest({ fan_id: user?.id } as TartistRequests))
+                    }} className="bg-orange-500 text-white px-4 py-2 rounded-md mt-4">Become an Artist</button>)}
                 </div>
             </form>
-            <BecomingArtistConfirmation setOpen={setOpen} open={open} setConfirmation={setConfirmation} confirmation={confirmation} />
+            <BecomingArtistConfirmation setOpen={setOpen} open={open} func={func} />
         </>
     )
 }

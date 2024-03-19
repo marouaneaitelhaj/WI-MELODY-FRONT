@@ -23,6 +23,7 @@ export const uploadImage = createAsyncThunk<string, File>(
     async (file) => {
         const formData = new FormData();
         formData.append('file', file);
+        console.log(file);
         const response = await axios.post('http://localhost:5000/upload-image', formData);
         return response.data.url;
     }

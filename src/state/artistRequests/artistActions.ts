@@ -8,7 +8,8 @@ const API_BASE_URL = "/artistrequests";
 // Save Artist Request
 export const saveArtistRequest = createAsyncThunk<TartistRequests, TartistRequests>(
   'artistRequests/save',
-  async (requestData) => {
+  async (requestData, tap) => {
+    // tap.dispatch(getArtistRequests());
     const response = await AxiosInstanceForMyApi.post(`${API_BASE_URL}`, requestData);
     return response.data;
   }

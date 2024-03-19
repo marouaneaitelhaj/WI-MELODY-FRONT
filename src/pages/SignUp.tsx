@@ -8,14 +8,14 @@ type FormInputs = {
     username: string,
     password: string,
     email: string,
-    profilePicture: string | File,
+    profilePicture: string | FileList,
 }
 
 export default function SignUp() {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
     const dispatch = useAppDispatch();
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-        dispatch(uploadImage(data.profilePicture as File)).unwrap().then((res) => {
+        dispatch(uploadImage(data.profilePicture[0] as File)).unwrap().then((res) => {
             data.profilePicture = res;
             dispatch(signUpAction(data as Tuser))
         });

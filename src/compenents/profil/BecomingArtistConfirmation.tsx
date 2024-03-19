@@ -6,9 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import { RootState, useAppDispatch } from '../../state/store';
-import { saveArtistRequest } from '../../state/artistRequests/artistActions';
 import { useSelector } from 'react-redux';
-import { TartistRequests } from '../../state/types';
 
 export default function BecomingArtistConfirmation(props: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, func: any }) {
     const dispatch = useAppDispatch();
@@ -30,9 +28,10 @@ export default function BecomingArtistConfirmation(props: { setOpen: Dispatch<Se
             <DialogActions>
                 <Button onClick={
                     () => {
-                        if (user){
+                        if (user) {
                             dispatch(props.func());
-                        props.setOpen(false);}
+                            props.setOpen(false);
+                        }
                     }
                 } variant="contained" color="primary">
                     Confirm
