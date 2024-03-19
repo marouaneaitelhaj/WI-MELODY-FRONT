@@ -34,9 +34,9 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <div>
+        {/* <div>
           <h1 className="text-white mx-5 bg-black my-3 py-2 px-5  font-bold text-2xl">WIMELO</h1>
-        </div>
+        </div> */}
         <div>
           <ul className="flex justify-between">
             <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">

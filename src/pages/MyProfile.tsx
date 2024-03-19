@@ -10,6 +10,7 @@ import AddPack from '../compenents/Pack/AddPackForm';
 import TiersManagementList from '../compenents/Tier/TiersManagementList';
 import PacksManagementList from '../compenents/Pack/PacksManagementList';
 import BecomingArtistManagment from '../compenents/profil/BecomingArtistManagment';
+import PaymentHistory from '../compenents/payment/PaymentHistory';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -127,10 +128,14 @@ export function MyProfile() {
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                         <Tab label="Edit Profile" {...a11yProps(0)} />
+                                        <Tab label="Payment History" {...a11yProps(1)} />
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value} index={0}>
                                     <EditProfile />
+                                </CustomTabPanel>
+                                <CustomTabPanel value={value} index={1}>
+                                    <PaymentHistory />
                                 </CustomTabPanel>
                             </Box>
                         </div>

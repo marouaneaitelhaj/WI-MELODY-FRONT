@@ -13,30 +13,11 @@ export default function BecomingArtistManagment() {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'fan_id', headerName: 'Fan ID', width: 200 }, // Adjust field names and widths based on TartistRequests
-        { field: 'ArtistName', headerName: 'Artist Name', width: 260 },
-        { field: 'RequestDate', headerName: 'Request Date', width: 260 },
-        { field: 'Status', headerName: 'Status', width: 150 },
-        { field: 'admin_id', headerName: 'Admin ID', width: 200 },
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     width: 800,
-        //     renderCell: (params: GridCellParams) => (
-        //         <div>
-        //             <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
-        //                 setPack(params.row as TartistRequests);
-        //                 setOpenAddPack(true);
-        //             }}>Edit</button>
-        //             <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUpForm(params.row as TartistRequests)}>
-        //                 Add Content
-        //             </button>
-        //             <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUp(params.row as TartistRequests)}>
-        //                 See Content
-        //             </button>
-        //         </div>
-        //     ),
-        // },
+        { field: 'fan', headerName: 'Fan', width: 200, valueGetter: (params: any) => params.row.fan.username},
+        { field: 'admin', headerName: 'ID', width: 200, valueGetter: (params: any) => params?.row?.admin?.username},
+        { field: 'status', headerName: 'status', width: 150 },
+        { field: 'requestDate', headerName: 'requestDate', width: 150 },
+        { field: 'artistName', headerName: 'artistName', width: 150 },
     ];
 
     return (
@@ -47,7 +28,7 @@ export default function BecomingArtistManagment() {
                 hideFooter={false}
                 hideFooterPagination={false}
                 hideFooterSelectedRowCount={false}
-                rows={artistRequests} // Update to artistRequests
+                rows={artistRequests}
                 columns={columns}
                 pageSizeOptions={[5, 10]}
                 checkboxSelection

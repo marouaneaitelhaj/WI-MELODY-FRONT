@@ -26,9 +26,11 @@ const artistSlice = createSlice({
             state.currentPage = action.payload;
         },
         reset: (state) => {
-            state.artists = []
-            state.currentPage = 0
-            // state.hasMore = true
+            state.artists = [] as Tuser[],
+                state.selectedArtist = null,
+                state.currentPage = 0,
+                state.totalPages = 0,
+                state.loading = false
         }
     },
     extraReducers(builder) {

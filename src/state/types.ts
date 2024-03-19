@@ -46,8 +46,10 @@ export type Tpayment = {
 export type TartistRequests = {
     id : string,
     fan_id : string,
-    ArtistName : string,
-    RequestDate : string,
+    artistName : string,
+    requestDate : string,
     Status : string,
     admin_id : string,
+    fan : Tuser,
+    admin : Tuser,
 }

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TartistRequests } from "../types";
-import { rejectArtistRequest, saveArtistRequest } from "./artistActions";
+import { getArtistRequests, rejectArtistRequest, saveArtistRequest } from "./artistActions";
 
 interface ArtistRequestsState {
     artistRequests: TartistRequests[];
@@ -38,6 +38,17 @@ const artistRequestsSlice = createSlice({
                 state.status = 'succeeded';
                 // Logic for updating artistRequests after rejection
             })
+            .addCase(getArtistRequests.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getArtistRequests.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.artistRequests = action.payload;
+            })
+            .addCase(getArtistRequests.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            });
         // Similar handling for other actions
     },
 });

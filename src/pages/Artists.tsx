@@ -13,9 +13,14 @@ export default function Artists() {
     const [hasMore, setHasMore] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams({ text: "" });
 
+
+    useEffect(() => {
+        dispatch(reset())
+    }, [searchParams])
+
     useEffect(() => {
         dispatch(getArtists({ page: currentPage, size: 10, text: searchParams.get('text') || '' }));
-    }, [currentPage, dispatch, searchParams]);
+    }, [currentPage, searchParams]);
 
     const fetchMoreData = () => {
         if (currentPage + 1 < totalPages) {
@@ -25,9 +30,8 @@ export default function Artists() {
         }
     };
 
-    useEffect(() => {
-        dispatch(reset())
-    }, [searchParams])
+
+
 
     return (
         <div className="w-screen h-96 flex items-center flex-col pt-5">
