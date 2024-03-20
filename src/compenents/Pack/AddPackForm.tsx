@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler, set, get } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
@@ -13,31 +12,19 @@ import Button from '@mui/material/Button';
 import { createPack } from "../../state/pack/packActions";
 import { MenuItem, Select } from "@mui/material";
 import { getUserAction } from "../../state/auth/authActions";
+import { setOpen } from "../../state/formsModal/AddPackFormSlice";
 
-export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatch<React.SetStateAction<Tpack | undefined>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export default function AddPackForm() {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
-    const [name, setName] = useState(props.pack.name || '');
-    const [description, setDescription] = useState(props.pack.description || '');
-    const [cover, setCover] = useState(props.pack.cover || '');
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        setName(props.pack.name);
-        setDescription(props.pack.description);
-    }, [props.pack]);
-
-    const handleClose = () => {
-        props.setPack({} as Tpack);
-        props.setOpen(false);
-    };
+    const { open, pack } = useSelector((state: RootState) => state.addPackForm);
+    const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
         if (user?.id)
             data.cover = await uploadFile(data.cover[0] as File);
         dispatch(createPack(data)).then(() => {
             dispatch(getUserAction());
-            handleClose();
         });
 
     }
@@ -55,7 +42,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
     }
 
     return (
-        <Dialog open={props.open} onClose={handleClose}>
+        <Dialog open={open} onClose={() => dispatch(setOpen(false))}>
             <DialogTitle>Add Pack</DialogTitle>
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +51,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                         placeholder="lil baby type beat"
                         type="text"
                         variant="outlined"
-                        value={name}
+                        value={pack?.name}
                         fullWidth
                         {...register("name", {
                             required: "Name is required",
@@ -80,7 +67,7 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                         label="Description"
                         placeholder="Description"
                         type="text"
-                        value={description}
+                        value={pack?.description}
                         variant="outlined"
                         fullWidth
                         {...register("description", {
@@ -96,23 +83,30 @@ export default function AddPackForm(props: { pack: Tpack, setPack: React.Dispatc
                     <TextField
                         type="file"
                         {...register("cover", {
+                            required: "Cover image is required",
                         })}
+                        // value={pack?.cover}
+                        error={!!errors.cover}
+                        helperText={errors.cover?.message}
                         variant="outlined"
                         fullWidth
-                        {...register("cover", {
-                        })}
                     />
-                    <Select fullWidth {...register("tier_id", {
-                    })}>
-
+                    <Select
+                        fullWidth
+                        {...register("tier_id", {
+                            required: "Tier is required"
+                        })}
+                        value={pack?.tier?.id}
+                        placeholder="Select a tier"
+                        error={!!errors.tier_id}>
                         {user?.tiers.map((tier) => {
-                            return <MenuItem value={tier.id}>{tier.name}</MenuItem>
+                            return <MenuItem key={tier.id} value={tier.id}>{tier.name}</MenuItem>
                         })}
                     </Select>
                 </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={() => dispatch(setOpen(false))}>Cancel</Button>
                 <Button onClick={handleSubmit(onSubmit)} color="primary">Save</Button>
             </DialogActions>
         </Dialog>

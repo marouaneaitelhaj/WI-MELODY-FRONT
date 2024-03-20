@@ -45,7 +45,7 @@ export default function Login() {
                 </div>
                 <div className="my-2">
                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Password :</label>
-                    <input type="text" {...register("password", {
+                    <input type="password" {...register("password", {
                         required: "Password is required",
                         minLength: {
                             value: 8,

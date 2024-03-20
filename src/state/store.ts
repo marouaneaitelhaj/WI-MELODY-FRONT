@@ -8,6 +8,8 @@ import tierReducer from './tier/tierSlice';
 import { useDispatch } from 'react-redux';
 import paymentReducer from './payment/paymentSlice';
 import artistRequestsReducer from './artistRequests/artistRequestsSlice';
+import addPackFormReducer from './formsModal/AddPackFormSlice';
+// import addTierFormReducer from './formsModal/AddTierFormSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -17,7 +19,9 @@ export const store = configureStore({
         tier: tierReducer,
         uploads: uploadsReducer,
         artistRequests: artistRequestsReducer,
-        payment : paymentReducer
+        payment : paymentReducer,
+        addPackForm : addPackFormReducer,
+        // addTierForm : addTierFormReducer
     },
 });
 

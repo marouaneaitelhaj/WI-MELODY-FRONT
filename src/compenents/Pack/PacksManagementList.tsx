@@ -8,14 +8,14 @@ import MediaOfPack from "../media/MediaOfPack";
 import { RootState, useAppDispatch } from "../../state/store";
 import { useSelector } from "react-redux";
 import { getPacks } from "../../state/pack/packActions";
+import { setOpen, setPack } from "../../state/formsModal/AddPackFormSlice";
 
 export default function PacksManagementList() {
     const { packs } = useSelector((state: RootState) => state.pack);
-    const [openAddPack, setOpenAddPack] = useState(false);
     const [openMediaOfPackForm, setMediaOfPackForm] = useState(false);
     const [openMediaOfPack, setMediaOfPack] = useState(false);
-    const [pack, setPack] = useState<Tpack>()
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
         dispatch(getPacks())
     }, [])
@@ -42,8 +42,8 @@ export default function PacksManagementList() {
             renderCell: (params: GridCellParams) => (
                 <div>
                     <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
-                        setPack(params.row as Tpack);
-                        setOpenAddPack(true);
+                        dispatch(setPack(params.row as Tpack));
+                        dispatch(setOpen(true));
                     }}>Edit</button>
                     <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUpForm(params.row as Tpack)}>
                         Add Content
@@ -56,9 +56,12 @@ export default function PacksManagementList() {
         },
     ]
     return (
-        <div style={{ height: '100%', minHeight: 30, width: '100%' }}>
+        <div style={{ height: '100%', width: '100%' }}>
             <h1 className="text-2xl font-semibold mb-6">Packs</h1>
-            <button onClick={() => setOpenAddPack(true)} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
+            <button onClick={() => {
+                dispatch(setPack({} as Tpack));
+                dispatch(setOpen(true))
+            }} className="bg-black text-white px-4 py-2 my-5 rounded-md">Add Pack</button>
             <DataGrid
                 rowSelection={false}
                 hideFooter={false}
@@ -74,9 +77,9 @@ export default function PacksManagementList() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
-            <AddPack setPack={setPack} pack={pack || {} as Tpack} open={openAddPack} setOpen={setOpenAddPack} />
-            <AddMediaOfPackForm pack={pack || {} as Tpack} open={openMediaOfPackForm} setOpen={setMediaOfPackForm}></AddMediaOfPackForm>
-            <MediaOfPack pack={pack || {} as Tpack} open={openMediaOfPack} setOpen={setMediaOfPack}></MediaOfPack>
+            <AddPack />
+            {/* <AddMediaOfPackForm pack={pack || {} as Tpack} open={openMediaOfPackForm} setOpen={setMediaOfPackForm}></AddMediaOfPackForm> */}
+            {/* <MediaOfPack pack={pack || {} as Tpack} open={openMediaOfPack} setOpen={setMediaOfPack}></MediaOfPack> */}
         </div>
     )
 }
