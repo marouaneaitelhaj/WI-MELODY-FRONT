@@ -15,6 +15,7 @@ export type Ttier = {
     description: string,
     artist_id: string,
     subscribed: boolean,
+    cover: string,
 }
 export type Tpack = {
     id: string,

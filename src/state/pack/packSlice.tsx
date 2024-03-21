@@ -65,7 +65,10 @@ const packSlice = createSlice({
             state.error = null;
         }).addCase(updatePack.fulfilled, (state, action) => {
             state.loading = false;
-            state.packs = state.packs.map(pack => pack.id === action.payload.id ? action.payload : pack);
+            const index = state.packs.findIndex(pack => pack.id === action.payload.id);
+            if (index !== -1) {
+                state.packs[index] = action.payload;
+            }
         }).addCase(updatePack.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to update pack';

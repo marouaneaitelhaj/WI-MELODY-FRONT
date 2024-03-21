@@ -49,7 +49,8 @@ export default function AddPackForm() {
 
     return (
         <Dialog open={open} onClose={() => dispatch(setOpen(false))}>
-            <DialogTitle>Add Pack</DialogTitle>
+            {!pack?.id && (<DialogTitle>Add Pack</DialogTitle>)}
+            {pack?.id && (<DialogTitle>Update Pack</DialogTitle>)}
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col">

@@ -30,10 +30,10 @@ export const createTier = createAsyncThunk<Ttier, Ttier>(
 );
 
 // Update Tier
-export const updateTier = createAsyncThunk<Ttier, { id: string; formData: FormData }>(
+export const updateTier = createAsyncThunk<Ttier, { id: string; tier: Ttier }>(
     'tiers/updateTier',
-    async ({ id, formData }) => {
-        const { data } = await AxiosInstanceForMyApi.put(`/tier/${id}`, formData);
+    async ({ id, tier }) => {
+        const { data } = await AxiosInstanceForMyApi.put(`/tier/${id}`, tier);
         return data;
     }
 );

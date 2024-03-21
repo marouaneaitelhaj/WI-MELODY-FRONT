@@ -3,10 +3,11 @@ import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } 
 import { Ttier } from "../../state/types";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../state/store";
-import { createTier } from "../../state/tier/tierActions";
+import { createTier, updateTier } from "../../state/tier/tierActions";
 import { getUserAction } from "../../state/auth/authActions";
 import { setOpenForAddTierForm, setTierForAddTierForm } from "../../state/formsModal/AddTierFormSlice";
 import { useEffect } from "react";
+import { uploadImage } from "../../state/mycdn/cdnActions";
 
 export function AddTierForm() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Ttier>({
@@ -21,7 +22,8 @@ export function AddTierForm() {
             reset({
                 name: tier.name,
                 description: tier.description,
-                price: tier.price
+                price: tier.price,
+                cover: tier?.cover,
             })
     }, [tier])
 
@@ -34,73 +36,105 @@ export function AddTierForm() {
         if (user?.id) {
             data.artist_id = user?.id;
         }
-        dispatch(createTier(data)).then(() => {
-            dispatch(getUserAction());
-            handleClose();
-        });
+        if (tier?.id) {
+            dispatch(updateTier({ id: tier.id, tier: data } as { id: string; tier: Ttier })).then(() => {
+                dispatch(getUserAction());
+                handleClose();
+            });
+        } else {
+            dispatch(createTier(data)).then(() => {
+                dispatch(getUserAction());
+                handleClose();
+            });
+        }
     };
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add Tier</DialogTitle>
+            {!tier?.id && (<DialogTitle>Add Tier</DialogTitle>)}
+            {tier?.id && (<DialogTitle>Update Tier</DialogTitle>)}
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
-                    <TextField
-                        fullWidth
-                        label="Monthly price"
-                        type="number"
-                        value={tier?.price}
-                        placeholder="5.00"
-                        {...register("price", {
-                            required: "Price is required",
-                            pattern: {
-                                value: /^\d+(\.\d{1,2})?$/,
-                                message: "Price must be a number with 2 decimal places",
-                            },
-                        })}
-                        error={!!errors.price}
-                        helperText={errors.price?.message}
-                    />
+                    <div className="flex flex-col">
+                        <label htmlFor="price" className="text-sm font-medium">Monthly price:</label>
+                        <input
+                            id="price"
+                            placeholder="5.00"
+                            type="number"
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("price", {
+                                required: "Price is required",
+                                pattern: {
+                                    value: /^\d+(\.\d{1,2})?$/,
+                                    message: "Price must be a number with 2 decimal places",
+                                },
+                            })}
+                        />
+                        {errors.price && <span className="text-red-500 text-sm">{errors.price.message}</span>}
+                    </div>
 
-                    <TextField
-                        label="Tier name"
-                        fullWidth
-                        type="text"
-                        value={tier?.name}
-                        placeholder="Tier name"
-                        {...register("name", {
-                            required: "Name is required",
-                            minLength: {
-                                value: 5,
-                                message: "Name must be at least 5 characters",
-                            },
-                        })}
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                    />
+                    <div className="flex flex-col">
+                        <label htmlFor="name" className="text-sm font-medium">Tier name:</label>
+                        <input
+                            id="name"
+                            placeholder="Tier name"
+                            type="text"
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("name", {
+                                required: "Name is required",
+                                minLength: {
+                                    value: 5,
+                                    message: "Name must be at least 5 characters",
+                                },
+                            })}
+                        />
+                        {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+                    </div>
 
-                    <TextField
-                        label="Tier description"
-                        multiline
-                        fullWidth
-                        value={tier?.description}
-                        minRows={3}
-                        placeholder="Access to exclusive content and more"
-                        {...register("description", {
-                            required: "Description is required",
-                            minLength: {
-                                value: 10,
-                                message: "Description must be at least 10 characters",
-                            },
-                        })}
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
-                    />
+                    <div className="flex flex-col">
+                        <label htmlFor="description" className="text-sm font-medium">Tier description:</label>
+                        <textarea
+                            id="description"
+                            placeholder="Access to exclusive content and more"
+                            rows={3}
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("description", {
+                                required: "Description is required",
+                                minLength: {
+                                    value: 10,
+                                    message: "Description must be at least 10 characters",
+                                },
+                            })}
+                        />
+                        {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="cover" className="text-sm font-medium">Cover:</label>
+                        <input
+                            id="cover"
+                            hidden
+                            type="file"
+                            onChange={async (e) => {
+                                if (e.target.files && e.target.files[0])
+                                    dispatch(uploadImage(e.target.files[0] as File)).unwrap().then((url) => {
+                                        reset({ ...tier, cover: url });
+                                    })
+                            }}
+                            className="mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                        <input type="text" hidden {...register("cover", {
+                            required: "Cover is required"
+                        })} />
+                        <label htmlFor="cover" className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300 cursor-pointer">Choose a cover</label>
+                        {errors.cover && <span className="text-red-500 text-sm">{errors.cover.message}</span>}
+                    </div>
+
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">Cancel</Button>
                         <Button type="submit" color="primary">Save</Button>
                     </DialogActions>
                 </form>
+
             </DialogContent>
         </Dialog >
     );

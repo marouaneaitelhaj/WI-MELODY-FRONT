@@ -34,7 +34,7 @@ export const updatePack = createAsyncThunk<Tpack, { id: string, updatedPack: Par
     'packs/updatePack',
     async ({ id, updatedPack }) => {
         const { data } = await AxiosInstanceForMyApi.put(`/pack/${id}`, updatedPack);
-        return data;
+        return data.data as Tpack;
     }
 );
 
