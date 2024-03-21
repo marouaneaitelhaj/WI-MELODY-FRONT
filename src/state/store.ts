@@ -11,6 +11,7 @@ import artistRequestsReducer from './artistRequests/artistRequestsSlice';
 import addPackFormReducer from './formsModal/AddPackFormSlice';
 // import addTierFormReducer from './formsModal/AddTierFormSlice';
 import AddMediaOfPackFormReducer from './formsModal/AddMediaOfPackFormSlice';
+import MediaOfPackPopUpReducer from './formsModal/MediaOfPackPopUpSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -23,6 +24,7 @@ export const store = configureStore({
         payment : paymentReducer,
         addPackForm : addPackFormReducer,
         AddMediaOfPackForm : AddMediaOfPackFormReducer,
+        MediaOfPackPopUp : MediaOfPackPopUpReducer,
         // addTierForm : addTierFormReducer
     },
 });

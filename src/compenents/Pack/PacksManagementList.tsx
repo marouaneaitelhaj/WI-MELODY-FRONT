@@ -9,7 +9,8 @@ import { RootState, useAppDispatch } from "../../state/store";
 import { useSelector } from "react-redux";
 import { getPacks } from "../../state/pack/packActions";
 import { setOpen, setPack } from "../../state/formsModal/AddPackFormSlice";
-import { setOpen as setOpenForAddMediaToPack, setPack as setPackForAddMediaToPack } from "../../state/formsModal/AddPackFormSlice";
+import { setOpenForAddMediaToPack, setPackForAddMediaToPack } from "../../state/formsModal/AddMediaOfPackFormSlice";
+import { setOpenForMediaOfPackPopUp, setPackForMediaOfPackPopUp } from "../../state/formsModal/MediaOfPackPopUpSlice";
 
 export default function PacksManagementList() {
     const { packs } = useSelector((state: RootState) => state.pack);
@@ -52,7 +53,10 @@ export default function PacksManagementList() {
                     }}>
                         Add Content
                     </button>
-                    <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => openMediaOfPackPopUp(params.row as Tpack)}>
+                    <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
+                        dispatch(setOpenForMediaOfPackPopUp(true));
+                        dispatch(setPackForMediaOfPackPopUp(params.row as Tpack));
+                    }}>
                         See Content
                     </button>
                 </div>
@@ -83,7 +87,7 @@ export default function PacksManagementList() {
             />
             <AddPack />
             <AddMediaOfPackForm></AddMediaOfPackForm>
-            {/* <MediaOfPack pack={pack || {} as Tpack} open={openMediaOfPack} setOpen={setMediaOfPack}></MediaOfPack> */}
+            <MediaOfPack></MediaOfPack>
         </div>
     )
 }

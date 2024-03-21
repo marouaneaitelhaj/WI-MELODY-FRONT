@@ -12,17 +12,17 @@ const initialState: AddMediaOfPackFormState = {
 }
 
 const AddMediaOfPackFormSlice = createSlice({
-    name: 'addPackForm',
+    name: 'addMediaOfPackForm',
     initialState,
     reducers: {
-        setPack(state, action) {
+        setPackForAddMediaToPack(state, action) {
             state.pack = action.payload;
         },
-        setOpen(state, action) {
+        setOpenForAddMediaToPack(state, action) {
             state.open = action.payload;
         }
     }
 })
 
-export const { setPack, setOpen } = AddMediaOfPackFormSlice.actions;
+export const { setPackForAddMediaToPack, setOpenForAddMediaToPack } = AddMediaOfPackFormSlice.actions;
 export default AddMediaOfPackFormSlice.reducer;

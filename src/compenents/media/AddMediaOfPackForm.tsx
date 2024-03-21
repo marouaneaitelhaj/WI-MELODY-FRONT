@@ -6,15 +6,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Dispatch, Fragment, SetStateAction, ChangeEvent } from 'react';
+import { Fragment, ChangeEvent, useState } from 'react';
 import { RootState, useAppDispatch } from '../../state/store';
 import { createMedia } from '../../state/media/mediaActions';
 import { uploadAudio } from '../../state/mycdn/cdnActions';
-import { clearAudio } from '../../state/mycdn/cdnSlice';
+import { clearAudio, removeAudio } from '../../state/mycdn/cdnSlice';
 import { useSelector } from 'react-redux';
-import { Tpack } from '../../state/types';
-import { setOpen } from '../../state/formsModal/AddMediaOfPackFormSlice';
+import { setOpenForAddMediaToPack } from '../../state/formsModal/AddMediaOfPackFormSlice';
+import { Box } from '@mui/material';
+import { Tmedia } from '../../state/types';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -29,13 +31,14 @@ export default function AddMediaOfPackForm() {
   const { audios } = useSelector((state: RootState) => state.uploads)
   const dispatch = useAppDispatch()
   const { pack, open } = useSelector((state: RootState) => state.AddMediaOfPackForm)
+  const [selectedMedia, setSelectedMedia] = useState<Tmedia>({} as Tmedia)
 
 
 
   const handleClose = () => {
     dispatch(createMedia(audios))
     dispatch(clearAudio())
-    dispatch(setOpen(false))
+    dispatch(setOpenForAddMediaToPack(false))
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +52,10 @@ export default function AddMediaOfPackForm() {
           }));
       }
     }
+  }
+
+  const playAudio = (media: Tmedia) => {
+    setSelectedMedia(media)
   }
 
 
@@ -86,17 +93,37 @@ export default function AddMediaOfPackForm() {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers className='w-96 flex justify-center'>
-          <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload file
-            <VisuallyHiddenInput multiple onChange={handleInputChange} type="file" accept='audio/mp3' />
-          </Button>
+        <DialogContent dividers className='w-full flex justify-center'>
+          <Box className='w-[1000px] flex justify-center'>
+            <Box className='w-1/2 flex justify-center'>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload file
+                <VisuallyHiddenInput multiple onChange={handleInputChange} type="file" accept='audio/mp3' />
+              </Button>
+            </Box>
+            <Box className='w-1/2 flex flex-wrap justify-center'>
+              {audios.map((audio, index) => (
+                <span onClick={() => {
+                  playAudio(audio)
+                }} className='bg-blue-700 text-white truncate w-44 rounded hover:bg-blue-500 cursor-pointer p-3 m-2' key={index}><DeleteIcon onClick={() => {
+                  dispatch(removeAudio(audio.src))
+                }} />{audio.src.length > 20 ? '...' + audio.src.substring(audio.src.length - 20) : audio.src}
+                  
+                </span>
+              ))}
+            </Box>
+            <audio
+              className='absolute bottom-0 rounded-none'
+              src={selectedMedia.src}
+              autoPlay
+            />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

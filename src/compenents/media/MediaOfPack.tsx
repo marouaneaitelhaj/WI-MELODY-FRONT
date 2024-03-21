@@ -12,6 +12,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import { RootState, useAppDispatch } from '../../state/store';
 import { getMediasByPack } from '../../state/media/mediaActions';
 import { useSelector } from 'react-redux';
+import { setOpenForMediaOfPackPopUp } from '../../state/formsModal/MediaOfPackPopUpSlice';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -22,20 +23,25 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
+export default function MediaOfPack() {
     const handleClose = () => {
-        props.setOpen(false);
+        dispatch(setOpenForMediaOfPackPopUp(false))
     };
 
     const dispatch = useAppDispatch();
     const { medias } = useSelector((state: RootState) => state.media);
     const [selectedMedia, setSelectedMedia] = useState<Tmedia>({} as Tmedia)
 
+
+    const { open, pack } = useSelector((state: RootState) => state.MediaOfPackPopUp)
+
+
     const audioElement = useRef()
 
     useEffect(() => {
-        dispatch(getMediasByPack(props.pack.id))
-    }, [props.pack])
+        if (pack)
+        dispatch(getMediasByPack(pack.id))
+    }, [pack])
 
     const playAudio = (media: Tmedia) => {
         setSelectedMedia(media)
@@ -45,7 +51,7 @@ export default function MediaOfPack(props: { pack: Tpack, setOpen: Dispatch<SetS
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
-                open={props.open}
+                open={open}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                     Content

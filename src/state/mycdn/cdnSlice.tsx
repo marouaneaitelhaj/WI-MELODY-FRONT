@@ -26,6 +26,9 @@ const uploadSlice = createSlice({
         clearAudio: (state) => {
             state.audios = [];
         },
+        removeAudio : (state, action) => {
+            state.audios = state.audios.filter(audio => audio.src !== action.payload);
+        }
     },
     extraReducers(builder) {
         builder.addCase(uploadAudio.pending, (state) => {
@@ -52,6 +55,6 @@ const uploadSlice = createSlice({
     }
 });
 
-export const { clearError, clearAudio } = uploadSlice.actions;
+export const { clearError, clearAudio, removeAudio } = uploadSlice.actions;
 
 export default uploadSlice.reducer;
