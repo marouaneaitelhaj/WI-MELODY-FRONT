@@ -8,7 +8,17 @@ import { getUserAction } from "../../state/auth/authActions";
 import { setOpenForAddTierForm, setTierForAddTierForm } from "../../state/formsModal/AddTierFormSlice";
 import { useEffect } from "react";
 import { uploadImage } from "../../state/mycdn/cdnActions";
-
+import { Slide } from "@mui/material";
+import React from "react";
+import { TransitionProps } from "@mui/material/transitions";
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 export function AddTierForm() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Ttier>({
         defaultValues: {}
@@ -50,7 +60,7 @@ export function AddTierForm() {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog TransitionComponent={Transition} open={open} onClose={handleClose}>
             {!tier?.id && (<DialogTitle>Add Tier</DialogTitle>)}
             {tier?.id && (<DialogTitle>Update Tier</DialogTitle>)}
             <DialogContent>

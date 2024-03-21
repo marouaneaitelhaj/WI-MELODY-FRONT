@@ -1,16 +1,21 @@
+import { getMediasByPack } from "../../state/media/mediaActions";
+import { useAppDispatch } from "../../state/store";
 import { Tpack } from "../../state/types";
 
-export function Pack(props : {pack:Tpack}) {
+export function Pack(props: { pack: Tpack }) {
+    const dispatch = useAppDispatch();
     return (
         <div className="max-w-sm  m-5">
-            <div className="relative">
+            <div className="relative" onClick={() => {
+                dispatch(getMediasByPack(props.pack.id))
+            }}>
                 <img
                     src={props.pack.cover.toString()}
                     alt="Prawn &amp; Feta Pitta"
-                    className="w-full h-auto rounded-t-lg aspect-w-1 aspect-h-1 overflow-hidden"
+                    className="w-full h-auto rounded-t-lg aspect-w-1 aspect-h-1 overflow-hidden hover:brightness-75 cursor-pointer duration-500 ease-in-out"
                     width="300"
                     height="300"
-                    // style="aspect-ratio: 300 / 300; object-fit: cover;"
+                // style="aspect-ratio: 300 / 300; object-fit: cover;"
                 />
                 <div className="absolute top-0 left-0 p-4">
                     <div className="inline-flex items-center rounded-full whitespace-nowrap border px-2.5 py-0.5 w-fit text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
@@ -42,7 +47,7 @@ export function Pack(props : {pack:Tpack}) {
                 </div>
             </div>
             <div className="p-4 bg-white rounded-b-lg">
-                <h3 className="text-lg font-bold">Prawn &amp; Feta Pitta</h3>
+                <h3 className="text-lg font-bold">{props.pack.name}</h3>
                 <p className="text-sm text-gray-500">{props.pack.date}</p>
                 <p className="mt-2 text-sm">
                     {props.pack.description}

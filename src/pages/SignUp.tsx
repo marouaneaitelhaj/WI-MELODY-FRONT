@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../state/store";
 import { uploadImage } from "../state/mycdn/cdnActions";
-import { signUpAction } from "../state/auth/authActions";
+import { getUserAction, signUpAction } from "../state/auth/authActions";
 import { Tuser } from "../state/types";
+import { useNavigate } from "react-router-dom";
 
 type FormInputs = {
     username: string,
@@ -14,10 +15,15 @@ type FormInputs = {
 export default function SignUp() {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
         dispatch(uploadImage(data.profilePicture[0] as File)).unwrap().then((res) => {
             data.profilePicture = res;
-            dispatch(signUpAction(data as Tuser))
+            dispatch(signUpAction(data as Tuser)).unwrap().then(() => {
+                dispatch(getUserAction()).unwrap().then(() => {
+                    navigate("/profile")
+                }).catch((err) => {})
+            });
         });
         // await cloudinaryInstance.post('https://api.cloudinary.com/v1_1/dvr7oyo77/upload', formData)
         //     .then(res => {

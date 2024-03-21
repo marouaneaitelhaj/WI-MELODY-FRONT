@@ -15,6 +15,7 @@ import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
 import Payment from './compenents/payment/Payment'
 import { LinearProgress } from '@mui/material'
+import ConfirmationPopUp from './compenents/confirmationPopUp/confirmationPopUp'
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
   useEffect(() => {
     dispatch(getUserAction());
   }, [])
-
+  let number = 0;
   return (
     <>
       {loading && (<LinearProgress color='error' />)}
@@ -52,6 +53,7 @@ function App() {
               <Route path="/login" element={<Login />} />
             </Route>
           </Routes>
+          <ConfirmationPopUp />
         </div>
       </BrowserRouter >
     </>

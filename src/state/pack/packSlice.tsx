@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { Tpack } from "../types"
-import { createPack, deletePack, getPackById, getPacks, updatePack } from "./packActions"
+import { createPack, deletePack, getPackById, getPacks, getPacksByArtistId, updatePack } from "./packActions"
 
 type PackState = {
     packs: Tpack[];
@@ -20,7 +20,7 @@ const packSlice = createSlice({
     name: 'pack',
     initialState,
     reducers: {
-
+        
     },
     extraReducers(builder) {
         // getPacks
@@ -84,6 +84,17 @@ const packSlice = createSlice({
         }).addCase(deletePack.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to delete pack';
+        });
+        //
+        builder.addCase(getPacksByArtistId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        }).addCase(getPacksByArtistId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.packs = action.payload;
+        }).addCase(getPacksByArtistId.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || 'Failed to fetch packs';
         });
     }
 })

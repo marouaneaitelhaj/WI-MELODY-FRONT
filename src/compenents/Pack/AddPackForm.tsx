@@ -10,9 +10,18 @@ import Button from '@mui/material/Button';
 import { createPack, updatePack } from "../../state/pack/packActions";
 import { getUserAction } from "../../state/auth/authActions";
 import { setOpen } from "../../state/formsModal/AddPackFormSlice";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { uploadImage } from "../../state/mycdn/cdnActions";
-
+import { TransitionProps } from "@mui/material/transitions";
+import { Slide } from "@mui/material";
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 export default function AddPackForm() {
     const { user } = useSelector((state: RootState) => state.auth);
     const { open, pack } = useSelector((state: RootState) => state.addPackForm);
@@ -48,7 +57,7 @@ export default function AddPackForm() {
 
 
     return (
-        <Dialog open={open} onClose={() => dispatch(setOpen(false))}>
+        <Dialog TransitionComponent={Transition} open={open} onClose={() => dispatch(setOpen(false))}>
             {!pack?.id && (<DialogTitle>Add Pack</DialogTitle>)}
             {pack?.id && (<DialogTitle>Update Pack</DialogTitle>)}
             <DialogContent>

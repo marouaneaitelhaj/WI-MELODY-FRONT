@@ -7,10 +7,11 @@ import AddMediaOfPackForm from "../media/AddMediaOfPackForm";
 import MediaOfPack from "../media/MediaOfPack";
 import { RootState, useAppDispatch } from "../../state/store";
 import { useSelector } from "react-redux";
-import { getPacks } from "../../state/pack/packActions";
+import { deletePack, getPacks } from "../../state/pack/packActions";
 import { setOpen, setPack } from "../../state/formsModal/AddPackFormSlice";
 import { setOpenForAddMediaToPack, setPackForAddMediaToPack } from "../../state/formsModal/AddMediaOfPackFormSlice";
 import { setOpenForMediaOfPackPopUp, setPackForMediaOfPackPopUp } from "../../state/formsModal/MediaOfPackPopUpSlice";
+import { showConfirmationPopUp } from "../../state/confirmationPopUp/confirmationPopUpSlice";
 
 export default function PacksManagementList() {
     const { packs } = useSelector((state: RootState) => state.pack);
@@ -19,35 +20,45 @@ export default function PacksManagementList() {
     useEffect(() => {
         dispatch(getPacks())
     }, [])
-    
+
 
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Name', width: 260 },
-        { field: 'description', headerName: 'Description', width: 260 },
-        { field: 'date', headerName: 'Date', width: 260 },
+        { field: 'id', headerName: 'ID', width: 200 },
+        { field: 'name', headerName: 'Name', width: 200 },
+        { field: 'description', headerName: 'Description', width: 200 },
+        { field: 'date', headerName: 'Date', width: 200 },
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 800,
+            width: 500,
             renderCell: (params: GridCellParams) => (
                 <div>
-                    <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
+                    <button className="bg-orange-700 text-white w-[100px] px-3 py-2 m-3 rounded-md" onClick={() => {
                         dispatch(setPack(params.row as Tpack));
                         dispatch(setOpen(true));
                     }}>Edit</button>
-                    <button className="bg-yellow-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
+                    <button className="bg-orange-600 text-white w-[100px] px-3 py-2 m-3 rounded-md" onClick={() => {
                         dispatch(setPackForAddMediaToPack(params.row as Tpack));
                         dispatch(setOpenForAddMediaToPack(true));
                     }}>
                         Add Content
                     </button>
-                    <button className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
+                    <button className="bg-orange-500 text-white w-[100px] px-3 py-2 m-3 rounded-md" onClick={() => {
                         dispatch(setOpenForMediaOfPackPopUp(true));
                         dispatch(setPackForMediaOfPackPopUp(params.row as Tpack));
                     }}>
                         See Content
+                    </button>
+                    <button className="bg-orange-400 text-white w-[100px] px-3 py-2 m-3 rounded-md" onClick={() => {
+                        dispatch(showConfirmationPopUp({
+                            desciption: 'Are you sure you want to delete this pack?',
+                            title: 'Delete Pack',
+                            open: true,
+                            func: deletePack(params.row.id as string)
+                        }));
+                    }}>
+                        Delete
                     </button>
                 </div>
             ),

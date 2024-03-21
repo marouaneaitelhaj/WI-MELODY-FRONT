@@ -12,6 +12,7 @@ import addPackFormReducer from './formsModal/AddPackFormSlice';
 import addTierFormReducer from './formsModal/AddTierFormSlice';
 import AddMediaOfPackFormReducer from './formsModal/AddMediaOfPackFormSlice';
 import MediaOfPackPopUpReducer from './formsModal/MediaOfPackPopUpSlice';
+import confirmationPopUpReducer from './confirmationPopUp/confirmationPopUpSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -25,7 +26,8 @@ export const store = configureStore({
         addPackForm : addPackFormReducer,
         AddMediaOfPackForm : AddMediaOfPackFormReducer,
         MediaOfPackPopUp : MediaOfPackPopUpReducer,
-        addTierForm : addTierFormReducer
+        addTierForm : addTierFormReducer,
+        confirmationPopUp: confirmationPopUpReducer,
     },
 });
 
