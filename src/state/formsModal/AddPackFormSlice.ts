@@ -20,7 +20,7 @@ const AddPackFormSlice = createSlice({
         },
         setOpen(state, action) {
             state.open = action.payload;
-        }
+        },
     }
 })
 

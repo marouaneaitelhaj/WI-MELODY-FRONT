@@ -42,7 +42,12 @@ export default function MediaOfPack() {
     }, [pack])
 
     const playAudio = (media: Tmedia) => {
-        setSelectedMedia(media)
+        if (selectedMedia.src === media.src) {
+            setSelectedMedia({} as Tmedia)
+            document.querySelector('audio')?.pause()
+        } else {
+            setSelectedMedia(media)
+        }
     }
     return (
         <Fragment>

@@ -14,23 +14,13 @@ import { setOpenForMediaOfPackPopUp, setPackForMediaOfPackPopUp } from "../../st
 
 export default function PacksManagementList() {
     const { packs } = useSelector((state: RootState) => state.pack);
-    const [openMediaOfPackForm, setMediaOfPackForm] = useState(false);
-    const [openMediaOfPack, setMediaOfPack] = useState(false);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getPacks())
     }, [])
+    
 
-    const openMediaOfPackPopUpForm = (pack: Tpack) => {
-        setPack(pack);
-        setMediaOfPackForm(true);
-    }
-
-    const openMediaOfPackPopUp = (pack: Tpack) => {
-        setPack(pack);
-        setMediaOfPack(true);
-    }
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },

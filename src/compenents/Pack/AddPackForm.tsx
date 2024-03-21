@@ -1,19 +1,17 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Tpack } from "../../state/types";
 import { useSelector } from "react-redux";
-import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import { RootState, useAppDispatch } from "../../state/store";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { createPack } from "../../state/pack/packActions";
-import { MenuItem, Select } from "@mui/material";
+import { createPack, updatePack } from "../../state/pack/packActions";
 import { getUserAction } from "../../state/auth/authActions";
 import { setOpen } from "../../state/formsModal/AddPackFormSlice";
 import { useEffect } from "react";
+import { uploadImage } from "../../state/mycdn/cdnActions";
 
 export default function AddPackForm() {
     const { user } = useSelector((state: RootState) => state.auth);
@@ -24,24 +22,18 @@ export default function AddPackForm() {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
-        if (user?.id)
-            data.cover = await uploadFile(data.cover[0] as File);
-        dispatch(createPack(data)).then(() => {
-            dispatch(getUserAction());
-            dispatch(setOpen(false));
-        });
-
-    }
-
-    const uploadFile = async (file: File): Promise<string> => {
-        const formData = new FormData()
-        formData.append('file', file)
-        try {
-            const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload-image', formData);
-            return response.data.url as string;
-        } catch (error) {
-            throw error;
+        if (pack?.cover) {
+            dispatch(updatePack({ id: pack?.id, updatedPack: data } as { id: string, updatedPack: Partial<Tpack> })).then(() => {
+                dispatch(getUserAction());
+                dispatch(setOpen(false));
+            });
+        } else {
+            dispatch(createPack(data)).then(() => {
+                dispatch(getUserAction());
+                dispatch(setOpen(false));
+            });
         }
+
     }
 
     useEffect(() => {
@@ -49,8 +41,8 @@ export default function AddPackForm() {
             reset({
                 name: pack.name,
                 description: pack.description,
-                cover: pack.cover,
-                tier_id: pack.tier_id
+                cover: pack?.cover,
+                tier_id: pack.tier?.id
             })
     }, [pack])
 
@@ -60,64 +52,77 @@ export default function AddPackForm() {
             <DialogTitle>Add Pack</DialogTitle>
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
-                    <TextField
-                        label="Name"
-                        placeholder="lil baby type beat"
-                        type="text"
-                        variant="outlined"
-                        fullWidth
-                        {...register("name", {
-                            required: "Name is required",
-                            minLength: {
-                                value: 3,
-                                message: "Name must be at least 3 characters"
-                            }
-                        })}
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                    />
-                    <TextField
-                        label="Description"
-                        placeholder="Description"
-                        type="text"
-                        variant="outlined"
-                        fullWidth
-                        {...register("description", {
-                            required: "Description is required",
-                            minLength: {
-                                value: 10,
-                                message: "Description must be at least 10 characters"
-                            }
-                        })}
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
-                    />
-                    <TextField
-                        type="file"
-                        {...register("cover", {
-                            required: "Cover image is required",
-                        })}
-                        error={!!errors.cover}
-                        helperText={errors.cover?.message}
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <Select
-                        fullWidth
-                        {...register("tier_id", {
-                            required: "Tier is required"
-                        })}
-                        // onChange={(e) => {
-                        //     console.log(e.target.value);
-
-                        // }}
-                        defaultValue={pack?.tier?.id || ''}
-                        placeholder="Select a tier"
-                        error={!!errors.tier_id}>
-                        {user?.tiers.map((tier) => {
-                            return <MenuItem key={tier.id} value={tier.id}>{tier.name}</MenuItem>
-                        })}
-                    </Select>
+                    <div className="flex flex-col">
+                        <label htmlFor="name" className="text-sm font-medium">Name:</label>
+                        <input
+                            id="name"
+                            placeholder="lil baby type beat"
+                            type="text"
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("name", {
+                                required: "Name is required",
+                                minLength: {
+                                    value: 3,
+                                    message: "Name must be at least 3 characters"
+                                }
+                            })}
+                        />
+                        {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="description" className="text-sm font-medium">Description:</label>
+                        <input
+                            id="description"
+                            placeholder="Description"
+                            type="text"
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("description", {
+                                required: "Description is required",
+                                minLength: {
+                                    value: 10,
+                                    message: "Description must be at least 10 characters"
+                                }
+                            })}
+                        />
+                        {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="cover" className="text-sm font-medium">Cover:</label>
+                        <input
+                            id="cover"
+                            hidden
+                            type="file"
+                            onChange={async (e) => {
+                                if (e.target.files && e.target.files[0])
+                                    dispatch(uploadImage(e.target.files[0] as File)).unwrap().then((url) => {
+                                        reset({ ...pack, cover: url });
+                                    })
+                            }}
+                            className="mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                        <input type="text" hidden {...register("cover", {
+                            required: "Cover is required"
+                        })} />
+                        <label htmlFor="cover" className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300 cursor-pointer">Choose a cover</label>
+                        {errors.cover && <span className="text-red-500 text-sm">{errors.cover.message}</span>}
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="tier_id" className="text-sm font-medium">Tier:</label>
+                        <select
+                            id="tier_id"
+                            className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
+                            {...register("tier_id", {
+                                required: "Tier is required",
+                            })}
+                            defaultValue={pack?.tier?.id || ""}
+                        >
+                            <option value="" hidden disabled selected>Select a tier</option>
+                            {user?.tiers.map((tier) => {
+                                return <option key={tier.id} value={tier.id}>{tier.name}</option>
+                            })}
+                        </select>
+                        {errors.tier_id && <span className="text-red-500 text-sm">{errors.tier_id.message}</span>}
+                    </div>
                 </form>
             </DialogContent>
             <DialogActions>

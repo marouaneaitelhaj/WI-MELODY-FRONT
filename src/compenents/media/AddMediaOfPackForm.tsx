@@ -55,7 +55,13 @@ export default function AddMediaOfPackForm() {
   }
 
   const playAudio = (media: Tmedia) => {
-    setSelectedMedia(media)
+    if (selectedMedia.src === media.src) {
+      setSelectedMedia({} as Tmedia)
+      document.querySelector('audio')?.pause()
+      return
+    } else {
+      setSelectedMedia(media)
+    }
   }
 
 
@@ -114,7 +120,7 @@ export default function AddMediaOfPackForm() {
                 }} className='bg-blue-700 text-white truncate w-44 rounded hover:bg-blue-500 cursor-pointer p-3 m-2' key={index}><DeleteIcon onClick={() => {
                   dispatch(removeAudio(audio.src))
                 }} />{audio.src.length > 20 ? '...' + audio.src.substring(audio.src.length - 20) : audio.src}
-                  
+
                 </span>
               ))}
             </Box>
