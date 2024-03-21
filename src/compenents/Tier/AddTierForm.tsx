@@ -6,16 +6,24 @@ import { RootState, useAppDispatch } from "../../state/store";
 import { createTier } from "../../state/tier/tierActions";
 import { getUserAction } from "../../state/auth/authActions";
 import { setOpenForAddTierForm, setTierForAddTierForm } from "../../state/formsModal/AddTierFormSlice";
+import { useEffect } from "react";
 
 export function AddTierForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<Ttier>({
         defaultValues: {}
     });
     const dispatch = useAppDispatch()
     const { user } = useSelector((state: RootState) => state.auth);
     const { open, tier } = useSelector((state: RootState) => state.addTierForm);
 
-
+    useEffect(() => {
+        if (tier)
+            reset({
+                name: tier.name,
+                description: tier.description,
+                price: tier.price
+            })
+    }, [tier])
 
     const handleClose = () => {
         dispatch(setTierForAddTierForm({} as Ttier))
