@@ -1,5 +1,5 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react'
-import { Tmedia, Tpack } from '../../state/types';
+import { Fragment, useEffect, useState } from 'react'
+import { Tmedia } from '../../state/types';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,12 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import AxiosInstanceForMyApi from '../../axios/AxiosInstanceForMyApi';
-import ReactAudioPlayer from 'react-audio-player';
 import { RootState, useAppDispatch } from '../../state/store';
 import { getMediasByPack } from '../../state/media/mediaActions';
 import { useSelector } from 'react-redux';
 import { setOpenForMediaOfPackPopUp } from '../../state/formsModal/MediaOfPackPopUpSlice';
+import { Box } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -36,11 +35,10 @@ export default function MediaOfPack() {
     const { open, pack } = useSelector((state: RootState) => state.MediaOfPackPopUp)
 
 
-    const audioElement = useRef()
 
     useEffect(() => {
         if (pack)
-        dispatch(getMediasByPack(pack.id))
+            dispatch(getMediasByPack(pack.id))
     }, [pack])
 
     const playAudio = (media: Tmedia) => {
@@ -74,7 +72,7 @@ export default function MediaOfPack() {
                         position: 'relative'
                     }}
                 >
-                    <div className='h-[350px] overflow-scroll '>
+                    <Box>
                         {medias && medias.map(m => {
                             return (
                                 <AudioFileIcon
@@ -94,8 +92,7 @@ export default function MediaOfPack() {
                                 ></AudioFileIcon>
                             )
                         })}
-                    </div>
-
+                    </Box>
                     <audio
                         className='absolute bottom-0 rounded-none'
                         src={selectedMedia.src}

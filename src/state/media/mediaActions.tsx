@@ -3,11 +3,11 @@ import { Tmedia } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 
 // Create Media
-export const createMedia = createAsyncThunk<Tmedia, Tmedia[]>(
+export const createMedia = createAsyncThunk<Tmedia[], Tmedia[]>(
     'medias/createMedia',
     async (formData) => {
         const { data } = await AxiosInstanceForMyApi.post('/media', formData);
-        return data;
+        return data.data as Tmedia[];
     }
 );
 

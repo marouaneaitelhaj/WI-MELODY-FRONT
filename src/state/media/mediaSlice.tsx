@@ -53,7 +53,7 @@ const mediaSlice = createSlice({
             state.error = null;
         }).addCase(createMedia.fulfilled, (state, action) => {
             state.loading = false;
-            state.medias.push(action.payload);
+            state.medias = [...state.medias, ...action.payload]
         }).addCase(createMedia.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Failed to create media';
