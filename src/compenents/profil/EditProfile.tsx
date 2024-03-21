@@ -64,10 +64,14 @@ export function EditProfile() {
                     <button className="bg-blue-800 text-white px-4 py-2 rounded-md mt-4">Edit</button>
                 </div>
                 <div className="my-2  w-1/2">
-                    {(!user?.alreadyRequested && (user?.role != "ARTIST" || "ADMIN")) && (<button onClick={() => {
-                        setOpen(true);
-                        setFunc(() => () => saveArtistRequest({ fan_id: user?.id } as TartistRequests))
-                    }} className="bg-orange-500 text-white px-4 py-2 rounded-md mt-4">Become an Artist</button>)}
+                    {(!user?.alreadyRequested && (user?.role == "FAN")) && (
+                        <button
+                        onClick={() => {
+                            setOpen(true);
+                            setFunc(() => () => saveArtistRequest({ fan_id: user?.id } as TartistRequests))
+                        }}
+                        className="bg-orange-500 text-white px-4 py-2 rounded-md mt-4">Become an Artist</button>
+                    )}
                 </div>
             </form>
             <BecomingArtistConfirmation setOpen={setOpen} open={open} func={func} />

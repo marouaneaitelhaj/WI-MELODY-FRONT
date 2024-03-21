@@ -59,16 +59,20 @@ const authSlice = createSlice({
             state.user = action.payload
             state.isAuthenticated = true
             state.error = null
-            state.loading = false
             state.success = true
             state.message = `${action.payload.username} logged in successfully`
+            // setTimeout(() => {
+            state.loading = false
+            // }, 2000)
         }).addCase(getUserAction.rejected, (state, action) => {
             state.error = action.payload as string
-            state.loading = false
             state.success = false
             state.isAuthenticated = false
             localStorage.removeItem('token')
             state.token = null
+            // setTimeout(() => {
+            state.loading = false
+            // }, 2000)
         })
         // Logout
         builder.addCase(logoutAction.pending, (state) => {

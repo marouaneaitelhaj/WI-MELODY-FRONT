@@ -14,22 +14,29 @@ import { MyProfile } from './pages/MyProfile'
 import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
 import Payment from './compenents/payment/Payment'
+import { LinearProgress } from '@mui/material'
 
 
 function App() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.auth);
+
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (localStorage.getItem('token') || token) {
-      dispatch(getUserAction())
-    }
-  }, [isAuthenticated])
+    dispatch(getUserAction());
+  }, [])
 
   return (
     <>
+      {loading && (<LinearProgress color='error' />)}
       <BrowserRouter>
-        <div className='relative'>
+        <div className='relative'
+          {...(loading ? {
+            style: {
+              filter: 'blur(5px) brightness(50%)'
+            }
+          } : {})}
+        >
           <img className='fixed brightness-50 -z-10 w-screen object-cover h-screen' src="https://images.squarespace-cdn.com/content/v1/615b8ec3ba394c7a1db66e7b/1650986379711-CRLLL0WPPU7ATP71IAWA/DSC08789.jpg" alt="" />
           <Navbar />
           <Routes>

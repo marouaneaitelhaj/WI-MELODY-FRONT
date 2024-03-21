@@ -1,16 +1,19 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../state/store";
+import { RootState, useAppDispatch } from "../state/store";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getUserAction } from "../state/auth/authActions";
 
 export default function PrivateRoutes() {
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login");
-        }
-    }, [isAuthenticated])
+        dispatch(getUserAction()).unwrap().then((res) => {
+
+        }).catch((err) => {
+            navigate("/login")
+        })
+    }, [])
     return (
         <Outlet />
     )

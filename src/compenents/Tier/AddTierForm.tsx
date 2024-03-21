@@ -55,7 +55,7 @@ export function AddTierForm() {
             {tier?.id && (<DialogTitle>Update Tier</DialogTitle>)}
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[500px]">
                         <label htmlFor="price" className="text-sm font-medium">Monthly price:</label>
                         <input
                             id="price"
@@ -73,7 +73,7 @@ export function AddTierForm() {
                         {errors.price && <span className="text-red-500 text-sm">{errors.price.message}</span>}
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[500px]">
                         <label htmlFor="name" className="text-sm font-medium">Tier name:</label>
                         <input
                             id="name"
@@ -91,7 +91,7 @@ export function AddTierForm() {
                         {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[500px]">
                         <label htmlFor="description" className="text-sm font-medium">Tier description:</label>
                         <textarea
                             id="description"
@@ -108,7 +108,7 @@ export function AddTierForm() {
                         />
                         {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[500px]">
                         <label htmlFor="cover" className="text-sm font-medium">Cover:</label>
                         <input
                             id="cover"
