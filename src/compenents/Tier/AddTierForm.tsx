@@ -1,26 +1,25 @@
-import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { Ttier } from "../../state/types";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../state/store";
-import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import { createTier } from "../../state/tier/tierActions";
 import { getUserAction } from "../../state/auth/authActions";
-import { addTiers } from "../../state/auth/authSlice";
+import { setOpenForAddTierForm, setTierForAddTierForm } from "../../state/formsModal/AddTierFormSlice";
 
-export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.SetStateAction<Ttier | null>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export function AddTierForm() {
     const { register, handleSubmit, formState: { errors } } = useForm<Ttier>({
         defaultValues: {}
     });
     const dispatch = useAppDispatch()
     const { user } = useSelector((state: RootState) => state.auth);
+    const { open, tier } = useSelector((state: RootState) => state.addTierForm);
 
 
 
     const handleClose = () => {
-        props.setTier({} as Ttier);
-        props.setOpen(false);
+        dispatch(setTierForAddTierForm({} as Ttier))
+        dispatch(setOpenForAddTierForm(false));
     };
 
     const onSubmit: SubmitHandler<Ttier> = async (data: Ttier) => {
@@ -34,7 +33,7 @@ export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.
     };
 
     return (
-        <Dialog open={props.open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Tier</DialogTitle>
             <DialogContent>
                 <form className="space-y-4 my-2" onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +41,7 @@ export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.
                         fullWidth
                         label="Monthly price"
                         type="number"
-                        value={props.tier.price}
+                        value={tier?.price}
                         placeholder="5.00"
                         {...register("price", {
                             required: "Price is required",
@@ -59,7 +58,7 @@ export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.
                         label="Tier name"
                         fullWidth
                         type="text"
-                        value={props.tier.name}
+                        value={tier?.name}
                         placeholder="Tier name"
                         {...register("name", {
                             required: "Name is required",
@@ -76,7 +75,7 @@ export function AddTierForm(props: { tier: Ttier, setTier: React.Dispatch<React.
                         label="Tier description"
                         multiline
                         fullWidth
-                        value={props.tier.description}
+                        value={tier?.description}
                         minRows={3}
                         placeholder="Access to exclusive content and more"
                         {...register("description", {

@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import paymentReducer from './payment/paymentSlice';
 import artistRequestsReducer from './artistRequests/artistRequestsSlice';
 import addPackFormReducer from './formsModal/AddPackFormSlice';
-// import addTierFormReducer from './formsModal/AddTierFormSlice';
+import addTierFormReducer from './formsModal/AddTierFormSlice';
 import AddMediaOfPackFormReducer from './formsModal/AddMediaOfPackFormSlice';
 import MediaOfPackPopUpReducer from './formsModal/MediaOfPackPopUpSlice';
 export const store = configureStore({
@@ -25,7 +25,7 @@ export const store = configureStore({
         addPackForm : addPackFormReducer,
         AddMediaOfPackForm : AddMediaOfPackFormReducer,
         MediaOfPackPopUp : MediaOfPackPopUpReducer,
-        // addTierForm : addTierFormReducer
+        addTierForm : addTierFormReducer
     },
 });
 

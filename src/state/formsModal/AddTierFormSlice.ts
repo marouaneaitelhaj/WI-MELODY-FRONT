@@ -15,15 +15,15 @@ const AddTierFormSlice = createSlice({
     name: 'addTierForm',
     initialState,
     reducers: {
-        setTier(state, action) {
+        setTierForAddTierForm(state, action) {
             state.tier = action.payload;
         },
-        setOpen(state, action) {
+        setOpenForAddTierForm(state, action) {
             state.open = action.payload;
         }
     }
 })
 
-// export const { setTier, setOpen } = AddTierFormSlice.actions;
+export const { setTierForAddTierForm, setOpenForAddTierForm } = AddTierFormSlice.actions;
 
-// export default AddTierFormSlice.reducer;
+export default AddTierFormSlice.reducer;
