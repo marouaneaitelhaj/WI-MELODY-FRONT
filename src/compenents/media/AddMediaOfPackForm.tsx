@@ -14,6 +14,7 @@ import { uploadAudio } from '../../state/mycdn/cdnActions';
 import { clearAudio } from '../../state/mycdn/cdnSlice';
 import { useSelector } from 'react-redux';
 import { Tpack } from '../../state/types';
+import { setOpen } from '../../state/formsModal/AddMediaOfPackFormSlice';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -24,26 +25,28 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
+export default function AddMediaOfPackForm() {
   const { audios } = useSelector((state: RootState) => state.uploads)
   const dispatch = useAppDispatch()
+  const { pack, open } = useSelector((state: RootState) => state.AddMediaOfPackForm)
 
 
 
   const handleClose = () => {
     dispatch(createMedia(audios))
     dispatch(clearAudio())
-    props.setOpen(false);
+    dispatch(setOpen(false))
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       for (let i = 0; i < files.length; i++) {
-        dispatch(uploadAudio({
-          file: files[i],
-          pack_id: props.pack.id
-        }));
+        if (pack)
+          dispatch(uploadAudio({
+            file: files[i],
+            pack_id: pack?.id
+          }));
       }
     }
   }
@@ -66,7 +69,7 @@ export default function AddMediaOfPackForm(props: { pack: Tpack, setOpen: Dispat
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={props.open}
+        open={open}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Add Media

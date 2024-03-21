@@ -13,11 +13,14 @@ import { createPack } from "../../state/pack/packActions";
 import { MenuItem, Select } from "@mui/material";
 import { getUserAction } from "../../state/auth/authActions";
 import { setOpen } from "../../state/formsModal/AddPackFormSlice";
+import { useEffect } from "react";
 
 export default function AddPackForm() {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<Tpack>();
     const { user } = useSelector((state: RootState) => state.auth);
     const { open, pack } = useSelector((state: RootState) => state.addPackForm);
+    const { register, handleSubmit, formState: { errors, isSubmitting }, setError, reset } = useForm<Tpack>(pack ? {
+        defaultValues: {}
+    } : {});
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<Tpack> = async (data: Tpack) => {
@@ -25,6 +28,7 @@ export default function AddPackForm() {
             data.cover = await uploadFile(data.cover[0] as File);
         dispatch(createPack(data)).then(() => {
             dispatch(getUserAction());
+            dispatch(setOpen(false));
         });
 
     }
@@ -36,10 +40,20 @@ export default function AddPackForm() {
             const response = await AxiosInstanceForMyApi.post('http://localhost:5000/upload-image', formData);
             return response.data.url as string;
         } catch (error) {
-            // Handle error
             throw error;
         }
     }
+
+    useEffect(() => {
+        if (pack)
+            reset({
+                name: pack.name,
+                description: pack.description,
+                cover: pack.cover,
+                tier_id: pack.tier_id
+            })
+    }, [pack])
+
 
     return (
         <Dialog open={open} onClose={() => dispatch(setOpen(false))}>
@@ -51,7 +65,6 @@ export default function AddPackForm() {
                         placeholder="lil baby type beat"
                         type="text"
                         variant="outlined"
-                        value={pack?.name}
                         fullWidth
                         {...register("name", {
                             required: "Name is required",
@@ -67,7 +80,6 @@ export default function AddPackForm() {
                         label="Description"
                         placeholder="Description"
                         type="text"
-                        value={pack?.description}
                         variant="outlined"
                         fullWidth
                         {...register("description", {
@@ -85,7 +97,6 @@ export default function AddPackForm() {
                         {...register("cover", {
                             required: "Cover image is required",
                         })}
-                        // value={pack?.cover}
                         error={!!errors.cover}
                         helperText={errors.cover?.message}
                         variant="outlined"
@@ -96,7 +107,11 @@ export default function AddPackForm() {
                         {...register("tier_id", {
                             required: "Tier is required"
                         })}
-                        value={pack?.tier?.id}
+                        // onChange={(e) => {
+                        //     console.log(e.target.value);
+
+                        // }}
+                        defaultValue={pack?.tier?.id || ''}
                         placeholder="Select a tier"
                         error={!!errors.tier_id}>
                         {user?.tiers.map((tier) => {

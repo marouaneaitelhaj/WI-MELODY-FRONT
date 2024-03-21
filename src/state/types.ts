@@ -23,7 +23,7 @@ export type Tpack = {
     description: string,
     date: string,
     tier: Ttier,
-    tier_id: number,
+    tier_id: string,
 }
 
 export type Tmedia = {
