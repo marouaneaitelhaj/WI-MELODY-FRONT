@@ -28,6 +28,14 @@ export type Tpack = {
     tier_id: string,
 }
 
+export type Tlike = {
+    id: string,
+    pack: Tpack,
+    pack_id: string,
+    fan: Tuser,
+    fan_id: string,
+}
+
 export type Tmedia = {
     id: string,
     src: string,
