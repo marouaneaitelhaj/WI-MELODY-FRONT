@@ -135,7 +135,9 @@ export default function Payment(props: { tierId: string | undefined }) {
             </DialogContent>
             <DialogActions>
                 <Button
-                //   onClick={ }
+                  onClick={
+                    () => navigate(-1)
+                  }
                 >Cancel</Button>
                 <Button
                     onClick={

@@ -53,7 +53,7 @@ export default function ArtistProfile(props: { artistId: string | undefined }) {
             <div className="w-screen h-72 flex flex-col">
                 <img
                     className="h-72 w-screen object-cover"
-                    src="https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    src={selectedArtist?.banner || ""}
                     alt=""
                 />
             </div>

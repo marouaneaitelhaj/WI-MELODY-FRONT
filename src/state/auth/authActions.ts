@@ -37,3 +37,24 @@ export const signUpAction = createAsyncThunk<string, Tuser>(
         return token
     }
 )
+
+// update banner profile
+export const updateBannerProfile = createAsyncThunk<string, { banner: string }>(
+    'auth/updateBannerProfile',
+    async (banner, api) => {
+        const { data } = await AxiosInstanceForMyApi.post('/profile/updateBannerProfile', banner)
+        api.dispatch(getUserAction())
+        return data.data as string
+    }
+)
+
+// update profile picture
+
+export const updateprofilePicture = createAsyncThunk<string, { profilePicture: string }>(
+    'auth/updatePicturerProfile',
+    async (profilePicture, api) => {
+        const { data } = await AxiosInstanceForMyApi.post('/profile/updateProfilePicture', profilePicture)
+        api.dispatch(getUserAction())
+        return data.data as string
+    }
+)

@@ -9,7 +9,7 @@ type AuthState = {
     isAuthenticated: boolean,
     error: string | null,
     success: boolean,
-    message: string | null
+    message: string | null,
 }
 
 const initialState: AuthState = {
@@ -19,7 +19,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
     error: null,
     success: false,
-    message: null
+    message: null,
 }
 
 

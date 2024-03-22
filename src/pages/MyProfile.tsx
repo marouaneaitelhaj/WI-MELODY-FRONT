@@ -11,6 +11,8 @@ import TiersManagementList from '../compenents/Tier/TiersManagementList';
 import PacksManagementList from '../compenents/Pack/PacksManagementList';
 import BecomingArtistManagment from '../compenents/profil/BecomingArtistManagment';
 import PaymentHistory from '../compenents/payment/PaymentHistory';
+import { uploadImage } from '../state/mycdn/cdnActions';
+import { updateBannerProfile, updateprofilePicture } from '../state/auth/authActions';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -60,17 +62,32 @@ export function MyProfile() {
     return (
         <>
             <div className="w-screen h-72 flex flex-col">
-                <img
-                    className="h-72 w-screen object-cover"
-                    src="https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                />
+                <label htmlFor='banner'>
+                    <img
+                        className="h-72 w-screen object-cover cursor-pointer hover:brightness-75 duration-500 ease-in-out"
+
+                        src={user?.banner || 'https://images.unsplash.com/photo-1612838320302-3b3b3f1b3b3b'}
+                    />
+                </label>
+                <input id='banner' type='file' hidden onChange={(e) => {
+                    dispatch(uploadImage(e.target.files![0])).unwrap().then((url) => {
+                        dispatch(updateBannerProfile({ banner: url }))
+                    })
+                }} />
             </div>
             <div className="w-screen h-full flex-col flex -mt-16 items-center bg-gray-100 pb-10">
-                <img
-                    className="h-32 rounded-md border w-32"
-                    src={user?.profilePicture}
-                    alt=""
-                />
+                <label htmlFor='profilePicture'>
+                    <img
+                        className="h-32 rounded-md border w-32 hover:brightness-75 duration-500 ease-in-out z-50 cursor-pointer"
+                        src={user?.profilePicture}
+                        alt=""
+                    />
+                </label>
+                <input id='profilePicture' type='file' hidden onChange={(e) => {
+                    dispatch(uploadImage(e.target.files![0])).unwrap().then((url) => {
+                        dispatch(updateprofilePicture({ profilePicture: url }))
+                    })
+                }} />
                 <p className="text-gray-500 my-2 font-bold text-4xl">{user?.username}</p>
                 <>
                     {/* Artist Container */}
