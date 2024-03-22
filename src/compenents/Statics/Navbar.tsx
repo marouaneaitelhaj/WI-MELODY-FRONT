@@ -17,40 +17,40 @@ export default function Navbar() {
         <div>
           <ul className="flex justify-between">
             <Link to="/">
-              <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+              <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                 Home
               </li>
             </Link>
             <Link to="/artists">
-              <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+              <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                 Artists
               </li>
             </Link>
-            <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+            <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
               Pricing
             </li>
-            <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+            <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
               Resources
             </li>
           </ul>
         </div>
         {/* <div>
-          <h1 className="text-white mx-5 bg-black my-3 py-2 px-5  font-bold text-2xl">WIMELO</h1>
+          <h1 className="text-black mx-5  my-3 py-2 px-5  font-bold text-2xl">WIMELO</h1>
         </div> */}
         <div>
           <ul className="flex justify-between">
-            <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+            <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
               Find Creator
             </li>
             {!isAuthenticated && (
               <>
                 <Link to="/login">
-                  <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+                  <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                     Log in
                   </li>
                 </Link>
                 <Link to="/signup">
-                  <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+                  <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                     Sign up
                   </li>
                 </Link>
@@ -59,11 +59,11 @@ export default function Navbar() {
             {isAuthenticated && (
               <>
                 <Link to="/profile">
-                  <li className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+                  <li className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                     Profile
                   </li>
-                </Link> 
-                <li onClick={logout} className="text-white mx-5 bg-black my-3 py-2 px-5 border rounded-full hover:text-black hover:bg-white cursor-pointer">
+                </Link>
+                <li onClick={logout} className="text-black mx-5  my-3 py-2 px-5  rounded-full hover:text-orange-400  cursor-pointer">
                   Log out
                 </li>
               </>

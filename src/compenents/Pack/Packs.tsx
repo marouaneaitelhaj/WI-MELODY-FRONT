@@ -56,10 +56,22 @@ export default function Packs(props: { selectedArtist: Tuser | null }) {
                     playAudio(props.media)
                 }
             }>
-                <AlbumIcon />
-                <div className="text-1xl">{
-                    props.media.id + " - " + props.media.pack.name
-                }</div>
+                {(selectedMedia == props.media) && (
+                    <>
+                        <AlbumIcon className="text-blue-500" />
+                        <div className="text-1xl text-blue-500">{
+                            props.media.id + " - " + props.media.pack.name
+                        }</div>
+                    </>
+                )}
+                {(selectedMedia != props.media) && (
+                    <>
+                        <AlbumIcon />
+                        <div className="text-1xl">{
+                            props.media.id + " - " + props.media.pack.name
+                        }</div>
+                    </>
+                )}
             </div>
         )
     }

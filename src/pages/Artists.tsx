@@ -35,27 +35,27 @@ export default function Artists() {
 
     return (
         <div className="w-screen h-96 flex items-center flex-col pt-5">
-            <p className="text-4xl font-bold px-56 my-2 text-right text-white">Find artists you love</p>
+            <p className="text-4xl font-bold px-56 my-2 text-right text-black">Find artists you love</p>
             <input type="text" value={
                 searchParams.get('text') || ''
             } onChange={
                 (e) => {
                     setSearchParams({ text: e.target.value })
                 }
-            } className="p-2 w-3/5 my-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50x" />
+            } className="p-2 w-3/5 my-4 ps-10 focus:outline-none border-none text-sm text-gray-900 border-gray-300 rounded-lg bg-gray-50x" />
             <InfiniteScroll
                 className="w-screen flex items-center flex-col pt-5"
                 dataLength={artists.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
-                loader={<h4 className="text-white">Loading...</h4>}
+                loader={<h4 className="text-black">Loading...</h4>}
                 endMessage={
-                    <p className="text-white" style={{ textAlign: 'center' }}>
+                    <p className="text-black" style={{ textAlign: 'center' }}>
                         <b>No more data to load</b>
                     </p>
                 }
             >
-                <div className="p-2 w-3/5 my-2 ps-10 text-sm text-gray-900 border bg-gray-50 rounded-lg bg-gray-50x">
+                <div className="flex flex-wrap gap-4 justify-center">
                     {artists.map((artist) => (
                         <ProfileCard key={artist.id} artist={artist} />
                     ))}
