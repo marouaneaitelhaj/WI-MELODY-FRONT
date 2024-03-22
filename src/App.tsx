@@ -14,8 +14,10 @@ import { MyProfile } from './pages/MyProfile'
 import ArtistProfile from './pages/ArtistProfile'
 import PrivateRoutes from './utilities/PrivateRoutes'
 import Payment from './compenents/payment/Payment'
-import { LinearProgress } from '@mui/material'
+import Alert from '@mui/material/Alert';
+import { LinearProgress, Slide } from '@mui/material'
 import ConfirmationPopUp from './compenents/confirmationPopUp/confirmationPopUp'
+import MyAlert from './compenents/confirmationPopUp/alert'
 
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
             }
           } : {})}
         >
-          <img className='fixed -z-10 w-screen object-cover h-screen' src="https://images.pexels.com/photos/2908194/pexels-photo-2908194.jpeg" alt="" />
+          <img className='fixed  -z-10 w-screen object-cover h-screen' src="https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17" alt="" />
           <Navbar />
           <Routes>
             <Route index element={<Home />} />
@@ -53,6 +55,7 @@ function App() {
               <Route path="/login" element={<Login />} />
             </Route>
           </Routes>
+          <MyAlert />
           <ConfirmationPopUp />
         </div>
       </BrowserRouter >

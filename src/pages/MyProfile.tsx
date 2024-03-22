@@ -13,6 +13,7 @@ import BecomingArtistManagment from '../compenents/profil/BecomingArtistManagmen
 import PaymentHistory from '../compenents/payment/PaymentHistory';
 import { uploadImage } from '../state/mycdn/cdnActions';
 import { updateBannerProfile, updateprofilePicture } from '../state/auth/authActions';
+import { showAlertPopUp } from '../state/confirmationPopUp/AlertSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -64,14 +65,16 @@ export function MyProfile() {
             <div className="w-screen h-72 flex flex-col">
                 <label htmlFor='banner'>
                     <img
-                        className="h-72 w-screen object-cover cursor-pointer hover:brightness-75 duration-500 ease-in-out"
+                        className="h-72 w-screen object-cover cursor-pointer hover:brightness-75 z-10 duration-500 ease-in-out"
 
                         src={user?.banner || 'https://images.unsplash.com/photo-1612838320302-3b3b3f1b3b3b'}
                     />
                 </label>
                 <input id='banner' type='file' hidden onChange={(e) => {
                     dispatch(uploadImage(e.target.files![0])).unwrap().then((url) => {
-                        dispatch(updateBannerProfile({ banner: url }))
+                        dispatch(updateBannerProfile({ banner: url })).unwrap().then(() => {
+                            dispatch(showAlertPopUp({ title: "Banner updated", open: true, severity: "success" }))
+                        })
                     })
                 }} />
             </div>
@@ -85,7 +88,9 @@ export function MyProfile() {
                 </label>
                 <input id='profilePicture' type='file' hidden onChange={(e) => {
                     dispatch(uploadImage(e.target.files![0])).unwrap().then((url) => {
-                        dispatch(updateprofilePicture({ profilePicture: url }))
+                        dispatch(updateprofilePicture({ profilePicture: url })).unwrap().then(() => {
+                            dispatch(showAlertPopUp({ title: "Profile Picture updated", open: true, severity: "success" }))
+                        })
                     })
                 }} />
                 <p className="text-gray-500 my-2 font-bold text-4xl">{user?.username}</p>
