@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Tlike } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import { changeLiked } from "../pack/packSlice";
+import { showAlertPopUp } from "../confirmationPopUp/AlertSlice";
 
 // Fetching all likes
 export const getLikes = createAsyncThunk<Tlike[]>(
@@ -23,8 +25,12 @@ export const getLikeById = createAsyncThunk<Tlike, string>(
 // Creating a new like
 export const createLike = createAsyncThunk<Tlike, Partial<Tlike>>(
     'likes/createLike',
-    async (newLike) => {
+    async (newLike ,  api) => {
         const { data } = await AxiosInstanceForMyApi.post('/like', newLike);
+        api.dispatch(changeLiked(data.data.pack.id))
+        api.dispatch(
+            showAlertPopUp({open:true, title: 'Like added successfully', severity: 'success'})
+        )
         return data.data as Tlike;
     }
 );

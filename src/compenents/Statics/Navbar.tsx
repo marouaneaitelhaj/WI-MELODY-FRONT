@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../../pages/Home";
 import Artists from "../../pages/Artists";
 import { useSelector } from "react-redux";
@@ -8,8 +8,11 @@ import { logoutAction } from "../../state/auth/authActions";
 export default function Navbar() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   const logout = () => {
-    dispatch(logoutAction())
+    dispatch(logoutAction()).then(() => {
+      navigate('/')
+    })
   }
   return (
     <>

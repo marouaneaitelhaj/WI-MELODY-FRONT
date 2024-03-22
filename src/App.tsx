@@ -28,7 +28,8 @@ function App() {
   useEffect(() => {
     dispatch(getUserAction());
   }, [])
-  let number = 0;
+
+  
   return (
     <>
       {loading && (<LinearProgress color='error' />)}

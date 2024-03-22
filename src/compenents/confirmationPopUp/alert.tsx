@@ -11,16 +11,15 @@ export default function MyAlert() {
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (open) {
-            setTimeout(() => {
+            const timer = setTimeout(() => {
                 dispatch(closeAlertPopUp());
-            }, 5000)
+            }, 5000);
+            return () => clearTimeout(timer);
         }
-    }, [open])
+    }, [open]);
 
     return (
-        <Slide direction="up" in={open} style={{
-            transitionDelay: '500ms',
-        }} mountOnEnter unmountOnExit>
+        <Slide direction="left" in={open} timeout={500} mountOnEnter unmountOnExit>
             <Alert
                 style={{
                     position: 'fixed',
@@ -33,5 +32,5 @@ export default function MyAlert() {
                 {title}
             </Alert>
         </Slide>
-    )
+    );
 }

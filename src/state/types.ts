@@ -8,6 +8,7 @@ export type Tuser = {
     role: string,
     banner: string | null,
     alreadyRequested: boolean,
+    likes : number,
 }
 export type Ttier = {
     id: string,
@@ -26,6 +27,7 @@ export type Tpack = {
     date: string,
     tier: Ttier,
     tier_id: string,
+    liked: boolean,
 }
 
 export type Tlike = {

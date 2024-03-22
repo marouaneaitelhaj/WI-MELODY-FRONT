@@ -20,7 +20,12 @@ const packSlice = createSlice({
     name: 'pack',
     initialState,
     reducers: {
-        
+        changeLiked: (state, action) => {
+            const pack = state.packs.find(pack => pack.id === action.payload);
+            if (pack) {
+                pack.liked = !pack.liked;
+            }
+        }
     },
     extraReducers(builder) {
         // getPacks
@@ -98,5 +103,5 @@ const packSlice = createSlice({
         });
     }
 })
-
+export const { changeLiked } = packSlice.actions
 export default packSlice.reducer
