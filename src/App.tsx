@@ -41,7 +41,7 @@ function App() {
             }
           } : {})}
         >
-          <img className='fixed  -z-10 w-screen object-cover h-screen' src="https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17" alt="" />
+          <img className='fixed  -z-10 w-screen object-cover h-screen' src="https://papers.co/wallpaper/papers.co-al11-out-the-dark-guitar-player-music-white-36-3840x2400-4k-wallpaper.jpg" alt="" />
           <Navbar />
           <Routes>
             <Route index element={<Home />} />

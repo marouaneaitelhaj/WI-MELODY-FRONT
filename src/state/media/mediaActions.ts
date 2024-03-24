@@ -1,12 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Tmedia } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import { showAlertPopUp } from "../confirmationPopUp/AlertSlice";
 
 // Create Media
 export const createMedia = createAsyncThunk<Tmedia[], Tmedia[]>(
     'medias/createMedia',
-    async (formData) => {
+    async (formData, api) => {
         const { data } = await AxiosInstanceForMyApi.post('/media', formData);
+        api.dispatch(showAlertPopUp({ title: 'Media created successfully', severity: 'success', open: true }));
         return data.data as Tmedia[];
     }
 );

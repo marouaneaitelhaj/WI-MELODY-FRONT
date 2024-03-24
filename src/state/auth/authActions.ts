@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import AxiosInstanceForAuth from '../../axios/AxiosInstanceForAuth'
 import { Tuser } from '../types'
 import AxiosInstanceForMyApi from '../../axios/AxiosInstanceForMyApi'
+import { showAlertPopUp } from '../confirmationPopUp/AlertSlice'
 
 export const loginAction = createAsyncThunk<string, Tuser>(
     'auth/login',
@@ -44,6 +45,7 @@ export const updateBannerProfile = createAsyncThunk<string, { banner: string }>(
     async (banner, api) => {
         const { data } = await AxiosInstanceForMyApi.post('/profile/updateBannerProfile', banner)
         api.dispatch(getUserAction())
+        api.dispatch(showAlertPopUp({ title: 'Banner updated successfully', severity: 'success', open: true }))
         return data.data as string
     }
 )
@@ -55,6 +57,7 @@ export const updateprofilePicture = createAsyncThunk<string, { profilePicture: s
     async (profilePicture, api) => {
         const { data } = await AxiosInstanceForMyApi.post('/profile/updateProfilePicture', profilePicture)
         api.dispatch(getUserAction())
+        api.dispatch(showAlertPopUp({ title: 'Profile Picture updated successfully', severity: 'success', open: true }))
         return data.data as string
     }
 )

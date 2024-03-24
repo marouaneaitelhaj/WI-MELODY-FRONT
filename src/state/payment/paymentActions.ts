@@ -2,6 +2,7 @@ import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { Tpayment } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
 import AxiosInstanceForAuth from "../../axios/AxiosInstanceForAuth";
+import { showAlertPopUp } from "../confirmationPopUp/AlertSlice";
 
 // Fetching all payments
 export const getPayments = createAsyncThunk<Tpayment[]>(
@@ -24,8 +25,9 @@ export const getPaymentById = createAsyncThunk<Tpayment, Tpayment>(
 // Creating a new payment
 export const createPayment = createAsyncThunk<Tpayment, Tpayment>(
     'payments/createPayment',
-    async (newPayment) => {
+    async (newPayment, api) => {
         const { data } = await AxiosInstanceForMyApi.post('/payment', newPayment);
+        api.dispatch(showAlertPopUp({ title: 'Payment created successfully', severity: 'success', open: true }));
         return data.data as Tpayment;
     }
 );

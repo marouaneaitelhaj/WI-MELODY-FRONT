@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Tpack } from "../types";
 import AxiosInstanceForMyApi from "../../axios/AxiosInstanceForMyApi";
+import { showAlertPopUp } from "../confirmationPopUp/AlertSlice";
 
 // Fetching all packs
 export const getPacks = createAsyncThunk<Tpack[]>(
@@ -23,8 +24,9 @@ export const getPackById = createAsyncThunk<Tpack, string>(
 // Creating a new pack
 export const createPack = createAsyncThunk<Tpack, Partial<Tpack>>(
     'packs/createPack',
-    async (newPack) => {
+    async (newPack, a) => {
         const { data } = await AxiosInstanceForMyApi.post('/pack', newPack);
+        a.dispatch(showAlertPopUp({ title: 'Pack created successfully', severity: 'success', open: true }));
         return data.data as Tpack;
     }
 );
