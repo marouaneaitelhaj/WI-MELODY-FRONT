@@ -4,6 +4,8 @@ import { Ttier } from "../../state/types";
 import { DataGrid, GridCellParams } from '@mui/x-data-grid';
 import { AddTierForm } from "./AddTierForm";
 import { setOpenForAddTierForm, setTierForAddTierForm } from "../../state/formsModal/AddTierFormSlice";
+import { deleteTier } from "../../state/tier/tierActions";
+import { showConfirmationPopUp } from "../../state/confirmationPopUp/confirmationPopUpSlice";
 
 export default function TiersManagementList() {
     const { user } = useSelector((state: RootState) => state.auth);
@@ -23,6 +25,9 @@ export default function TiersManagementList() {
                         dispatch(setTierForAddTierForm(params.row as Ttier));
                         dispatch(setOpenForAddTierForm(true));
                     }}>Edit</button>
+                    <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => {
+                        dispatch(showConfirmationPopUp({ title: 'Delete Tier', open: true, desciption: 'Are you sure you want to delete this tier?', func: () => dispatch(deleteTier(params.row.id)) }));
+                    }}>Delete</button>
                     {/* <button className="bg-red-500 text-white px-4 py-2 m-3 rounded-md" onClick={() => handleDelete(params.row.id)}>Delete</button> */}
                 </div>
             ),

@@ -67,7 +67,7 @@ export function MyProfile() {
                     <img
                         className="h-72 w-screen object-cover cursor-pointer hover:brightness-75 z-10 duration-500 ease-in-out"
 
-                        src={user?.banner || 'https://images.unsplash.com/photo-1612838320302-3b3b3f1b3b3b'}
+                        src={user?.banner || 'https://i1.sndcdn.com/visuals-000479340132-gGD9WT-t1240x260.jpg'}
                     />
                 </label>
                 <input id='banner' type='file' hidden onChange={(e) => {

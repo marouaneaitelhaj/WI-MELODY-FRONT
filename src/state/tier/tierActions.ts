@@ -7,8 +7,8 @@ import { showAlertPopUp } from "../confirmationPopUp/AlertSlice";
 export const getTiers = createAsyncThunk<Ttier[]>(
     'tiers/getTiers',
     async () => {
-            const { data } = await AxiosInstanceForMyApi.get('/tier');
-            return data;
+        const { data } = await AxiosInstanceForMyApi.get('/tier');
+        return data;
     }
 );
 
@@ -45,8 +45,8 @@ export const updateTier = createAsyncThunk<Ttier, { id: string; tier: Ttier }>(
 export const deleteTier = createAsyncThunk<string, string>(
     'tiers/deleteTier',
     async (id, a) => {
-        await AxiosInstanceForMyApi.delete(`/tier/${id}`);
-        a.dispatch(showAlertPopUp({ title: 'Tier deleted successfully', severity: 'success', open: true }));
+        const { data } = await AxiosInstanceForMyApi.delete(`/tier/${id}`);
+        a.dispatch(showAlertPopUp({ title: 'Tier deleted successfully', severity: 'error', open: true }));
         return id
     }
 );
