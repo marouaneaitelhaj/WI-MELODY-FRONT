@@ -21,7 +21,6 @@
     "@stripe/stripe-js": "^3.0.7",
     "axios": "^1.6.7",
     "i": "^0.3.7",
-    "material-ui-audio-player": "^1.7.1",
     "npm": "^10.4.0",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
